@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "644827566218",
+    "project_id": "sida-51cb9",
+    "storage_bucket": "sida-51cb9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:644827566218:android:5d3e3cb827dd751e285d73",
+        "android_client_info": {
+          "package_name": "com.example.sida_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "644827566218-8r4os2gop7pcfocui95oiom3j1q962hj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sida_app",
+            "certificate_hash": "ea04d536406bb29599d138d1250fa2fa73c4cf74"
+          }
+        },
+        {
+          "client_id": "644827566218-3ni4profpcrg4ijal5jdr102ijk5mv92.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8duRzIq6lUb6BuMVDIpV0vEMmdfHf0WQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "644827566218-3ni4profpcrg4ijal5jdr102ijk5mv92.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
