@@ -35,6 +35,13 @@ dependencies:
   google_maps_flutter: ^2.0.6
   flutter_svg: ^0.22.0
   geolocator: ^7.5.0
+  hexcolor: ^2.0.5
+  intl_phone_field: ^2.0.1
+  imagebutton: ^0.0.6
+  pin_code_fields: ^7.3.0
+  animated_splash_screen: ^1.1.0
+
+
 
 
 
@@ -60,6 +67,15 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+
+
+  fonts:
+    - family: spoqa_han_sans
+      fonts:
+        - asset: fonts/spoqa_han_sans_bold.otf
+        - asset: fonts/spoqa_han_sans_regular.otf
+        - asset: fonts/spoqa_han_sans_light.otf
+        - asset: fonts/spoqa_han_sans_thin.otf
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
