@@ -12,7 +12,7 @@ Widget customHomeButton({
     Container(
       width: MediaQuery.of(context).size.width, height: 60,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: customBorderRadius,
     gradient: LinearGradient(colors: <Color>[customAmberColor1, customAmberColor2],),
         boxShadow: [
           BoxShadow(
@@ -56,3 +56,11 @@ Widget customHomeButton({
             )),
       ),
     );
+
+
+BorderRadius customBorderRadius = BorderRadius.circular(8);
+
+enum CarTypes {
+  ANY_SIDA,
+  SIDA_PLUS,
+}
