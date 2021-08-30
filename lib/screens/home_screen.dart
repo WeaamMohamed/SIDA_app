@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sida_app/widgets/home_drawer.dart';
 import 'package:sida_app/shared/styles/colors.dart';
@@ -27,8 +28,33 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
 
     Completer<GoogleMapController> _controllerGoogleMap = Completer();
+    Position _userCurrentPosition;
 
     GoogleMapController newGoogleMapController;
+
+    void locatePosition() async
+    {
+
+
+
+
+      //TODO: search for location accuracy
+     Position  position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+     _userCurrentPosition = position;
+      
+     LatLng userLatLangPosition=  LatLng(position.latitude,
+         position.longitude,);
+
+     print("WEAAM" + userLatLangPosition.longitude.toString() + userLatLangPosition.latitude.toString());
+
+      CameraPosition cameraPosition = new CameraPosition(target: userLatLangPosition, zoom: 14);
+
+      newGoogleMapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+
+    }
+
      final CameraPosition _kGooglePlex = CameraPosition(
       target: LatLng(37.42796133580664, -122.085749655962),
       zoom: 14.4746,
@@ -54,9 +80,11 @@ class _HomeScreenState extends State<HomeScreen> {
           GoogleMap(
 
             padding: EdgeInsets.only(
-                bottom: 180,
-                top: 25.0),
+                bottom: MediaQuery.of(context).size.height /4,
+                top: 25.0,
+            ),
             mapType: MapType.normal,
+
             myLocationButtonEnabled: true,
             initialCameraPosition: _kGooglePlex,
             myLocationEnabled: true,
@@ -69,10 +97,9 @@ class _HomeScreenState extends State<HomeScreen> {
             {
               _controllerGoogleMap.complete(controller);
               newGoogleMapController = controller;
+               locatePosition();
 
-              // setState(() {
-              //   bottomPaddingOfMap = 300.0;
-              // });
+
 
             //  locatePosition();
             },
