@@ -46,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
      LatLng userLatLangPosition=  LatLng(position.latitude,
          position.longitude,);
 
-     print("WEAAM" + userLatLangPosition.longitude.toString() + userLatLangPosition.latitude.toString());
 
       CameraPosition cameraPosition = new CameraPosition(target: userLatLangPosition, zoom: 14);
 
