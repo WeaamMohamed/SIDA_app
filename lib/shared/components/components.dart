@@ -1,110 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:sida_app/shared/styles/colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-Widget defaultTextForm({
-  @required IconData icon,
-  @required String labelText,
-  IconData suffixIcon,
-  @required TextEditingController controller,
-  @required TextInputType keyboardType,
-  Function onSubmitted,
-  Function validator,
-  bool isObscure = false,
-  Function onSuffixPressed,
+Widget customHomeButton({
+  @required context,
+  String title,
+  bool withIcon =false,
   Function onTap,
-  bool isClickable = true,
-}) =>
-    TextFormField(
-      enabled: isClickable,
-      onTap: onTap,
-      obscureText: isObscure,
-      validator: validator,
-      onFieldSubmitted: onSubmitted,
-      keyboardType: keyboardType,
-      controller: controller,
-      decoration: InputDecoration(
-        errorStyle: TextStyle(
-          fontSize: 13,
-          color: Colors.red[700], // or any other color
-        ),
-        labelText: labelText,
-        prefixIcon: Icon(
-          icon,
-        ),
-        suffixIcon: suffixIcon != null
-            ? IconButton(
-                icon: Icon(suffixIcon),
-                onPressed: onSuffixPressed,
-              )
-            : null,
-        border: OutlineInputBorder(),
-      ),
-    );
 
-Widget defaultButton({
-  Color color = const Color(0xFF397ba3),
-//  Color color = HexColor('#397ba3'),
-  @required String text,
-  @required Function onPressed,
-  double width = double.infinity,
 }) =>
     Container(
-      padding: EdgeInsets.symmetric(
-        vertical: 5,
-      ),
-      width: width,
+      width: MediaQuery.of(context).size.width, height: 60,
       decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: MaterialButton(
-        onPressed: onPressed,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 15,
+        borderRadius: BorderRadius.circular(8),
+    gradient: LinearGradient(colors: <Color>[customAmberColor1, customAmberColor2],),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey[500],
+            offset: Offset(0.0, 2),
+            blurRadius: 7,
+            spreadRadius: 1.2,
           ),
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-            ),
-          ),
-        ),
+        ],
       ),
-    );
-
-
-enum ToastState { ERROR, SUCCESSFUL, WARNING }
-
-Color changeToastColor(ToastState state) {
-  switch (state) {
-    case ToastState.ERROR:
-      return Colors.red[400];
-      break;
-    case ToastState.SUCCESSFUL:
-      return Colors.green;
-      break;
-    case ToastState.WARNING:
-      return Colors.orange;
-      break;
-    default:
-      return null;
-  }
-}
-
-Widget defaultFavoriteIconButton({
-  @required Function onPressed,
-  @required Color backgroundColor,
-}) =>
-    CircleAvatar(
-//  radius: 20,
-      backgroundColor: backgroundColor,
-      child: IconButton(
-        icon: Icon(
-          Icons.favorite_outline,
-          color: Colors.white,
-//  color: Colors.,
-        ),
-        onPressed: onPressed,
+      child:
+      Material(
+     color: Colors.transparent,
+        child: InkWell(
+            onTap: onTap,
+            child: Row(
+               mainAxisAlignment: !withIcon? MainAxisAlignment.center: MainAxisAlignment.start,
+              children: [
+              if(withIcon) Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  child: SvgPicture.asset("assets/images/Pickup_Flag.svg"),
+                ),
+                Container(
+                 width: MediaQuery.of(context).size.width * 0.8 - 15 ,
+                  child: Center(
+                    child: Text(
+                      title,
+                      overflow: TextOverflow.ellipsis,
+                      style: withIcon?TextStyle(
+                        fontSize: 20,
+                        color: Colors.black.withOpacity(0.3),
+                        fontWeight: FontWeight.bold,
+                      ): TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )),
       ),
     );
