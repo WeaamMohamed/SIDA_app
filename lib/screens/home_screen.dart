@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
 
       CameraPosition cameraPosition =
-          new CameraPosition(target: userLatLangPosition, zoom: 14);
+          new CameraPosition(target: userLatLangPosition, zoom: 17);
 
       newGoogleMapController
           .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
@@ -59,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
     //#FED444 - #FEBA3F
     return Scaffold(
       key: scaffoldKey,
-      // backgroundColor: Colors.red,
 
       drawer: HomeDrawer(),
       body: Stack(
@@ -75,7 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
             initialCameraPosition: _kGooglePlex,
             myLocationEnabled: true,
             zoomGesturesEnabled: true,
-            zoomControlsEnabled: true,
+            tiltGesturesEnabled: true,
+            zoomControlsEnabled: false,
+            compassEnabled: false,
             // polylines: polylineSet,
             // markers: markersSet,
             // circles: circlesSet,

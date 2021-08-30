@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
    <application
-        android:label="sida_app"
+        android:label="SIDA"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -43,9 +43,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-
-       <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyC8duRzIq6lUb6BuMVDIpV0vEMmdfHf0WQ"/>
-
+        <meta-data android:name="com.google.android.geo.API_KEY"
+                   android:value="AIzaSyC8duRzIq6lUb6BuMVDIpV0vEMmdfHf0WQ"/>
     </application>
 </manifest>
