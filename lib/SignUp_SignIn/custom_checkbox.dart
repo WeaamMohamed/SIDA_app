@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomCheckbox extends StatefulWidget {
   /// it had to be final !!
-   bool isChecked;
+    bool isChecked;
   final double size;
   final double iconSize;
   final Color selectedColor;

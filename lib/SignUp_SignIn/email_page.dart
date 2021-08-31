@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/services.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -18,11 +19,11 @@ class _EmailState extends State<Email> {
     final formKey = GlobalKey<FormState>();
 
     return Scaffold(
-      appBar: AppBar(
-        //  elevation: 0,
-          backgroundColor: HexColor("2C2B62").withOpacity(0.923)
-
-      ),
+      // appBar: AppBar(
+      //   //  elevation: 0,
+      //     backgroundColor: HexColor("2C2B62").withOpacity(0.923)
+      //
+      // ),
       body:Stack(
         children: [
           Container(
@@ -114,5 +115,22 @@ class _EmailState extends State<Email> {
       ),
 
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    //to hide app bar and status bar
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Colors.white.withOpacity(0.0)));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setEnabledSystemUIOverlays(
+        [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    super.dispose();
   }
 }
