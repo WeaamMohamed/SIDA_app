@@ -4,7 +4,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'SignUp_SignIn/splash_screen1.dart';
+import 'splash_screen1.dart';
 
 void main() {
   runApp(MyApp());
