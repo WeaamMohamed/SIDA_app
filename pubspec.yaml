@@ -15,13 +15,15 @@ dependencies:
   firebase_auth: ^3.1.0
   firebase_database: ^7.2.1
   google_maps_flutter: ^2.0.6
-  flutter_svg: ^0.22.0
+  flutter_svg: ^0.21.0+1
   geolocator: ^7.5.0
   hexcolor: ^2.0.5
   intl_phone_field: ^2.0.1
   imagebutton: ^0.0.6
   pin_code_fields: ^7.3.0
   animated_splash_screen: ^1.1.0
+  adobe_xd: ^2.0.0+1
+
 
 dev_dependencies:
   flutter_test:
@@ -34,17 +36,17 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: SpoqaHanSansNeo
+    - family: Spoqa Han Sans Neo
       fonts:
         - asset: assets/fonts/SpoqaHanSansNeo-Thin.ttf
         - asset: assets/fonts/SpoqaHanSansNeo-Light.ttf
         - asset: assets/fonts/SpoqaHanSansNeo-Regular.ttf
         - asset: assets/fonts/SpoqaHanSansNeo-Medium.ttf
         - asset: assets/fonts/SpoqaHanSansNeo-Bold.ttf
-    - family: SpoqaHanSansNeo-Regular
+    - family: Spoqa Han Sans Neo Regular
       fonts:
         - asset: assets/fonts/SpoqaHanSansNeo-Regular.ttf
-    - family: SpoqaHanSansNeo-Bold
+    - family: Spoqa Han Sans Neo Bold
       fonts:
         - asset: assets/fonts/SpoqaHanSansNeo-Bold.ttf
   # For details regarding fonts from package dependencies,
