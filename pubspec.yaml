@@ -69,13 +69,7 @@ flutter:
     - assets/images/
 
 
-  fonts:
-    - family: spoqa_han_sans
-      fonts:
-        - asset: fonts/spoqa_han_sans_bold.otf
-        - asset: fonts/spoqa_han_sans_regular.otf
-        - asset: fonts/spoqa_han_sans_light.otf
-        - asset: fonts/spoqa_han_sans_thin.otf
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
