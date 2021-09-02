@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   cupertino_icons: ^1.0.2
   #firebase: ^9.0.1
   firebase_core: ^1.6.0
@@ -34,6 +36,8 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/lang/en.json
+    - assets/lang/ar.json
 
   fonts:
     - family: Spoqa Han Sans Neo

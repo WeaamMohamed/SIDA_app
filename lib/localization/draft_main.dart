@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sida_app/screens/splash_screen/FirstSplash.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'localization/app_localization.dart';
+//import 'localization/app_localization.dart';
 
 void main() {
   runApp(MyApp());
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp>
 
       localizationsDelegates: 
       [
-        AppLocalization.localizationsDelegate,
+        //AppLocalization.localizationsDelegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],

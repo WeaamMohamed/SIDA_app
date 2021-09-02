@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:adobe_xd/pinned.dart';
+import 'package:sida_app/localization/app_localization.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import './SignNum.dart';
 import 'package:adobe_xd/page_link.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,9 +42,12 @@ class ThirdSplash extends StatelessWidget {
             ),
           ),
           Pinned.fromPins(
-            Pin(size: 211.0, middle: 0.5),
+            Pin(start: 0.0, end: 0.0),
             Pin(size: 18.0, end: 95.0),
-            child: Text.rich(
+            child: Container(
+              child: Align(
+                alignment: Alignment.center,
+                child: Text.rich(
               TextSpan(
                 style: TextStyle(
                   fontFamily: 'Spoqa Han Sans Neo',
@@ -51,10 +56,10 @@ class ThirdSplash extends StatelessWidget {
                 ),
                 children: [
                   TextSpan(
-                    text: 'Start your quality ride with',
+                    text: translate(context,'splash_first'),
                   ),
                   TextSpan(
-                    text: ' SIDA!',
+                    text: translate(context,'splash_second'),
                     style: TextStyle(
                       color: const Color(0xffffbb00),
                     ),
@@ -66,6 +71,8 @@ class ThirdSplash extends StatelessWidget {
               textAlign: TextAlign.left,
             ),
           ),
+              ),
+            ),
           Pinned.fromPins(
             Pin(size: 29.0, start: 42.0),
             Pin(size: 21.0, end: 46.0),
@@ -114,12 +121,11 @@ class ThirdSplash extends StatelessWidget {
           Pinned.fromPins(
             Pin(size: 119.0, middle: 0.5253),
             Pin(size: 21.0, end: 46.0),
-            child: Text(
-              'Phone number',
-              style: TextStyle(
-                fontFamily: 'Spoqa Han Sans Neo',
-                fontSize: 17,
-                color: const Color(0xff9fa0b1),
+            child: Text(translate(context,'splash_third'),
+            style: TextStyle(
+              fontFamily: 'Spoqa Han Sans Neo',
+              fontSize: 17,
+              color: const Color(0xff9fa0b1),
               ),
               textAlign: TextAlign.left,
             ),
