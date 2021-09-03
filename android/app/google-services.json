@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "644827566218",
+    "firebase_url": "https://sida-51cb9-default-rtdb.firebaseio.com",
     "project_id": "sida-51cb9",
     "storage_bucket": "sida-51cb9.appspot.com"
   },
@@ -14,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "644827566218-8r4os2gop7pcfocui95oiom3j1q962hj.apps.googleusercontent.com",
+          "client_id": "644827566218-otvdnrtml2e3m8s012kmc6ekncprmt7d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.sida_app",
-            "certificate_hash": "ea04d536406bb29599d138d1250fa2fa73c4cf74"
+            "certificate_hash": "a3bace1d60597da1cf2f1ca2d96cf8f6f003341e"
           }
         },
         {

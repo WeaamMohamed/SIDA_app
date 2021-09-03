@@ -21,14 +21,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  Completer<GoogleMapController> _controllerGoogleMap = Completer();
+  GoogleMapController newGoogleMapController;
 
   @override
   Widget build(BuildContext context) {
-    Completer<GoogleMapController> _controllerGoogleMap = Completer();
+    
     Position _userCurrentPosition;
-
     Size mqSize = MediaQuery.of(context).size;
-    GoogleMapController newGoogleMapController;
     double mainHorizontalMargin = 15.0;
 
     void locatePosition() async {
