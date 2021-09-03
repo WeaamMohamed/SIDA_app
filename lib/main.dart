@@ -1,66 +1,132 @@
-import 'dart:ui';
-
-import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:provider/provider.dart';
-import 'package:sida_app/screens/home_screen.dart';
-import 'package:sida_app/shared/data_handler/app_data.dart';
-import 'SignUp_SignIn/splash_screen1.dart';
+import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  // Light Theme
+  final ThemeData lightTheme = ThemeData.light().copyWith(
+    // Background color of the FloatingCard
+    cardColor: Colors.white,
+    buttonTheme: ButtonThemeData(
+      // Select here's button color
+      buttonColor: Colors.black,
+      textTheme: ButtonTextTheme.primary,
+    ),
+  );
+
+  // Dark Theme
+  final ThemeData darkTheme = ThemeData.dark().copyWith(
+    // Background color of the FloatingCard
+    cardColor: Colors.grey,
+    buttonTheme: ButtonThemeData(
+      // Select here's button color
+      buttonColor: Colors.yellow,
+      textTheme: ButtonTextTheme.primary,
+    ),
+  );
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-    return ChangeNotifierProvider<AppData>(
-      create: (context) => AppData(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Homepage',
-        theme: ThemeData(
-            fontFamily: 'spoqa',
-          //gives a theme for the whole app design
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            inputDecorationTheme: InputDecorationTheme(
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(),
-                )
-            )
-        ),
-        home: WelcomePage(),
-      ),
+    return MaterialApp(
+      title: 'Google Map Place Picker Demo',
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.light,
+      home: HomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
-class WelcomePage extends StatefulWidget {
+
+class HomePage extends StatefulWidget {
+  const HomePage({Key key}) : super(key: key);
+
+  static final kInitialPosition = LatLng(-33.8567844, 151.213108);
+
   @override
-  _WelcomePageState createState() => _WelcomePageState();
+  _HomePageState createState() => _HomePageState();
 }
-class _WelcomePageState extends State<WelcomePage> {
+
+class _HomePageState extends State<HomePage> {
+  PickResult selectedPlace;
+
   @override
   Widget build(BuildContext context) {
-    final screenHeight= MediaQuery.of(context).size.height;
-    final screenWidth= MediaQuery.of(context).size.width;
     return Scaffold(
-      body: HomeScreen(),
-      // body:   AnimatedSplashScreen(
-      //     splash:SvgPicture.asset('assets/SIDALogo&NameSmaller.svg',width: 20,height: 20),
-      //     nextScreen: splashscreen1(),
-      //     splashTransition: SplashTransition.rotationTransition,
-      //     duration: 1000,
-      //   backgroundColor: HexColor("2C2B62").withOpacity(0.923),
-      // ),
+        appBar: AppBar(
+          title: Text("Google Map Place Picer Demo"),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                child: Text("Load Google Map"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return PlacePicker(
+                          apiKey: "AIzaSyC8duRzIq6lUb6BuMVDIpV0vEMmdfHf0WQ",
+                          initialPosition: HomePage.kInitialPosition,
+                          useCurrentLocation: true,
+                          selectInitialPosition: true,
 
-    );
+                          //usePlaceDetailSearch: true,
+                          onPlacePicked: (result) {
+                            selectedPlace = result;
+                            Navigator.of(context).pop();
+                            setState(() {});
+                          },
+                          //forceSearchOnZoomChanged: true,
+                          //automaticallyImplyAppBarLeading: false,
+                          //autocompleteLanguage: "ko",
+                          //region: 'au',
+                          //selectInitialPosition: true,
+                          // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
+                          //   print("state: $state, isSearchBarFocused: $isSearchBarFocused");
+                          //   return isSearchBarFocused
+                          //       ? Container()
+                          //       : FloatingCard(
+                          //           bottomPosition: 0.0, // MediaQuery.of(context) will cause rebuild. See MediaQuery document for the information.
+                          //           leftPosition: 0.0,
+                          //           rightPosition: 0.0,
+                          //           width: 500,
+                          //           borderRadius: BorderRadius.circular(12.0),
+                          //           child: state == SearchingState.Searching
+                          //               ? Center(child: CircularProgressIndicator())
+                          //               : RaisedButton(
+                          //                   child: Text("Pick Here"),
+                          //                   onPressed: () {
+                          //                     // IMPORTANT: You MUST manage selectedPlace data yourself as using this build will not invoke onPlacePicker as
+                          //                     //            this will override default 'Select here' Button.
+                          //                     print("do something with [selectedPlace] data");
+                          //                     Navigator.of(context).pop();
+                          //                   },
+                          //                 ),
+                          //         );
+                          // },
+                          // pinBuilder: (context, state) {
+                          //   if (state == PinState.Idle) {
+                          //     return Icon(Icons.favorite_border);
+                          //   } else {
+                          //     return Icon(Icons.favorite);
+                          //   }
+                          // },
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+              selectedPlace == null ? Container() : Text(selectedPlace.formattedAddress ?? ""),
+            ],
+          ),
+        ));
   }
 }
