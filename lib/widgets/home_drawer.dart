@@ -73,19 +73,24 @@ class HomeDrawer extends StatelessWidget {
 
             _buildDrawerItem(
               title: "My Trips",
-              imagePath: "assets/images/svg_icon.svg"),
+              imagePath: "assets/images/svg_icon.svg",
+            onTap: (){}),
 
             _buildDrawerItem(
                 title: "Promotions",
-                imagePath: "assets/images/promotion.svg"),
+                imagePath: "assets/images/promotion.svg",
+            onTap: (){}),
 
             _buildDrawerItem(
                 title: "Help Center",
-                imagePath: "assets/images/call-center-agent.svg"),
+                imagePath: "assets/images/call-center-agent.svg",
+            onTap: (){},
+            ),
 
             _buildDrawerItem(
                 title: "Settings",
-                imagePath: "assets/images/settings.svg"),
+                imagePath: "assets/images/settings.svg",
+            onTap: (){}),
 
 
 

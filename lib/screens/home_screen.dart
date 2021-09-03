@@ -5,9 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:sida_app/screens/where_to_screen.dart';
 import 'package:sida_app/shared/components/components.dart';
+import 'package:sida_app/shared/data_handler/app_data.dart';
 import 'package:sida_app/widgets/home_drawer.dart';
 import 'package:sida_app/widgets/select_and_confirm_ride.dart';
+import 'package:sida_app/shared/network/remote/assistantMethods.dart';
+import 'package:sida_app/shared/network/remote/requestAssistant.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -42,10 +47,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
       newGoogleMapController
           .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+
+
+      //to get user's current address
+      String currentUserAddress =
+      await RequestAssistant.getSearchCoordinateAddress(position: position, context: context);
+      print("this is your address: " + currentUserAddress);
     }
 
+    // final CameraPosition _kGooglePlex = CameraPosition(
+    //   target: LatLng(37.42796133580664, -122.085749655962),
+    //   zoom: 14.4746,
+    // );
+
     final CameraPosition _kGooglePlex = CameraPosition(
-      target: LatLng(37.42796133580664, -122.085749655962),
+      target: LatLng(30.033333, 31.233334),
       zoom: 14.4746,
     );
 
@@ -94,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
           //menu button
           _buildMenuButton(),
 
-         if(false) Positioned(
+         if(true) Positioned(
             bottom: 0,
             left: 0,
             right: 0,
@@ -112,16 +129,28 @@ class _HomeScreenState extends State<HomeScreen> {
                             context: context,
                             //TODO: add your pick up location
                             title:
-                                "El-Tahrir Square, Qasr El N aaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaa",
+                                Provider.of<AppData>(context).userPickUpAddress != null?
+                                Provider.of<AppData>(context).userPickUpAddress.placeName:
+                                    "Loading Pickup address...",
+
+                               // "El-Tahrir Square, Qasr El N aaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaa",
                             withIcon: true,
-                            onTap: () {}),
+                        //    onTap: () {},
+                        ),
                         SizedBox(
                           height: 20,
                         ),
                         customHomeButton(
                             context: context,
                             title: "Set pickup location",
-                            onTap: () {}),
+                            onTap: () {
+
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => WhereToScreen(),),
+                              );
+
+
+                            }),
                       ],
                     )
 
@@ -130,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-          Positioned(
+       if(false)Positioned(
             bottom: 0,
             left: 0,
             right: 0,

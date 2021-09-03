@@ -43,7 +43,7 @@ Widget customHomeButton({
                   width: MediaQuery.of(context).size.width * 0.8 - 15,
                   child: Center(
                     child: Text(
-                      title,
+                      title ?? "location",
                       overflow: TextOverflow.ellipsis,
                       style: withIcon
                           ? TextStyle(

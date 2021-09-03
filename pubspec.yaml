@@ -25,6 +25,10 @@ dependencies:
   pin_code_fields: ^7.3.0
   animated_splash_screen: ^1.1.0
   adobe_xd: ^2.0.0+1
+  http: ^0.13.3
+  provider: ^6.0.0
+
+
 
 
 dev_dependencies:
@@ -35,6 +39,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/
     - assets/images/
     - assets/lang/en.json
     - assets/lang/ar.json

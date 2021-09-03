@@ -24,46 +24,46 @@ class _EmailState extends State<Email> {
       //     backgroundColor: HexColor("2C2B62").withOpacity(0.923)
       //
       // ),
-      body:Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                    HexColor("#2C2B69"),
-                    HexColor("#121212"),
-                  ],
+      body:SingleChildScrollView(
+        child: Form(
+          key:formKey,
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        HexColor("#2C2B69"),
+                        HexColor("#121212"),
+                      ],
+                    ),
+                    // image: DecorationImage(
+                    //   image: AssetImage("assets/images/splash_bg_cairo.png"),
+                    //   fit: BoxFit.cover,
+                    //   colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
+                    // )
                 ),
-                image: DecorationImage(
-                  image: AssetImage("assets/BG.jpg"),
-                  fit: BoxFit.cover,
-                  colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
-                )
-            ),
-            child: new BackdropFilter(
-              filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 1.0),
-              child: new Container(
-                decoration: new BoxDecoration(color:  HexColor("#2C2B69").withOpacity(0.02)),
+                child: new BackdropFilter(
+                  filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 1.0),
+                  child: new Container(
+                    decoration: new BoxDecoration(color:  HexColor("#2C2B69").withOpacity(0.02)),
+                  ),
+                ),
               ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: 0.05 * screenHeight),
-                Center(
-                  child: Text('Enter your email:',
-                      style: TextStyle(
-                          color: Colors.white, fontSize: 18.0, fontFamily: 'spoqa_han_sans')),
-                ),
-                SizedBox(height: 0.05 * screenHeight),
-                //Email
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Form(
-                    key:formKey,
+              Column(
+                children: [
+                  SizedBox(height: 0.05 * screenHeight),
+                  Center(
+                    child: Text('Enter your email:',
+                        style: TextStyle(
+                            color: Colors.white, fontSize: 18.0, fontFamily: 'spoqa_han_sans')),
+                  ),
+                  SizedBox(height: 0.05 * screenHeight),
+                  //Email
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                     //  autofillHints: [AutofillHints.email],
                       //keyboardType: TextInputType.emailAddress,
@@ -89,12 +89,12 @@ class _EmailState extends State<Email> {
 
                     ),
                   ),
-                ),
-                SizedBox(height: .5 * screenHeight),
-              ],
-            ),
-          )
-        ],
+                  SizedBox(height: .5 * screenHeight),
+                ],
+              )
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar:  SizedBox(
         width: screenWidth,
@@ -102,8 +102,8 @@ class _EmailState extends State<Email> {
         child: RaisedButton(
           color: HexColor("#97885F"),
           onPressed: (){
-          final form= formKey.currentState;
-          if(form.validate()) {
+         // final form= formKey.currentState.validate();
+          if(formKey.currentState.validate()) {
             Navigator.push(context, MaterialPageRoute(
                 builder: (BuildContext context) => passWord()));
           }

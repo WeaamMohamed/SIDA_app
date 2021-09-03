@@ -1283,3 +1283,72 @@
 //     });
 //   }
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Container(
+// padding: EdgeInsets.only(top: statusbarHeight),
+//   height: statusbarHeight + barHeight,
+//   child: Center(
+//     child: Text(
+//       "",
+//       style: TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+//     ),
+//   ),
+//   decoration: BoxDecoration(
+//     gradient: LinearGradient(
+//         colors: [customAmberColor1, customAmberColor2],
+//         // begin: const FractionalOffset(0.0, 0.0),
+//         // end: const FractionalOffset(0.5, 0.0),
+//         // stops: [0.0, 1.0],
+//         // tileMode: TileMode.clamp
+//     ),
+//   ), ),
+
+
+
+
+
+
+
+//         Row(
+//           children: [
+//
+//           Text("El-Tahrir Square, ...", style: TextStyle(
+//             fontSize: 20,
+//             color: Colors.black.withOpacity(0.3),
+//             fontWeight: FontWeight.bold,
+//           ),
+//
+//           ),
+//             VerticalDivider(),
+// Text("Building", style: TextStyle(
+//   fontSize: 20,
+//   color: Colors.black.withOpacity(0.3),
+//   fontWeight: FontWeight.bold,
+// ), ),
+//           ],
+//         ),
+
+
+
+//TODO: for [Counters] exceeded sample count in FrameTime :
+
+//
+// If you are using saving the
+// controller returned by onMapCreated in GoogleMaps plugin
+// , you need to set it back to null when dispose method is called on
+// your widget. You need to override the dispose method to do this.
+// I've set it to null and this warning is now gone.
