@@ -7,6 +7,8 @@ import 'package:sida_app/shared/components/constants.dart';
 import 'package:sida_app/shared/data_handler/app_data.dart';
 import 'package:sida_app/shared/network/remote/requestAssistant.dart';
 
+import 'home_screen.dart';
+
 // class SearchScreen extends StatefulWidget {
 //
 //   @override
@@ -190,7 +192,15 @@ class PredictionTile extends StatelessWidget
 
             print("your drop off location: " + dropOffAddress.placeName);
             Provider.of<AppData>(context, listen: false).autoCompletePredictionsList = [];
-            Navigator.pop(context);
+            Provider.of<AppData>(context, listen: false).getDirectionDetails();
+
+            //Navigator.pop(context, "getDirections");
+
+            Provider.of<AppData>(context, listen: false).homeStatus = HomeStatus.GET_DIRECTIONS;
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                builder: (context,) => HomeScreen(),), (route) => false);
+
+
           }
         else
           {
