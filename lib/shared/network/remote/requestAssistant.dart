@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:sida_app/models/direction_details_model.dart';
 import 'package:sida_app/shared/components/constants.dart';
 import 'package:sida_app/models/address_model.dart';
 import 'package:sida_app/shared/data_handler/app_data.dart';
@@ -62,6 +64,7 @@ class RequestAssistant
       return "failed";
     }
   }
+
 
   static Future<String> getSearchCoordinateAddress({Position position, context}) async{
     String placeAddress = "";
@@ -134,4 +137,29 @@ class RequestAssistant
 
 
   }
+
+
+  //To get direction between pick up location and drop off location , get
+  //som e information such as duration , distance ...
+  static Future<DirectionDetails> getPlaceDirectionsDetails(LatLng initialPosition, LatLng finalPosition)async{
+
+    String directionUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=${initialPosition.latitude},${initialPosition.longitude}&destination=${finalPosition.latitude},${finalPosition.longitude}&key=$MAP_API_KEY";
+
+
+    var response = await getRequest(directionUrl);
+    if(response != "failed")
+      {
+        if(response["status"] == "OK")
+          {
+            DirectionDetails _directionDetails =  DirectionDetails.fromMap(response);
+            return _directionDetails;
+          }
+
+
+      }
+
+    return null;
+
+  }
+
 }

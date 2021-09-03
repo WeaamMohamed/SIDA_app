@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:sida_app/models/direction_details_model.dart';
 import 'package:sida_app/screens/where_to_screen.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/shared/data_handler/app_data.dart';
@@ -14,6 +15,7 @@ import 'package:sida_app/widgets/select_and_confirm_ride.dart';
 import 'package:sida_app/shared/network/remote/assistantMethods.dart';
 import 'package:sida_app/shared/network/remote/requestAssistant.dart';
 
+//TODO: convert to stateles
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -24,12 +26,23 @@ class _HomeScreenState extends State<HomeScreen> {
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
   GoogleMapController newGoogleMapController;
 
+
+  final CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(30.033333, 31.233334),
+    zoom: 14.4746,
+  );
+
+  Position _userCurrentPosition;
+
+ final double mainHorizontalMargin = 15.0;
+
   @override
   Widget build(BuildContext context) {
-    
-    Position _userCurrentPosition;
+    final providerData = Provider.of<AppData>(context);
+
     Size mqSize = MediaQuery.of(context).size;
-    double mainHorizontalMargin = 15.0;
+
+
 
     void locatePosition() async {
       //TODO: search for location accuracy
@@ -61,122 +74,121 @@ class _HomeScreenState extends State<HomeScreen> {
     //   zoom: 14.4746,
     // );
 
-    final CameraPosition _kGooglePlex = CameraPosition(
-      target: LatLng(30.033333, 31.233334),
-      zoom: 14.4746,
-    );
-
-    final CameraPosition _kLake = CameraPosition(
-        bearing: 192.8334901395799,
-        target: LatLng(37.43296265331129, -122.08832357078792),
-        tilt: 59.440717697143555,
-        zoom: 19.151926040649414);
-
     //#FED444 - #FEBA3F
     return Scaffold(
       key: scaffoldKey,
 
       drawer: HomeDrawer(),
-      body: Stack(
-        children: [
-          GoogleMap(
-            padding: EdgeInsets.only(
-              bottom: mqSize.height / 4,
-              top: 25.0,
-            ),
-            mapType: MapType.normal,
+      body: SingleChildScrollView(
 
-            myLocationButtonEnabled: true,
-            initialCameraPosition: _kGooglePlex,
-            myLocationEnabled: true,
-            zoomGesturesEnabled: true,
-            tiltGesturesEnabled: true,
-            zoomControlsEnabled: false,
-            compassEnabled: false,
-            // polylines: polylineSet,
-            // markers: markersSet,
-            // circles: circlesSet,
-            onMapCreated: (GoogleMapController controller) {
-              _controllerGoogleMap.complete(controller);
-              newGoogleMapController = controller;
-              locatePosition();
+        child: Container(
 
-              //  locatePosition();
-            },
-          ),
+          height: MediaQuery.of(context).size.height,
+          width: mqSize.width,
 
-          //for shadow
-           _buildShadow(),
+          child: Stack(
+            children: [
 
-          //menu button
-          _buildMenuButton(),
-
-         if(true) Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              //  height: MediaQuery.of(context).size.height / 4,
-              margin: EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: mqSize.height * 0.06,
-              ),
-              child:
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        customHomeButton(
-                            context: context,
-                            //TODO: add your pick up location
-                            title:
-                                Provider.of<AppData>(context).userPickUpAddress != null?
-                                Provider.of<AppData>(context).userPickUpAddress.placeName:
-                                    "Loading Pickup address...",
-
-                               // "El-Tahrir Square, Qasr El N aaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaa",
-                            withIcon: true,
-                        //    onTap: () {},
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        customHomeButton(
-                            context: context,
-                            title: "Set pickup location",
-                            onTap: () {
-
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => WhereToScreen(),),
-                              );
-
-
-                            }),
-                      ],
-                    )
-
-            ),
-          ),
-
-
-
-       if(false)Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              //  height: MediaQuery.of(context).size.height / 4,
-                margin: EdgeInsets.symmetric(
-                  horizontal: mainHorizontalMargin,
-                  vertical: mqSize.height * 0.03,
+              GoogleMap(
+                padding: EdgeInsets.only(
+                  bottom: mqSize.height / 4,
+                  top: 25.0,
                 ),
-                child: SelectAndConfirmRide(),
+                mapType: MapType.normal,
 
-            ),
+                myLocationButtonEnabled: true,
+                initialCameraPosition: _kGooglePlex,
+                myLocationEnabled: true,
+                zoomGesturesEnabled: true,
+                tiltGesturesEnabled: true,
+                zoomControlsEnabled: false,
+                compassEnabled: false,
+                // polylines: polylineSet,
+                // markers: markersSet,
+                // circles: circlesSet,
+                onMapCreated: (GoogleMapController controller) {
+                  _controllerGoogleMap.complete(controller);
+                  newGoogleMapController = controller;
+                  locatePosition();
+
+                  //  locatePosition();
+                },
+              ),
+
+              //for shadow
+               _buildShadow(),
+
+              //menu button
+              _buildMenuButton(),
+
+             if(providerData.homeStatus == HomeStatus.INITIAL) Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  //  height: MediaQuery.of(context).size.height / 4,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: mqSize.height * 0.06,
+                  ),
+                  child:
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            customHomeButton(
+                                context: context,
+                                //TODO: add your pick up location
+                                title:
+                                    providerData.userPickUpLocation != null?
+                                   providerData.userPickUpLocation.placeName:
+                                        "Loading Pickup address...",
+
+                                   // "El-Tahrir Square, Qasr El N aaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaa",
+                                withIcon: true,
+                            //    onTap: () {},
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            customHomeButton(
+                                context: context,
+                                title: "Set pickup location",
+                                onTap: () {
+
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) => WhereToScreen(),),
+                                  );
+
+
+                                }),
+                          ],
+                        )
+
+                ),
+              ),
+
+
+
+           if(providerData.homeStatus == HomeStatus.GET_DIRECTIONS)Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  //  height: MediaQuery.of(context).size.height / 4,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: mainHorizontalMargin,
+                      vertical: mqSize.height * 0.03,
+                    ),
+                    child: SelectAndConfirmRide(),
+
+                ),
+              ),
+
+
+              //for shadow
+            ],
           ),
-
-
-          //for shadow
-        ],
+        ),
       ),
     );
   }
@@ -243,4 +255,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       );
+
+
+
+
 }
+
+

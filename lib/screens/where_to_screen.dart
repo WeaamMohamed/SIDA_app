@@ -92,7 +92,7 @@ class _WhereToScreenState extends State<WhereToScreen> {
                                 //  "El-Tahrir Square, ..."
                                 Provider
                                     .of<AppData>(context)
-                                    .userPickUpAddress
+                                    .userPickUpLocation
                                     .placeName,
                                 style: TextStyle(
                                   fontSize: 20,
