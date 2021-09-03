@@ -1,2 +1,2 @@
 // String token;
-const String mapKey = "AIzaSyC8duRzIq6lUb6BuMVDIpV0vEMmdfHf0WQ";
+const String MAP_API_KEY = "AIzaSyC8duRzIq6lUb6BuMVDIpV0vEMmdfHf0WQ";

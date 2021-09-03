@@ -33,8 +33,10 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
 
     final screenHeight= MediaQuery.of(context).size.height;
     final screenWidth= MediaQuery.of(context).size.width;
+      var formKey = GlobalKey<FormState>();
 
-    MobileVerificationState currentState =
+
+      MobileVerificationState currentState =
         MobileVerificationState.SHOW_MOBILE_FORM_STATE;
 
     final phoneController = TextEditingController();
@@ -75,97 +77,100 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
     }
     ///---------------------------------------------------------------------
     getMobileFormWidget(context) {
-      return  Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                    HexColor("#2C2B69"),
-                    HexColor("#121212"),
-                  ],
+      return  SingleChildScrollView(
+        child: Form(
+          key: formKey,
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        HexColor("#2C2B69"),
+                        HexColor("#121212"),
+                      ],
+                    ),
+                    image: DecorationImage(
+                      image: AssetImage("assets/BG.jpg"),
+                      fit: BoxFit.cover,
+                      colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
+                    )
                 ),
-                image: DecorationImage(
-                  image: AssetImage("assets/BG.jpg"),
-                  fit: BoxFit.cover,
-                  colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
-                )
-            ),
-            child: new BackdropFilter(
-              filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 1.0),
-              child: new Container(
-                decoration: new BoxDecoration(color:  HexColor("#2C2B69").withOpacity(0.02)),
+                child: new BackdropFilter(
+                  filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 1.0),
+                  child: new Container(
+                    decoration: new BoxDecoration(color:  HexColor("#2C2B69").withOpacity(0.02)),
+                  ),
+                ),
               ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: 0.05 * screenHeight),
-                Center(
-                  child: Text('Enter your phone number:',
-                      style: TextStyle(
-                          color: Colors.white, fontSize: 20.0, fontFamily: 'spoqa_han_sans')),
-                ),
-                SizedBox(height: 0.05 * screenHeight),
-
-                      TextField(
-                        controller: phoneController,
-
-                      decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'phone number',
-                      ),
-                      ),
-
-
-                SizedBox(
-                  width: screenWidth,
-                  height: 0.121 * screenHeight,
-                  child: RaisedButton(
-                    color: HexColor("#97885F"),
-                    onPressed: () async {
-                      print(phoneController.text);
-                      setState(() {
-                        showLoading = true;
-                      });
-
-                      await _auth.verifyPhoneNumber(
-                        phoneNumber: phoneController.text,
-                        verificationCompleted: (phoneAuthCredential) async {
-                          setState(() {
-                            showLoading = false;
-                          });
-                          //signInWithPhoneAuthCredential(phoneAuthCredential);
-                        },
-                        verificationFailed: (verificationFailed) async {
-                          setState(() {
-                            showLoading = false;
-                          });
-                          _scaffoldKey.currentState.showSnackBar(
-                              SnackBar(content: Text(verificationFailed.message)));
-                        },
-                        codeSent: (verificationId, resendingToken) async {
-                          setState(() {
-                            showLoading = false;
-                            currentState = MobileVerificationState.SHOW_OTP_FORM_STATE;
-                            this.verificationId = verificationId;
-                          });
-                        },
-                        codeAutoRetrievalTimeout: (verificationId) async {},
-                      );
-                    },
-
-                    child:   Text(' Next',
+              Column(
+                children: [
+                  SizedBox(height: 0.05 * screenHeight),
+                  Center(
+                    child: Text('Enter your phone number:',
                         style: TextStyle(
-                            color: Colors.grey, fontSize: 20.0, fontFamily: 'spoqa_han_sans')),),
-                ),
-              ],
-            ),
+                            color: Colors.white, fontSize: 20.0, fontFamily: 'spoqa_han_sans')),
+                  ),
+                  SizedBox(height: 0.05 * screenHeight),
+
+                        TextField(
+                          controller: phoneController,
+
+                        decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'phone number',
+                        ),
+                        ),
+
+
+                  SizedBox(
+                    width: screenWidth,
+                    height: 0.121 * screenHeight,
+                    child: RaisedButton(
+                      color: HexColor("#97885F"),
+                      onPressed: () async {
+                        print(phoneController.text);
+                        setState(() {
+                          showLoading = true;
+                        });
+
+                        await _auth.verifyPhoneNumber(
+                          phoneNumber: phoneController.text,
+                          verificationCompleted: (phoneAuthCredential) async {
+                            setState(() {
+                              showLoading = false;
+                            });
+                            //signInWithPhoneAuthCredential(phoneAuthCredential);
+                          },
+                          verificationFailed: (verificationFailed) async {
+                            setState(() {
+                              showLoading = false;
+                            });
+                            _scaffoldKey.currentState.showSnackBar(
+                                SnackBar(content: Text(verificationFailed.message)));
+                          },
+                          codeSent: (verificationId, resendingToken) async {
+                            setState(() {
+                              showLoading = false;
+                              currentState = MobileVerificationState.SHOW_OTP_FORM_STATE;
+                              this.verificationId = verificationId;
+                            });
+                          },
+                          codeAutoRetrievalTimeout: (verificationId) async {},
+                        );
+                      },
+
+                      child:   Text(' Next',
+                          style: TextStyle(
+                              color: Colors.grey, fontSize: 20.0, fontFamily: 'spoqa_han_sans')),),
+                  ),
+                ],
+              ),
+            ],
           ),
-        ],
+        ),
       );
     }
 ///-------------------------------------------------------
