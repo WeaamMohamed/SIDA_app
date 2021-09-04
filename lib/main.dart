@@ -1,95 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_place_picker/google_maps_place_picker.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-// Your api key storage.
+import 'package:flutter_svg/flutter_svg.dart';
+import '/google_maps_picker/google_maps_place_picker.dart';
+import 'google_maps_picker/src/components/animated_pin.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // Light Theme
-  final ThemeData lightTheme = ThemeData.light().copyWith(
-    // Background color of the FloatingCard
-    cardColor: Colors.white,
-    buttonTheme: ButtonThemeData(
-      // Select here's button color
-      buttonColor: Colors.black,
-      textTheme: ButtonTextTheme.primary,
-    ),
-  );
-
-  // Dark Theme
-  final ThemeData darkTheme = ThemeData.dark().copyWith(
-    // Background color of the FloatingCard
-    cardColor: Colors.grey,
-    buttonTheme: ButtonThemeData(
-      // Select here's button color
-      buttonColor: Colors.yellow,
-      textTheme: ButtonTextTheme.primary,
-    ),
-  );
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Google Map Place Picker Demo',
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: ThemeMode.light,
-      home: HomePage(),
       debugShowCheckedModeBanner: false,
+      title: 'Google Map Place Picker',
+      home: PickerPage(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
-
-  static final kInitialPosition = LatLng(-33.8567844, 151.213108);
-
+class PickerPage extends StatefulWidget {
+  const PickerPage({Key key}) : super(key: key);
   @override
-  _HomePageState createState() => _HomePageState();
+  _PickerPageState createState() => _PickerPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _PickerPageState extends State<PickerPage> {
   PickResult selectedPlace;
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Google Map Place Picer Demo"),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              RaisedButton(
-                child: Text("Load Google Map"),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return PlacePicker(
-                          apiKey: 'AIzaSyC8duRzIq6lUb6BuMVDIpV0vEMmdfHf0WQ',
-                          initialPosition: HomePage.kInitialPosition,
-                          useCurrentLocation: true,
-                          selectInitialPosition: true,
-
-                          //usePlaceDetailSearch: true,
-                          onPlacePicked: (result) {
-                            selectedPlace = result;
-                            Navigator.of(context).pop();
-                            setState(() {});
-                          },
-                          //forceSearchOnZoomChanged: true,
-                          //automaticallyImplyAppBarLeading: false,
-                          //autocompleteLanguage: "ko",
-                          //region: 'au',
-                          //selectInitialPosition: true,
+    return PlacePicker(
+      automaticallyImplyAppBarLeading: true,
+      hidePlaceDetailsWhenDraggingPin: true,
+      pinBuilder: (context, state) {
+      if (state == PinState.Idle) {
+      return Stack(
+        children: <Widget>[
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SvgPicture.asset('assets/images/pickup_pin.svg'),
+                SizedBox(height: 42),
+              ],
+            ),
+          ),
+          Center(
+            child: Container(
+              width: 5,
+              height: 5,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Stack(
+        children: <Widget>[
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                AnimatedPin(child: SvgPicture.asset('assets/images/pickup_pin.svg')),
+                SizedBox(height: 42),
+              ],
+            ),
+          ),
+          Center(
+            child: Container(
+              width: 5,
+              height: 5,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+      },
+                          // onPlacePicked: (result) {
+                          //   selectedPlace = result;
+                          //   Navigator.of(context).pop();
+                          //   setState(() {});
+                          // },
+                          
                           // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
                           //   print("state: $state, isSearchBarFocused: $isSearchBarFocused");
                           //   return isSearchBarFocused
@@ -113,22 +109,6 @@ class _HomePageState extends State<HomePage> {
                           //                 ),
                           //         );
                           // },
-                          // pinBuilder: (context, state) {
-                          //   if (state == PinState.Idle) {
-                          //     return Icon(Icons.favorite_border);
-                          //   } else {
-                          //     return Icon(Icons.favorite);
-                          //   }
-                          // },
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
-              selectedPlace == null ? Container() : Text(selectedPlace.formattedAddress ?? ""),
-            ],
-          ),
-        ));
+                     );
   }
 }
