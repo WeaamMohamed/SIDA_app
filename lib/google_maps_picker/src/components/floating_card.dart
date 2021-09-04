@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '/google_maps_picker/src/components/rounded_frame.dart';
+import 'package:sida_app/google_maps_picker/src/components/rounded_frame.dart';
+// import 'package:sida_app/google_maps_picker/src/components/rounded_frame.dart';
 
 class FloatingCard extends StatelessWidget {
   const FloatingCard({

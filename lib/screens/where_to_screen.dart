@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sida_app/shared/data_handler/app_data.dart';
 import 'package:sida_app/shared/styles/colors.dart';
 import 'package:sida_app/screens/seach_screen.dart';
+import 'package:sida_app/screens/picker_screen.dart';
 class WhereToScreen extends StatefulWidget {
 
   @override
@@ -227,7 +228,12 @@ class _WhereToScreenState extends State<WhereToScreen> {
               _buildCustomRow(
                 image: "pick_address",
                 text: "Pick the address on the map",
-                onTap: () {},
+                onTap: () {
+
+                  Navigator.push(context, MaterialPageRoute(builder: (context)
+                  => PickerScreen(),),);
+
+                },
               ),
 
 

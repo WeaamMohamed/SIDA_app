@@ -8,7 +8,7 @@ class SelectAndConfirmRide extends StatefulWidget {
 }
 
 class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
-  CarTypes selectCarType;
+  CarTypes selectCarType = CarTypes.ANY_SIDA;
 
   final double mainHorizontalMargin = 15.0;
 
@@ -93,7 +93,7 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
                     ),
                   ),
                   Icon(Icons.arrow_forward_ios,
-                  color: Color(0xff5C6C7C),),
+                    color: Color(0xff5C6C7C),),
                 ],
               ),
             )
@@ -122,6 +122,7 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
               Flexible(
                 flex: 6,
                 child: Row(
+
                   children: [
                     _buildCarTypesCard(
                       mqSize: mqSize,
@@ -154,17 +155,17 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
                       },
                       isSelected: selectCarType == CarTypes.SIDA_PLUS,
                     ),
-                    _buildBuddyDriveCard(
-                      mqSize: mqSize,
-                      title: "Buddy \nDriver",
-
-                      imagePath:  "assets/images/buddy_drive.svg" ,
-                      onTap: (){},
-                    ),
+                    // _buildBuddyDriveCard(
+                    //   mqSize: mqSize,
+                    //   title: "Buddy \nDriver",
+                    //
+                    //   imagePath:  "assets/images/buddy_drive.svg" ,
+                    //   onTap: (){},
+                    // ),
 
 
                   ],
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 ),
               ),
               SizedBox(
@@ -172,6 +173,7 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
               ),
               Divider(
                 thickness: 1,
+
                 color: Color(0xffE5E5E5),
               ),
               SizedBox(
@@ -228,85 +230,93 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
     color: Color(0xffE5E5E5),
   );
 
- Widget _buildCarTypesCard({
-   Size mqSize,
-   String imagePath,
-   String title,
-   double price,
-   Function onTap,
-   bool isSelected = false,
-   bool comingSoon = false,
-}) =>
-     Container(
-       decoration: BoxDecoration(
-         borderRadius: customBorderRadius,
-            color: isSelected ? Color(0xffFFF3D9): Colors.white,
+  Widget _buildCarTypesCard({
+    Size mqSize,
+    String imagePath,
+    String title,
+    double price,
+    Function onTap,
+    bool isSelected = false,
+    bool comingSoon = false,
+  }) =>
+      Container(
+        decoration: BoxDecoration(
+          borderRadius: customBorderRadius,
+          color: isSelected ? Color(0xffFFF3D9): Colors.white,
 
-       ),
+        ),
 
-       width: (mqSize.width - (mainHorizontalMargin * 2)) / 3.8,
-       //  width: mqSize.height * 0.11,
-       height: (mqSize.width - (mainHorizontalMargin * 2)) / 3.8,
-       //  height: 89,
+        width: (mqSize.width - (mainHorizontalMargin * 2)) / 3.5,
 
-       padding: EdgeInsets.only(
-         left: 10,
-         right: 5,
-         top: 5,
-         bottom: 5,
-       ),
-       child: InkWell(
-         onTap: onTap,
-         child: Column(
-           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-           crossAxisAlignment: CrossAxisAlignment.start,
-           children: [
-             Row(
-               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-               children: [
-                comingSoon? Image.asset(
-                   imagePath,
-                   height: 30,
-                   width: 50,
-                 ): Image.asset(
-                  imagePath,
-                  height: 24,
-                  width: 48,
-                ),
+        height: (mqSize.width - (mainHorizontalMargin * 2)) / 3.8,
+
+
+
+        margin: EdgeInsets.only(
+          left: 10,
+          right: 10,
+          top: 5,
+          bottom: 5,
+        ),
+
+
+        padding: EdgeInsets.only(
+          left: 10,
+          right: 10,
+
+        ),
+        child: InkWell(
+          onTap: onTap,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  comingSoon? Image.asset(
+                    imagePath,
+                    height: 30,
+                    width: 50,
+                  ): Image.asset(
+                    imagePath,
+                    height: 24,
+                    width: 48,
+                  ),
 
                   isSelected? Icon(Icons.remove_circle_outline): Icon(Icons.remove_circle_outline,
-                color: Colors.transparent,),
+                    color: Colors.transparent,),
 
-               ],
-             ),
-             Text(title ,
-               style: TextStyle(fontSize: 15),),
-            if(!comingSoon) Row(
-               //    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-               children: [
-                 Text(
-                   "EGP",
-                   style: TextStyle(
-                     fontSize: 10,
-                   ),
-                 ),
-                 SizedBox(
-                   width: 5,
-                 ),
-                 Text(
-                   price.toString(),
-                   style: TextStyle(
-                     fontSize: 15,
-                     fontWeight: FontWeight.bold,
-                   ),
-                 ),
-               ],
-             ),
+                ],
+              ),
+              Text(title ,
+                style: TextStyle(fontSize: 15),),
+              if(!comingSoon) Row(
+                //    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "EGP",
+                    style: TextStyle(
+                      fontSize: 10,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    price.toString(),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
 
-           ],
-         ),
-       ),
-     );
+            ],
+          ),
+        ),
+      );
 
 
 
@@ -350,7 +360,7 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
 
               SizedBox(height:10,),
               Text(title,
-              style: TextStyle(fontSize: 15),),
+                style: TextStyle(fontSize: 15),),
 
 
             ],
@@ -369,40 +379,40 @@ Widget _buildBottomCard({
 
 // height: 55,
 
-      child: InkWell(
-        onTap:onTap,
-        child: Column(
+  child: InkWell(
+    onTap:onTap,
+    child: Column(
 
 // mainAxisAlignment: MainAxisAlignment.center,
 
 // crossAxisAlignment: CrossAxisAlignment.stretch,
 
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
-          children: [
+      children: [
 
-            SvgPicture.asset(image),
+        SvgPicture.asset(image),
 
-            SizedBox(height: 5,),
-            Center(
+        SizedBox(height: 5,),
+        Center(
 
-              child: Text(
+          child: Text(
 
-                title,
+            title,
 
-                style: TextStyle(
+            style: TextStyle(
 
-                  fontSize: 14,
-
-                ),
-
-              ),
+              fontSize: 14,
 
             ),
 
-          ],
+          ),
 
         ),
-      ),
 
-    );
+      ],
+
+    ),
+  ),
+
+);

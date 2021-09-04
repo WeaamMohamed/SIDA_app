@@ -22,9 +22,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  // List<LatLng> pLineCoordinates = [];
+  // Set<Polyline> polylineSet = {};
+
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
-  GoogleMapController newGoogleMapController;
+  // GoogleMapController newGoogleMapController;
 
 
   final CameraPosition _kGooglePlex = CameraPosition(
@@ -34,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Position _userCurrentPosition;
 
- final double mainHorizontalMargin = 15.0;
+  final double mainHorizontalMargin = 15.0;
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
       );
 
       CameraPosition cameraPosition =
-          new CameraPosition(target: userLatLangPosition, zoom: 17);
+      new CameraPosition(target: userLatLangPosition, zoom: 17);
 
-      newGoogleMapController
+      providerData.newGoogleMapController
           .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
 
@@ -103,12 +107,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 tiltGesturesEnabled: true,
                 zoomControlsEnabled: false,
                 compassEnabled: false,
-                // polylines: polylineSet,
+                polylines: providerData.polylineSet,
                 // markers: markersSet,
                 // circles: circlesSet,
                 onMapCreated: (GoogleMapController controller) {
                   _controllerGoogleMap.complete(controller);
-                  newGoogleMapController = controller;
+                  providerData.newGoogleMapController = controller;
                   locatePosition();
 
                   //  locatePosition();
@@ -116,70 +120,70 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               //for shadow
-               _buildShadow(),
+              _buildShadow(),
 
               //menu button
               _buildMenuButton(),
 
-             if(providerData.homeStatus == HomeStatus.INITIAL) Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  //  height: MediaQuery.of(context).size.height / 4,
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: mqSize.height * 0.06,
-                  ),
-                  child:
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            customHomeButton(
-                                context: context,
-                                //TODO: add your pick up location
-                                title:
-                                    providerData.userPickUpLocation != null?
-                                   providerData.userPickUpLocation.placeName:
-                                        "Loading Pickup address...",
-
-                                   // "El-Tahrir Square, Qasr El N aaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaa",
-                                withIcon: true,
-                            //    onTap: () {},
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            customHomeButton(
-                                context: context,
-                                title: "Set pickup location",
-                                onTap: () {
-
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => WhereToScreen(),),
-                                  );
-
-
-                                }),
-                          ],
-                        )
-
-                ),
-              ),
-
-
-
-           if(providerData.homeStatus == HomeStatus.GET_DIRECTIONS)Positioned(
+              if(providerData.homeStatus == HomeStatus.INITIAL) Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
                 child: Container(
                   //  height: MediaQuery.of(context).size.height / 4,
                     margin: EdgeInsets.symmetric(
-                      horizontal: mainHorizontalMargin,
-                      vertical: mqSize.height * 0.03,
+                      horizontal: 15,
+                      vertical: mqSize.height * 0.06,
                     ),
-                    child: SelectAndConfirmRide(),
+                    child:
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        customHomeButton(
+                          context: context,
+                          //TODO: add your pick up location
+                          title:
+                          providerData.userPickUpLocation != null?
+                          providerData.userPickUpLocation.placeName:
+                          "Loading Pickup address...",
+
+                          // "El-Tahrir Square, Qasr El N aaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaa",
+                          withIcon: true,
+                          //    onTap: () {},
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        customHomeButton(
+                            context: context,
+                            title: "Set pickup location",
+                            onTap: () {
+
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => WhereToScreen(),),
+                              );
+
+
+                            }),
+                      ],
+                    )
+
+                ),
+              ),
+
+
+
+              if(providerData.homeStatus == HomeStatus.GET_DIRECTIONS)Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  //  height: MediaQuery.of(context).size.height / 4,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: mainHorizontalMargin,
+                    vertical: mqSize.height * 0.03,
+                  ),
+                  child: SelectAndConfirmRide(),
 
                 ),
               ),
@@ -213,48 +217,48 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildShadow() => Positioned(
-        bottom: 0,
-        left: 0,
-        right: 0,
-        child: Container(
-          height: MediaQuery.of(context).size.height / 4,
-          decoration: BoxDecoration(
-            // gradient: LinearGradient(colors: [
-            //   Colors.black.withOpacity(0.1),
-            //   Color(0xff515151).withOpacity(0.2)
-            // ]),
-             boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.17),
-                spreadRadius: 10,
-                blurRadius: 45,
-               // offset: Offset(2, 9), // changes position of shadow
-              ),
-            ],
+    bottom: 0,
+    left: 0,
+    right: 0,
+    child: Container(
+      height: MediaQuery.of(context).size.height / 4,
+      decoration: BoxDecoration(
+        // gradient: LinearGradient(colors: [
+        //   Colors.black.withOpacity(0.1),
+        //   Color(0xff515151).withOpacity(0.2)
+        // ]),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.17),
+            spreadRadius: 10,
+            blurRadius: 45,
+            // offset: Offset(2, 9), // changes position of shadow
           ),
-        ),
-      );
+        ],
+      ),
+    ),
+  );
 
   Widget _buildMenuButton() => Positioned(
-        top: 35,
-        left: 22,
-        child: ElevatedButton(
-          onPressed: () {
-            scaffoldKey.currentState.openDrawer();
-          },
-          // child: Icon(Icons.menu, color: Colors.black,),
-          child: SvgPicture.asset("assets/images/menu_icon.svg"),
-          style: ButtonStyle(
-            shape: MaterialStateProperty.all(CircleBorder()),
-            padding: MaterialStateProperty.all(EdgeInsets.all(15)),
-            backgroundColor:
-                MaterialStateProperty.all(Colors.white), // <-- Button color
-            // overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
-            //   if (states.contains(MaterialState.pressed)) return Colors.red; // <-- Splash color
-            // }),
-          ),
-        ),
-      );
+    top: 35,
+    left: 22,
+    child: ElevatedButton(
+      onPressed: () {
+        scaffoldKey.currentState.openDrawer();
+      },
+      // child: Icon(Icons.menu, color: Colors.black,),
+      child: SvgPicture.asset("assets/images/menu_icon.svg"),
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all(CircleBorder()),
+        padding: MaterialStateProperty.all(EdgeInsets.all(15)),
+        backgroundColor:
+        MaterialStateProperty.all(Colors.white), // <-- Button color
+        // overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
+        //   if (states.contains(MaterialState.pressed)) return Colors.red; // <-- Splash color
+        // }),
+      ),
+    ),
+  );
 
 
 

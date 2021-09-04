@@ -1,114 +1,39 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '/google_maps_picker/google_maps_place_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:sida_app/screens/home_screen.dart';
+import 'package:sida_app/shared/data_handler/app_data.dart';
+//import '/google_maps_picker/google_maps_place_picker.dart';
+import 'SignUp_SignIn/mobile_phone_page.dart';
 import 'google_maps_picker/src/components/animated_pin.dart';
+import 'google_maps_picker/src/models/pick_result.dart';
+import 'google_maps_picker/src/place_picker.dart';
+import "package:sida_app/SignUp_SignIn/email_screen.dart";
 
-void main() => runApp(MyApp());
+void main() async
+{
+
+  // Firebase.initializeApp(name: , options: );
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Google Map Place Picker',
-      home: PickerPage(),
+    return ChangeNotifierProvider<AppData>(
+      create: (context) => AppData(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Google Map Place Picker',
+  //    home: PickerPage(),
+        home: HomeScreen(),
+      ),
     );
   }
 }
 
-class PickerPage extends StatefulWidget {
-  const PickerPage({Key key}) : super(key: key);
-  @override
-  _PickerPageState createState() => _PickerPageState();
-}
 
-class _PickerPageState extends State<PickerPage> {
-  PickResult selectedPlace;
-  @override
-  Widget build(BuildContext context) {
-    return PlacePicker(
-      automaticallyImplyAppBarLeading: true,
-      hidePlaceDetailsWhenDraggingPin: true,
-      pinBuilder: (context, state) {
-      if (state == PinState.Idle) {
-      return Stack(
-        children: <Widget>[
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SvgPicture.asset('assets/images/pickup_pin.svg'),
-                SizedBox(height: 42),
-              ],
-            ),
-          ),
-          Center(
-            child: Container(
-              width: 5,
-              height: 5,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-        ],
-      );
-    } else {
-      return Stack(
-        children: <Widget>[
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                AnimatedPin(child: SvgPicture.asset('assets/images/pickup_pin.svg')),
-                SizedBox(height: 42),
-              ],
-            ),
-          ),
-          Center(
-            child: Container(
-              width: 5,
-              height: 5,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-      },
-                          // onPlacePicked: (result) {
-                          //   selectedPlace = result;
-                          //   Navigator.of(context).pop();
-                          //   setState(() {});
-                          // },
-                          
-                          // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
-                          //   print("state: $state, isSearchBarFocused: $isSearchBarFocused");
-                          //   return isSearchBarFocused
-                          //       ? Container()
-                          //       : FloatingCard(
-                          //           bottomPosition: 0.0, // MediaQuery.of(context) will cause rebuild. See MediaQuery document for the information.
-                          //           leftPosition: 0.0,
-                          //           rightPosition: 0.0,
-                          //           width: 500,
-                          //           borderRadius: BorderRadius.circular(12.0),
-                          //           child: state == SearchingState.Searching
-                          //               ? Center(child: CircularProgressIndicator())
-                          //               : RaisedButton(
-                          //                   child: Text("Pick Here"),
-                          //                   onPressed: () {
-                          //                     // IMPORTANT: You MUST manage selectedPlace data yourself as using this build will not invoke onPlacePicker as
-                          //                     //            this will override default 'Select here' Button.
-                          //                     print("do something with [selectedPlace] data");
-                          //                     Navigator.of(context).pop();
-                          //                   },
-                          //                 ),
-                          //         );
-                          // },
-                     );
-  }
-}
