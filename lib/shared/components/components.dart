@@ -64,7 +64,7 @@ Widget customHomeButton({
     );
 
 Widget customBlackButton({
-  String title,
+  String title = "Update",
   Function onTap,
 }) =>
     Container(
@@ -78,7 +78,7 @@ Widget customBlackButton({
         child: InkWell(
             onTap: () {},
             child: Center(
-              child: Text("Update",
+              child: Text(title,
                   style: TextStyle(
                     fontSize: 13,
                     color: Colors.white,

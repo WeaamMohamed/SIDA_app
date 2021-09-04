@@ -25,28 +25,29 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
   set verificationId(String verification_Id) {
     verificationId=verification_Id;
   }
+  final phoneController = TextEditingController();
+  final otpController = TextEditingController();
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  bool showLoading = false;
+  var formKey = GlobalKey<FormState>();
+
+  final  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
 
-      final  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
+
+
 
     final screenHeight= MediaQuery.of(context).size.height;
     final screenWidth= MediaQuery.of(context).size.width;
-      var formKey = GlobalKey<FormState>();
 
+      String verificationId;
 
       MobileVerificationState currentState =
         MobileVerificationState.SHOW_MOBILE_FORM_STATE;
 
-    final phoneController = TextEditingController();
-    final otpController = TextEditingController();
-
-    FirebaseAuth _auth = FirebaseAuth.instance;
-
-    String verificationId;
-
-    bool showLoading = false;
 
     void signInWithPhoneAuthCredential(
         PhoneAuthCredential phoneAuthCredential) async {
@@ -106,6 +107,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                 ),
               ),
               Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(height: 0.05 * screenHeight),
                   Center(
@@ -123,6 +125,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                         labelText: 'phone number',
                         ),
                         ),
+
 
 
                   SizedBox(

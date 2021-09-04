@@ -6,15 +6,21 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '/google_maps_picker/google_maps_place_picker.dart';
-import '/google_maps_picker/providers/place_provider.dart';
-import '/google_maps_picker/src/components/animated_pin.dart';
-import '/google_maps_picker/src/components/floating_card.dart';
-import '/google_maps_picker/src/place_picker.dart';
+// import '/google_maps_picker/google_maps_place_picker.dart';
+// import '/google_maps_picker/providers/place_provider.dart';
+// import '/google_maps_picker/src/components/animated_pin.dart';
+// import '/google_maps_picker/src/components/floating_card.dart';
+// import '/google_maps_picker/src/place_picker.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
+import 'package:sida_app/google_maps_picker/providers/place_provider.dart';
+import 'package:sida_app/google_maps_picker/src/place_picker.dart';
 import 'package:tuple/tuple.dart';
+
+import 'components/animated_pin.dart';
+import 'components/floating_card.dart';
+import 'models/pick_result.dart';
 
 typedef SelectedPlaceWidgetBuilder = Widget Function(
   BuildContext context,

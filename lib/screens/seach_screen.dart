@@ -172,47 +172,47 @@ class PredictionTile extends StatelessWidget
 
 
     //TODO: show progress bar.
-   // &fields=name,rating,formatted_phone_number
+    // &fields=name,rating,formatted_phone_number
     String detailUrl = "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$MAP_API_KEY";
 
     var response = await RequestAssistant.getRequest(detailUrl);
     if(response != "failed")
+    {
+      if(response["status"] == "OK")
       {
-        if(response["status"] == "OK")
-          {
-            AddressModel dropOffAddress = AddressModel(
-              placeName: response["result"]["name"],
-              latitude: response["result"]["geometry"]["location"]["lat"],
-              longitude: response["result"]["geometry"]["location"]["lng"],
-              placeId: placeId,
-            );
+        AddressModel dropOffAddress = AddressModel(
+          placeName: response["result"]["name"],
+          latitude: response["result"]["geometry"]["location"]["lat"],
+          longitude: response["result"]["geometry"]["location"]["lng"],
+          placeId: placeId,
+        );
 
-            Provider.of<AppData>(context, listen: false).updateDropOffLocationAddress(dropOffAddress);
+        Provider.of<AppData>(context, listen: false).updateDropOffLocationAddress(dropOffAddress);
 
 
-            print("your drop off location: " + dropOffAddress.placeName);
-            Provider.of<AppData>(context, listen: false).autoCompletePredictionsList = [];
-            Provider.of<AppData>(context, listen: false).getDirectionDetails();
+        print("your drop off location: " + dropOffAddress.placeName);
+        Provider.of<AppData>(context, listen: false).autoCompletePredictionsList = [];
+        Provider.of<AppData>(context, listen: false).getDirectionDetails();
 
-            //Navigator.pop(context, "getDirections");
+        //Navigator.pop(context, "getDirections");
 
-            Provider.of<AppData>(context, listen: false).homeStatus = HomeStatus.GET_DIRECTIONS;
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                builder: (context,) => HomeScreen(),), (route) => false);
-
-
-          }
-        else
-          {
-            print("API ERROR");
-          }
+        Provider.of<AppData>(context, listen: false).homeStatus = HomeStatus.GET_DIRECTIONS;
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+          builder: (context,) => HomeScreen(),), (route) => false);
 
 
       }
+      else
+      {
+        print("API ERROR");
+      }
+
+
+    }
     else
-      {
-        print("Failed to load place address details ");
-      }
+    {
+      print("Failed to load place address details ");
+    }
 
   }
 
