@@ -15,6 +15,9 @@ import 'package:sida_app/widgets/select_and_confirm_ride.dart';
 import 'package:sida_app/shared/network/remote/assistantMethods.dart';
 import 'package:sida_app/shared/network/remote/requestAssistant.dart';
 
+import '../shared/network/remote/assistantMethods.dart';
+import '../shared/network/remote/requestAssistant.dart';
+
 //TODO: convert to stateles
 class HomeScreen extends StatefulWidget {
   @override
@@ -51,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     void locatePosition() async {
       //TODO: search for location accuracy
       Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+          desiredAccuracy: LocationAccuracy.bestForNavigation);
       _userCurrentPosition = position;
 
       LatLng userLatLangPosition = LatLng(
@@ -199,6 +202,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+
+    AssistantMethods.getCurrentOnlineUserInfo();
+
     // TODO: implement initState
     //to hide app bar and status bar
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);

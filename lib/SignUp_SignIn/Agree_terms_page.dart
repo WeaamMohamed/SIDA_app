@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'main.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+
 class TermsPage extends StatefulWidget {
   @override
   _TermsPageState createState() => _TermsPageState();
