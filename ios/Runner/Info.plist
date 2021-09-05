@@ -4,7 +4,7 @@
 <dict>
 
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>This app needs access to location when open.</string>
+    <string>This app needs access to location to be able to find nearby drivers.</string>
     <key>NSLocationAlwaysUsageDescription</key>
     <string>This app needs access to location when in the background.</string>
 	<key>CFBundleDevelopmentRegion</key>

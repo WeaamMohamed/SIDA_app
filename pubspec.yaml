@@ -24,6 +24,7 @@ dependencies:
   pin_code_fields: ^7.3.0
   animated_splash_screen: ^1.1.0
   adobe_xd: ^2.0.0+1
+  flutter_polyline_points: ^0.2.4
   google_maps_place_picker:
   google_maps_flutter: ^1.0.1
   geolocator: ^6.0.0+4
