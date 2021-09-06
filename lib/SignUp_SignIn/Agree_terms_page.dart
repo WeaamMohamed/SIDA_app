@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
+import 'package:sida_app/screens/home_screen.dart';
 
 import 'custom_checkbox.dart';
 import 'package:flutter/material.dart';
@@ -256,7 +257,7 @@ class _TermsPageState extends State<TermsPage> {
           color: HexColor("#97885F"),
           onPressed: (){
             if (All_Terms.isChecked)
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>MyApp()));
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>HomeScreen()));
             else if ( (Term1.isChecked && Term2.isChecked &&Term3.isChecked &&Term4.isChecked &&Term5.isChecked )|| Term6.isChecked)
               Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>MyApp()));
             else

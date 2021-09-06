@@ -10,12 +10,15 @@ class NamePage extends StatefulWidget {
 }
 
 class _NamePageState extends State<NamePage> {
+
+
+  final formKey = GlobalKey<FormState>();
+  TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final screenHeight= MediaQuery.of(context).size.height;
     final screenWidth= MediaQuery.of(context).size.width;
-    final formKey = GlobalKey<FormState>();
-    TextEditingController controller = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(

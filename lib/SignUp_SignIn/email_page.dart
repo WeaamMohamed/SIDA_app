@@ -12,11 +12,13 @@ class Email extends StatefulWidget {
 }
 
 class _EmailState extends State<Email> {
+
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final screenHeight= MediaQuery.of(context).size.height;
     final screenWidth= MediaQuery.of(context).size.width;
-    final formKey = GlobalKey<FormState>();
 
     return Scaffold(
       // appBar: AppBar(

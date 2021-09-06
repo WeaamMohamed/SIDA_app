@@ -8,13 +8,9 @@ import 'package:sida_app/models/place_predictions_auto_complete.dart';
 import 'package:sida_app/shared/components/constants.dart';
 import 'package:sida_app/shared/network/remote/requestAssistant.dart';
 
-enum HomeStatus {
-  INITIAL,
-  GET_DIRECTIONS,
 
-}
 
-class AppData extends ChangeNotifier
+class MapProvider extends ChangeNotifier
 {
   Polyline _polyline;
 
@@ -26,7 +22,6 @@ class AppData extends ChangeNotifier
   List<PlacePredictionsAutoComplete> _autoCompletePredictionsList =[];
   AddressModel _userPickUpLocation;
   AddressModel _userDropOffLocation;
-  HomeStatus _homeStatus = HomeStatus.INITIAL;
   DirectionDetails _directionDetails;
 
   GoogleMapController _newGoogleMapController;
@@ -94,12 +89,7 @@ class AppData extends ChangeNotifier
   AddressModel get userDropOffLocation => _userDropOffLocation;
   AddressModel get userPickUpLocation => _userPickUpLocation;
 
-  HomeStatus get homeStatus => _homeStatus;
 
-  set homeStatus(HomeStatus value) {
-    _homeStatus = value;
-    notifyListeners();
-  }
 
 
   void getDirectionDetails()async{
@@ -185,24 +175,5 @@ class AppData extends ChangeNotifier
     notifyListeners();
   }
 
-// List<LatLng> get pLineCoordinates => _pLineCoordinates;
-//
-// Polyline get polyline => _polyline;
-
-// Polyline get polyline => _polyline;
-
-// set polyline(Polyline value) {
-//   _polyline = value;
-// }
-
-// set userDropOffLocation(AddressModel value) {
-//   _userDropOffLocation = value;
-// }
-//
-//
-// set userPickUpLocation(AddressModel value) {
-//   _userPickUpLocation = value;
-//
-// }
 }
 

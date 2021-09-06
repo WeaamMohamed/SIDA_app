@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/models/address_model.dart';
-import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/models/place_predictions_auto_complete.dart';
 import 'package:sida_app/shared/components/constants.dart';
-import 'package:sida_app/shared/data_handler/app_data.dart';
+import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'package:sida_app/shared/network/remote/requestAssistant.dart';
-
 import 'home_screen.dart';
+import 'package:sida_app/shared/data_handler/data_provider.dart';
 
 // class SearchScreen extends StatefulWidget {
 //
@@ -68,7 +67,7 @@ class SearchScreen extends StatelessWidget {
                 child: TextField(
                   onChanged: (val)
                   {
-                    Provider.of<AppData>(context, listen: false).getAutoCompleteResult(val);
+                    Provider.of<MapProvider>(context, listen: false).getAutoCompleteResult(val);
                     //  Provider.of(val);
                   },
                   controller: dropOffTextEditingController,
@@ -82,7 +81,7 @@ class SearchScreen extends StatelessWidget {
                   ),
                 ),
               ),),
-            Provider.of<AppData>(context).autoCompletePredictionsList.length > 0?
+            Provider.of<MapProvider>(context).autoCompletePredictionsList.length > 0?
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 12.0, ),
@@ -90,10 +89,10 @@ class SearchScreen extends StatelessWidget {
                   padding: EdgeInsets.all(0.0),
                   itemBuilder: (context, index)
                   {
-                    return PredictionTile(placePredictions: Provider.of<AppData>(context).autoCompletePredictionsList[index],);
+                    return PredictionTile(placePredictions: Provider.of<MapProvider>(context).autoCompletePredictionsList[index],);
                   },
                   separatorBuilder: (BuildContext context, int index) => Container(),
-                  itemCount: Provider.of<AppData>(context).autoCompletePredictionsList.length,
+                  itemCount: Provider.of<MapProvider>(context).autoCompletePredictionsList.length,
                   shrinkWrap: true,
                   physics: ClampingScrollPhysics(),
                 ),
@@ -187,16 +186,16 @@ class PredictionTile extends StatelessWidget
           placeId: placeId,
         );
 
-        Provider.of<AppData>(context, listen: false).updateDropOffLocationAddress(dropOffAddress);
+        Provider.of<MapProvider>(context, listen: false).updateDropOffLocationAddress(dropOffAddress);
 
 
         print("your drop off location: " + dropOffAddress.placeName);
-        Provider.of<AppData>(context, listen: false).autoCompletePredictionsList = [];
-        Provider.of<AppData>(context, listen: false).getDirectionDetails();
+        Provider.of<MapProvider>(context, listen: false).autoCompletePredictionsList = [];
+        Provider.of<MapProvider>(context, listen: false).getDirectionDetails();
 
         //Navigator.pop(context, "getDirections");
 
-        Provider.of<AppData>(context, listen: false).homeStatus = HomeStatus.GET_DIRECTIONS;
+        Provider.of<DataProvider>(context, listen: false).homeStatus = HomeStatus.SELECT_AND_CONFIRM_RIDE;
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
           builder: (context,) => HomeScreen(),), (route) => false);
 
