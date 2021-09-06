@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:sida_app/screens/home_screen.dart';
 import 'package:sida_app/shared/data_handler/app_data.dart';
 
+import 'SignUp_SignIn/mobile_phone_page.dart';
+
 
 void main() async
 {
@@ -25,10 +27,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Google Map Place Picker',
   //    home: PickerPage(),
-        home: HomeScreen(),
+        home: PhoneNumberPage(),
       ),
     );
   }
 }
-
-
