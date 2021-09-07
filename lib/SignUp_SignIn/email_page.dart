@@ -104,8 +104,8 @@ class _EmailState extends State<Email> {
           onPressed: (){
          // final form= formKey.currentState.validate();
           if(formKey.currentState.validate()) {
-            Navigator.push(context, MaterialPageRoute(
-                builder: (BuildContext context) => passWord()));
+          //  Navigator.push(context, MaterialPageRoute(
+            //    builder: (BuildContext context) => passWord()));
           }
                 },
 
