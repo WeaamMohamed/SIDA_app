@@ -91,19 +91,18 @@ class _SignInState extends State<SignIn> {
   }
   void retrieve_name ()async
   {
-    await ref.once().then((DataSnapshot snapshot)
-      {
-          Map<dynamic, dynamic> values = snapshot.value;
-          values.forEach((key,data) {
-          if ( values['Phonenumber'] ==  widget.user_phoneNumber)
-          {
-            setState(() {
-              UserName = values['Name'];
-              real_password=values['Password'];
-            });
-          }
-          });
-          });
+    try {
+      await ref.child(widget.user_phoneNumber).once().then((DataSnapshot snapshot) async {
+        setState(() {
+          UserName = snapshot.value['Name'];
+          real_password=snapshot.value['Password'];
+        });
+
+      });
+
+    }
+    catch(e)
+    { print("you got error: $e");}
   }
 
   bool isdisabled= true;
