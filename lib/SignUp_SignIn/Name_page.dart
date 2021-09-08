@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'Agree_terms_page.dart';
 import 'password_page.dart';
-
+import 'package:sida_app/firebase_db.dart';
 class NamePage extends StatefulWidget {
 
   final String user_phoneNumber;
@@ -17,7 +17,7 @@ class NamePage extends StatefulWidget {
 
 class _NamePageState extends State<NamePage> {
 
-  final fb =FirebaseDatabase.instance;
+ // final fb =FirebaseDatabase.instance;
   final formKey = GlobalKey<FormState>();
   bool  is_disabled = false;
   int char_num=0;
@@ -29,7 +29,7 @@ class _NamePageState extends State<NamePage> {
   Widget build(BuildContext context) {
     final screenHeight= MediaQuery.of(context).size.height;
     final screenWidth= MediaQuery.of(context).size.width;
-    final ref = fb.reference();
+  //  final ref = fb.reference();
     return Scaffold(
 
       body:Stack(
@@ -130,7 +130,7 @@ class _NamePageState extends State<NamePage> {
           {
            // ref.child('Users').push().child(phoneController.text).update({'Name':controller.text});
          //   ref.child('User').push().child('Name').set(controller.text).asStream();
-            ref.child('Users').push().child(widget.user_phoneNumber).set({'Name': controller.text });
+            ref.update({'Name': controller.text });
 
             Navigator.push(context, MaterialPageRoute(
                 builder: (BuildContext context) => TermsPage(widget.user_phoneNumber)));

@@ -10,10 +10,10 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'Name_page.dart';
-import 'password_page.dart';
 import 'package:sida_app/firebase_db.dart';
-import 'SignIN.dart';
+
+import 'new_password.dart';
+
 
 
 enum MobileVerificationState {
@@ -22,29 +22,17 @@ enum MobileVerificationState {
 }
 
 String myphoneNumber='';
-class PhoneNumberPage extends StatefulWidget {
-
-  PhoneNumberPage({this.app});
-  final FirebaseApp app;
+class ForgetPassword extends StatefulWidget {
+  final String user_phoneNumber;
+  ForgetPassword(  this.user_phoneNumber,{Key key}):super(key: key);
   @override
-  _PhoneNumberPageState createState() => _PhoneNumberPageState();
+  _ForgetPasswordState createState() => _ForgetPasswordState();
 }
 
-class _PhoneNumberPageState extends State<PhoneNumberPage> {
+class _ForgetPasswordState extends State<ForgetPassword> {
 
   @override
-  void initState(){
-    super.initState();
-    _activateListeners();
-  }
-  void  _activateListeners(){
-    database.reference().child('Users').once().then((snapshot) {
 
-    }
-    );
-
-  }
-  //final fb =FirebaseDatabase.instance;
 
   MobileVerificationState currentState =
       MobileVerificationState.SHOW_MOBILE_FORM_STATE;
@@ -60,27 +48,21 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
   String phone_number;
 
   void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) async {
-
-    print("helpppppppppppppppppppppppppppppp");
     setState(() {
       showLoading = true;
     });
-
     try {
-      print("tryyyyyyyyyyyyyy");
       final authCredential =
       await _auth.signInWithCredential(phoneAuthCredential);
-
       setState(() {
         showLoading = false;
       });
 
       if(authCredential?.user != null){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> passWord(myphoneNumber)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> NewPassword(myphoneNumber)));
       }
 
     } on FirebaseAuthException catch (e) {
-      print("onnnnnnnnnnnnnnn");
       setState(() {
         showLoading = false;
       });
@@ -105,51 +87,21 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
 
     void onpressed_phone () async
     {
-     // final form= formKey.currentState;
-    //  if(form.validate())
+      // final form= formKey.currentState;
+      //  if(form.validate())
       {
-
-        try {
-          await ref.once().then((DataSnapshot snapshot) {
-           // print(snapshot.value);
-            Map<dynamic, dynamic> values = snapshot.value;
-            values.forEach((key, data) {
-              if (myphoneNumber == values['Phonenumber'])
-              {
-                /// alreday exists in database navigate to sign in screen
-                /// print(values['Phonenumber']);
-                is_exists =true;
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (BuildContext context) => SignIn(myphoneNumber)));
-
-              }
-            });
-          });
-        }
-        catch(e)
-      { print("you got error: $e");}
-
-          if ( is_exists )
-            return;
-        /// else : store in database and send verfication code
-        ref.set({'Phonenumber': phoneController.text , 'Password':'' , 'Name' :''});
-
         setState(() {
-          print("2222222222222");
           showLoading = true;
         });
-        print("&&&&&&&&&&&&");
         await _auth.verifyPhoneNumber(
           phoneNumber: phoneController.text,
           verificationCompleted: (phoneAuthCredential) async {
-            print("33333333");
             setState(() {
               showLoading = false;
             });
             //signInWithPhoneAuthCredential(phoneAuthCredential);
           },
           verificationFailed: (verificationFailed) async {
-            print("4444444444");
             setState(() {
               showLoading = false;
             });
@@ -157,7 +109,6 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                 SnackBar(content: Text(verificationFailed.message)));
           },
           codeSent: (verificationId, resendingToken) async {
-            print("55555555");
             setState(() {
               showLoading = false;
               currentState = MobileVerificationState.SHOW_OTP_FORM_STATE;
@@ -165,18 +116,17 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
             });
           },
           codeAutoRetrievalTimeout: (verificationId) async {
-            print("777777777777777777777");
           },
         );
       }
     }
     void onpressed_code () async {
-     PhoneAuthCredential phoneAuthCredential =
-     PhoneAuthProvider.credential(
-         verificationId: verificationId, smsCode: otpController.text);
+      PhoneAuthCredential phoneAuthCredential =
+      PhoneAuthProvider.credential(
+          verificationId: verificationId, smsCode: otpController.text);
 
-     signInWithPhoneAuthCredential(phoneAuthCredential);
-   }
+      signInWithPhoneAuthCredential(phoneAuthCredential);
+    }
     ///---------------------------------------------------------------------
     getMobileFormWidget(context) {
       return  Stack(
@@ -200,7 +150,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                     colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
                   )
               ),
-               child: new BackdropFilter(
+              child: new BackdropFilter(
                 filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 1.0),
                 child: new Container(
                   decoration: new BoxDecoration(color:  HexColor("#2C2B69").withOpacity(0.02)),
@@ -212,71 +162,22 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                         child: IconButton( onPressed: (){},
                           icon:Icon(Icons.arrow_back) ,color: Colors.white,),
                       ),
-                      SizedBox(height: screenHeight*0.07,),
-                      Text('Enter your phone number:',
-                          style: TextStyle(
-                              color: Colors.white, fontSize: 15.0 )),
-                      SizedBox(height: screenHeight*0.06,),
-                      Padding(
-                        padding: const EdgeInsets.only(left:20.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Align(
-                              alignment:Alignment.bottomCenter,
-                              child: DropdownButton(
-                                style: TextStyle(color: Colors.white, fontSize: 15),
-                                value: dropdownvalue,
-                                icon: Icon(Icons.keyboard_arrow_down),
-                                items:items.map((String items) {
-                                  return DropdownMenuItem(
-                                      value: items,
-                                      child: Text(items)
-                                  );
-                                }
-                                ).toList(),
-                                onChanged: (String newValue){
-                                  setState(() {
-                                    dropdownvalue = newValue;
-                                    code_country=newValue;
-                                  });
-                                },
-                              ),
-                            ),
-                            SizedBox(width: screenWidth*0.04,),
-                            Form(
-                              key:formKey,
-                              child: SizedBox(
-                                width: 0.56* screenWidth,
-                                child: TextFormField(
-                                  style: TextStyle(color: Colors.white),
-                                  controller: phoneController,
-                                  decoration: InputDecoration(
-                                    hintText: 'phone number',
-                                    hintStyle:TextStyle(color: Colors.white) ,
+                      SizedBox(height: screenHeight*0.04,),
+                           Text('Your Phone Number is: '  ,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20.0 )),
+                      SizedBox(height: screenHeight*0.01,),
+                           Text( widget.user_phoneNumber,
+                               style: TextStyle(
+                                   color: Colors.amber, fontSize: 20.0 )),
 
-                                  ),
-                                  onChanged: (val) {
-                                    setState(() {
-                                      myphoneNumber= phoneController.text;
-                                    });
-
-                                  },
-                                  validator: (val) {
-                                    if(val.isEmpty){return "Please fill in your Phone Number";}
-                                    final number = num.tryParse(val);
-                                    if (number == null) {
-                                      return "Invalid phone number!";
-                                    }
-                                    if(val.length != 11  ){return "Phone number must be 11 digits!";}
-                                    return null;
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      SizedBox(height: screenHeight*0.02,),
+                      Flexible(
+                        child: Text(" click Verify to send verification code to your phone number",
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 18.0 )),
                       ),
+
                       SizedBox(height: screenHeight*0.5,),
 
                     ],
@@ -289,7 +190,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
         ],
       );
     }
-///-------------------------------------------------------
+    ///-------------------------------------------------------
     ///
     getOtpFormWidget(context) {
       return  Stack(
@@ -370,7 +271,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                             )
                           ],
                           onCompleted: (v) {
-                         //  is_disabled=false;
+                            //  is_disabled=false;
                           }
                       ),
                     ),
@@ -383,43 +284,43 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
       );
     }
     return Scaffold(
-        key: _scaffoldKey,
-        body: Container(
-          width: screenWidth,
-          height: screenHeight,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  HexColor("#2C2B69"),
-                  HexColor("#121212"),
-                ],
-              ),
-              image: DecorationImage(
-                image: AssetImage("assets/images/splash_bg_no_cairo.png"),
-                fit: BoxFit.cover,
-                colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
-              )
-          ),
-          child: showLoading
-              ? Center(
-            child: CircularProgressIndicator(),
-          )
-              : currentState == MobileVerificationState.SHOW_MOBILE_FORM_STATE
-              ? getMobileFormWidget(context)
-              : getOtpFormWidget(context),
-          padding: const EdgeInsets.all(16),
+      key: _scaffoldKey,
+      body: Container(
+        width: screenWidth,
+        height: screenHeight,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                HexColor("#2C2B69"),
+                HexColor("#121212"),
+              ],
+            ),
+            image: DecorationImage(
+              image: AssetImage("assets/images/splash_bg_no_cairo.png"),
+              fit: BoxFit.cover,
+              colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
+            )
         ),
-        bottomNavigationBar:      SizedBox(
-          width: screenWidth,
-          height: 0.09 * screenHeight,
-          child: RaisedButton(
-              color: HexColor("#FFBB00"),
-              onPressed:
-               currentState == MobileVerificationState.SHOW_MOBILE_FORM_STATE ? onpressed_phone:onpressed_code,
-            child:   Text(' Next', style: TextStyle( color: Colors.white, fontSize: 20.0 )),),
-    ),
+        child: showLoading
+            ? Center(
+          child: CircularProgressIndicator(),
+        )
+            : currentState == MobileVerificationState.SHOW_MOBILE_FORM_STATE
+            ? getMobileFormWidget(context)
+            : getOtpFormWidget(context),
+        padding: const EdgeInsets.all(16),
+      ),
+      bottomNavigationBar:      SizedBox(
+        width: screenWidth,
+        height: 0.09 * screenHeight,
+        child: RaisedButton(
+          color: HexColor("#FFBB00"),
+          onPressed:
+          currentState == MobileVerificationState.SHOW_MOBILE_FORM_STATE ? onpressed_phone:onpressed_code,
+          child:   Text('Verify', style: TextStyle( color: Colors.white, fontSize: 20.0 )),),
+      ),
     );
   }
 }
