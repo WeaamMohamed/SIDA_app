@@ -130,7 +130,7 @@ class _NamePageState extends State<NamePage> {
           {
            // ref.child('Users').push().child(phoneController.text).update({'Name':controller.text});
          //   ref.child('User').push().child('Name').set(controller.text).asStream();
-            ref.update({'Name': controller.text });
+            ref.child(widget.user_phoneNumber).update({'Name': controller.text });
 
             Navigator.push(context, MaterialPageRoute(
                 builder: (BuildContext context) => TermsPage(widget.user_phoneNumber)));

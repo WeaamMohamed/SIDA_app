@@ -94,7 +94,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           showLoading = true;
         });
         await _auth.verifyPhoneNumber(
-          phoneNumber: phoneController.text,
+          phoneNumber: widget.user_phoneNumber,
           verificationCompleted: (phoneAuthCredential) async {
             setState(() {
               showLoading = false;
@@ -317,8 +317,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         height: 0.09 * screenHeight,
         child: RaisedButton(
           color: HexColor("#FFBB00"),
-          onPressed:
-          currentState == MobileVerificationState.SHOW_MOBILE_FORM_STATE ? onpressed_phone:onpressed_code,
+          onPressed: currentState == MobileVerificationState.SHOW_MOBILE_FORM_STATE ? onpressed_phone:onpressed_code,
           child:   Text('Verify', style: TextStyle( color: Colors.white, fontSize: 20.0 )),),
       ),
     );

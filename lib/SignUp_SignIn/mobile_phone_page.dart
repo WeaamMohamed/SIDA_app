@@ -32,20 +32,8 @@ class PhoneNumberPage extends StatefulWidget {
 
 class _PhoneNumberPageState extends State<PhoneNumberPage> {
 
-  @override
-  void initState(){
-    super.initState();
-    _activateListeners();
-  }
-  void  _activateListeners(){
-    database.reference().child('Users').once().then((snapshot) {
 
-    }
-    );
-
-  }
   //final fb =FirebaseDatabase.instance;
-
   MobileVerificationState currentState =
       MobileVerificationState.SHOW_MOBILE_FORM_STATE;
 
@@ -57,7 +45,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
   var formKey = GlobalKey<FormState>();
 
   final  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  String phone_number;
+  //String phone_number;
 
   void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) async {
 
@@ -108,31 +96,28 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
      // final form= formKey.currentState;
     //  if(form.validate())
       {
-
         try {
-          await ref.once().then((DataSnapshot snapshot) {
-           // print(snapshot.value);
-            Map<dynamic, dynamic> values = snapshot.value;
-            values.forEach((key, data) {
-              if (myphoneNumber == values['Phonenumber'])
+          await ref.child(phoneController.text).once().then((DataSnapshot snapshot) async {
+            print("mapppppppp");
+            print(snapshot.value);
+            print(snapshot.value['Phonenumber']);
+            if ( snapshot.value != null)
               {
-                /// alreday exists in database navigate to sign in screen
-                /// print(values['Phonenumber']);
+                print("++++++++++++++");
                 is_exists =true;
                 Navigator.push(context, MaterialPageRoute(
                     builder: (BuildContext context) => SignIn(myphoneNumber)));
-
               }
-            });
           });
+
         }
         catch(e)
-      { print("you got error: $e");}
+        { print("you got error: $e");}
 
-          if ( is_exists )
+        if ( is_exists )
             return;
         /// else : store in database and send verfication code
-        ref.set({'Phonenumber': phoneController.text , 'Password':'' , 'Name' :''});
+        ref.child(phoneController.text).set({'Phonenumber': phoneController.text , 'Password':'' , 'Name' :''});
 
         setState(() {
           print("2222222222222");

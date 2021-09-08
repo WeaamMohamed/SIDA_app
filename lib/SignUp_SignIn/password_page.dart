@@ -162,7 +162,7 @@ class _passWordState extends State<passWord> {
           if(form.validate())
           {
 
-           ref.update({'Password': mypassword });
+           ref.child(widget.user_phoneNumber).update({'Password': mypassword });
             Navigator.push(context, MaterialPageRoute(
                 builder: (BuildContext context) => NamePage(widget.user_phoneNumber)));
           }
