@@ -20,6 +20,7 @@ void main() async
 }
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AppData>(
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Google Map Place Picker',
   //    home: PickerPage(),
-        home: PhoneNumberPage(),
+        home:PhoneNumberPage(),
       ),
     );
   }
