@@ -1,9 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:sida_app/SignUp_SignIn/mobile_phone_page.dart';
 import 'package:sida_app/screens/SplashScreen.dart';
 import 'localization/app_localization.dart';
 
-void main() {
+void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -64,7 +69,7 @@ class _MyAppState extends State<MyApp>
         return supportedLocales.first;
       } ,
 
-      home: SplashScreen(),
+      home: PhoneNumberPage(),
     );
   }
 }

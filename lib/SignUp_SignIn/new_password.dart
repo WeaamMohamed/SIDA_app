@@ -98,7 +98,7 @@ class _NewPasswordState extends State<NewPassword> {
                   ],
                 ),
                 image: DecorationImage(
-                  image: AssetImage('assets/images/splash_bg_no_cairo.png'),
+                  image: AssetImage('assets/images/splash_bg_opacity.png'),
                   fit: BoxFit.cover,
                   colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
                 )
@@ -153,9 +153,12 @@ class _NewPasswordState extends State<NewPassword> {
             final form= formKey.currentState;
             if(form.validate())
             {
+              print("------------------");
+              print(widget.user_phoneNumber);
               ref.child(widget.user_phoneNumber).update({'Password': mypassword });
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (BuildContext context) => HomeScreen()));
+
+             // Navigator.push(context, MaterialPageRoute(
+                //  builder: (BuildContext context) => HomeScreen()));
             }
           },
           child:   Text('OK',

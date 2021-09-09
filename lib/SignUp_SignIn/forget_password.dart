@@ -59,7 +59,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       });
 
       if(authCredential?.user != null){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> NewPassword(myphoneNumber)));
+        print("*********************************?");
+        print(widget.user_phoneNumber);
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> NewPassword(widget.user_phoneNumber)));
       }
 
     } on FirebaseAuthException catch (e) {
@@ -145,7 +147,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     ],
                   ),
                   image: DecorationImage(
-                    image: AssetImage("assets/images/splash_bg_no_cairo.png"),
+                    image: AssetImage("assets/images/splash_bg_opacity.png"),
                     fit: BoxFit.cover,
                     colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
                   )
@@ -206,7 +208,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   ],
                 ),
                 image: DecorationImage(
-                  image: AssetImage("assets/images/splash_bg_no_cairo.png"),
+                  image: AssetImage("assets/images/splash_bg_opacity.png"),
                   fit: BoxFit.cover,
                   colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
                 )
@@ -298,7 +300,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               ],
             ),
             image: DecorationImage(
-              image: AssetImage("assets/images/splash_bg_no_cairo.png"),
+              image: AssetImage("assets/images/splash_bg_opacity.png"),
               fit: BoxFit.cover,
               colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
             )

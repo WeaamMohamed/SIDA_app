@@ -93,8 +93,8 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
 
     void onpressed_phone () async
     {
-     // final form= formKey.currentState;
-    //  if(form.validate())
+      final form= formKey.currentState;
+     if(form.validate())
       {
         try {
           await ref.child(myphoneNumber).once().then((DataSnapshot snapshot) async {
@@ -121,8 +121,6 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
         print(is_exists);
         if ( is_exists )
             return;
-
-
 
         setState(() {
           print("2222222222222");
@@ -172,28 +170,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
         children: [
           SingleChildScrollView(
             child: Container(
-              width: screenWidth,
-              height: screenHeight,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      HexColor("#2C2B69"),
-                      HexColor("#121212"),
-                    ],
-                  ),
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/splash_bg_no_cairo.png"),
-                    fit: BoxFit.cover,
-                    colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
-                  )
-              ),
-               child: new BackdropFilter(
-                filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 1.0),
-                child: new Container(
-                  decoration: new BoxDecoration(color:  HexColor("#2C2B69").withOpacity(0.02)),
-                  child:  Column(
+               child:   Column(
                     children: [
                       SizedBox(height: screenHeight*0.05,),
                       Align(
@@ -218,10 +195,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                                 value: dropdownvalue,
                                 icon: Icon(Icons.keyboard_arrow_down),
                                 items:items.map((String items) {
-                                  return DropdownMenuItem(
-                                      value: items,
-                                      child: Text(items)
-                                  );
+
                                 }
                                 ).toList(),
                                 onChanged: (String newValue){
@@ -257,7 +231,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                                     if (number == null) {
                                       return "Invalid phone number!";
                                     }
-                                    if(val.length != 11  ){return "Phone number must be 11 digits!";}
+                                    if(val.length !=  10  ){return "Invalid phone number, type your number without +20";}
                                     return null;
                                   },
                                 ),
@@ -267,14 +241,10 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                         ),
                       ),
                       SizedBox(height: screenHeight*0.5,),
-
                     ],
-                  ),
-                ),
               ),
             ),
           ),
-
         ],
       );
     }
@@ -284,25 +254,6 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
       return  Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                    HexColor("#2C2B69"),
-                    HexColor("#121212"),
-                  ],
-                ),
-                image: DecorationImage(
-                  image: AssetImage("assets/images/splash_bg_no_cairo.png"),
-                  fit: BoxFit.cover,
-                  colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
-                )
-            ),
-            child: new BackdropFilter(
-              filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 1.0),
-              child: new Container(
-                decoration: new BoxDecoration(color:  HexColor("#2C2B69").withOpacity(0.02)),
                 child:  Column(
                   children: [
                     SizedBox(height: screenHeight*0.05,),
@@ -366,8 +317,8 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                   ],
                 ),
               ),
-            ),
-          ),
+
+
         ],
       );
     }
@@ -377,18 +328,9 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
           width: screenWidth,
           height: screenHeight,
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  HexColor("#2C2B69"),
-                  HexColor("#121212"),
-                ],
-              ),
               image: DecorationImage(
-                image: AssetImage("assets/images/splash_bg_no_cairo.png"),
+                image: AssetImage("assets/images/splash_bg_opacity.png"),
                 fit: BoxFit.cover,
-                colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
               )
           ),
           child: showLoading
