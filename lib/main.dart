@@ -1,13 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'SignUp_SignIn/mobile_phone_page.dart';
-import 'screens/splash_screen/FirstSplash.dart';
 import 'package:provider/provider.dart';
-import 'package:sida_app/screens/home_screen.dart';
-import 'package:sida_app/shared/data_handler/app_data.dart';
-
-import 'SignUp_SignIn/Name_page.dart';
-import 'SignUp_SignIn/password_page.dart';
+import 'shared/data_handler/data_provider.dart';
 
 
 void main() async
@@ -23,8 +19,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<AppData>(
-      create: (context) => AppData(),
+    return MultiProvider(
+      providers:[
+        Provider<DataProvider>(create: (_) => DataProvider()),
+        Provider<MapProvider>(create: (_) => MapProvider()),
+      ],
       child: MaterialApp(
 
         debugShowCheckedModeBanner: false,
