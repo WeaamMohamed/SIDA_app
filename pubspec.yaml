@@ -34,6 +34,7 @@ dependencies:
   http: ^0.12.0+4
   rate_my_app: ^1.1.1
   flutter_rating_bar: ^4.0.0
+  toggle_switch: ^0.1.8
 
 
 dependency_overrides:
@@ -55,16 +56,8 @@ flutter:
   fonts:
     - family: Spoqa Han Sans Neo
       fonts:
-        - asset: assets/fonts/SpoqaHanSansNeo-Thin.ttf
-        - asset: assets/fonts/SpoqaHanSansNeo-Light.ttf
         - asset: assets/fonts/SpoqaHanSansNeo-Regular.ttf
-        - asset: assets/fonts/SpoqaHanSansNeo-Medium.ttf
         - asset: assets/fonts/SpoqaHanSansNeo-Bold.ttf
-    - family: Spoqa Han Sans Neo Regular
-      fonts:
-        - asset: assets/fonts/SpoqaHanSansNeo-Regular.ttf
-    - family: Spoqa Han Sans Neo Bold
-      fonts:
-        - asset: assets/fonts/SpoqaHanSansNeo-Bold.ttf
+        weight: 700
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

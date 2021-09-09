@@ -1,14 +1,10 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:sida_app/screens/SplashScreen.dart';
-import 'SignUp_SignIn/mobile_phone_page.dart';
 import 'localization/app_localization.dart';
+import 'localization/home_page copy.dart';
 
-void main() async {
+void main() {
   runApp(MyApp());
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
 }
 
 class MyApp extends StatefulWidget
@@ -40,6 +36,7 @@ class _MyAppState extends State<MyApp>
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'SIDA - Egyptian Ride Hailing App',
+      theme: ThemeData(fontFamily: 'Spoqa Han Sans Neo'),
 
       locale: _locale,
 
@@ -68,7 +65,7 @@ class _MyAppState extends State<MyApp>
         return supportedLocales.first;
       } ,
 
-      home: PhoneNumberPage(),
+      home: HomePage(),
     );
   }
 }

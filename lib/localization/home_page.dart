@@ -1,15 +1,15 @@
 // import 'package:flutter/material.dart';
 // import 'package:sida_app/localization/localization_method.dart';
 // import 'package:sida_app/localization/language.dart';
-//
+
 // import '../main.dart';
-//
+
 // class HomePage extends StatefulWidget
 // {
 //   @override
 //   _HomePageState createState() => _HomePageState();
 // }
-//
+
 // class _HomePageState extends State<HomePage>
 // {
 //   @override
@@ -18,7 +18,7 @@
 //     return Scaffold(
 //       drawer: _drawerList(),
 //       appBar: AppBar(
-//         title: Text(translate(context,'home_page')),
+//         title: Text(translate(context,'splash_first')),
 //         actions: <Widget>[
 //           Padding(padding: EdgeInsets.all(8),
 //           child: DropdownButton(underline: SizedBox(),
@@ -46,7 +46,7 @@
 //       body: Container(padding: EdgeInsets.all(20),child: _mainForm(context)),
 //     );
 //   }
-//
+
 //   Form _mainForm(BuildContext context) {
 //     return Form(//key: _Key,
 //     child: Column(children: <Widget>[
@@ -62,9 +62,9 @@
 //         ),
 //       )
 //     ],));
-//
+
 //   }
-//
+
 //   Container _drawerList(){
 //     TextStyle _textStyle = TextStyle(color: Colors.white,
 //     fontSize:24);
@@ -77,10 +77,10 @@
 //           DrawerHeader(child: Container(height: 100,
 //           child: CircleAvatar(),),),
 //         ]),
-//
+
 //     );
 //   }
-//
+
 //   void _changeLanguage(Language lang) {
 //     Locale _temp;
 //     switch(lang.languageCode)
@@ -94,8 +94,8 @@
 //       default:
 //         _temp = Locale('en', 'US');
 //       break;
-//
-//
+
+
 //     }
 //     MyApp.setLocale(context, _temp);
 //   }

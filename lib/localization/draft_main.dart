@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'package:sida_app/screens/SplashScreen.dart';
 // import 'localization/app_localization.dart';
+// import 'localization/home_page copy.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -36,6 +36,7 @@
 //     return MaterialApp(
 //       debugShowCheckedModeBanner: false,
 //       title: 'SIDA - Egyptian Ride Hailing App',
+//       theme: ThemeData(fontFamily: 'Spoqa Han Sans Neo'),
 
 //       locale: _locale,
 
@@ -64,7 +65,7 @@
 //         return supportedLocales.first;
 //       } ,
 
-//       home: SplashScreen(),
+//       home: HomePage(),
 //     );
 //   }
 // }
