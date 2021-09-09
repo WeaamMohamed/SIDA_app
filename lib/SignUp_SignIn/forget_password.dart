@@ -48,6 +48,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   String phone_number;
 
   void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) async {
+    print("=====================================================");
+    print(widget.user_phoneNumber);
     setState(() {
       showLoading = true;
     });
@@ -59,7 +61,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       });
 
       if(authCredential?.user != null){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> NewPassword(myphoneNumber)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> NewPassword(widget.user_phoneNumber)));
       }
 
     } on FirebaseAuthException catch (e) {
