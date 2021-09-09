@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
-import '/screens/home_screen.dart';
+import 'package:sida_app/screens/home_screen.dart';
 import 'custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';

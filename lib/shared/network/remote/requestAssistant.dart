@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:sida_app/models/direction_details_model.dart';
 import 'package:sida_app/shared/components/constants.dart';
 import 'package:sida_app/models/address_model.dart';
-import 'package:sida_app/shared/data_handler/app_data.dart';
+import 'package:sida_app/shared/data_handler/map_provider.dart';
 
 //For  reverse geocoding
 class RequestAssistant
@@ -78,7 +78,7 @@ class RequestAssistant
         userPickUpAddress.placeName = placeAddress;
 
 
-        Provider.of<AppData>(context, listen: false).updatePickUpLocationAddress(userPickUpAddress);
+        Provider.of<MapProvider>(context, listen: false).updatePickUpLocationAddress(userPickUpAddress);
 
         print("Place Name : " +userPickUpAddress.placeName);
         print("Place address : " +placeAddress);

@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:sida_app/models/direction_details_model.dart';
 import 'package:sida_app/screens/where_to_screen.dart';
 import 'package:sida_app/shared/components/components.dart';
-import 'package:sida_app/shared/data_handler/app_data.dart';
+import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'package:sida_app/widgets/home_drawer.dart';
 import 'package:sida_app/widgets/select_and_confirm_ride.dart';
 import 'package:sida_app/shared/network/remote/assistantMethods.dart';
@@ -18,6 +18,7 @@ import 'package:sida_app/shared/network/remote/requestAssistant.dart';
 import '../shared/network/remote/assistantMethods.dart';
 import '../shared/network/remote/requestAssistant.dart';
 
+import 'package:sida_app/shared/data_handler/data_provider.dart';
 //TODO: convert to stateles
 class HomeScreen extends StatefulWidget {
   @override
@@ -45,7 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final providerData = Provider.of<AppData>(context);
+    final mapProvider = Provider.of<MapProvider>(context);
+    final dataProvider = Provider.of<DataProvider>(context);
 
     Size mqSize = MediaQuery.of(context).size;
 
@@ -65,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
       CameraPosition cameraPosition =
       new CameraPosition(target: userLatLangPosition, zoom: 17);
 
-      providerData.newGoogleMapController
+      mapProvider.newGoogleMapController
           .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
 
@@ -110,12 +112,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 tiltGesturesEnabled: true,
                 zoomControlsEnabled: false,
                 compassEnabled: false,
-                polylines: providerData.polylineSet,
+                polylines: mapProvider.polylineSet,
                 // markers: markersSet,
                 // circles: circlesSet,
                 onMapCreated: (GoogleMapController controller) {
                   _controllerGoogleMap.complete(controller);
-                  providerData.newGoogleMapController = controller;
+                  mapProvider.newGoogleMapController = controller;
                   locatePosition();
 
                   //  locatePosition();
@@ -128,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
               //menu button
               _buildMenuButton(),
 
-              if(providerData.homeStatus == HomeStatus.INITIAL) Positioned(
+              if(dataProvider.homeStatus == HomeStatus.INITIAL) Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
@@ -146,8 +148,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           context: context,
                           //TODO: add your pick up location
                           title:
-                          providerData.userPickUpLocation != null?
-                          providerData.userPickUpLocation.placeName:
+                          mapProvider.userPickUpLocation != null?
+                          mapProvider.userPickUpLocation.placeName:
                           "Loading Pickup address...",
 
                           // "El-Tahrir Square, Qasr El N aaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaa",
@@ -176,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-              if(providerData.homeStatus == HomeStatus.GET_DIRECTIONS)Positioned(
+              if(dataProvider.homeStatus == HomeStatus.SELECT_AND_CONFIRM_RIDE)Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
