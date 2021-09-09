@@ -97,10 +97,8 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
     //  if(form.validate())
       {
         try {
-          await ref.child(phoneController.text).once().then((DataSnapshot snapshot) async {
-            print("mapppppppp");
-            print(snapshot.value);
-            print(snapshot.value['Phonenumber']);
+          await ref.child(myphoneNumber).once().then((DataSnapshot snapshot) async {
+
             if ( snapshot.value != null)
               {
                 print("++++++++++++++");
@@ -108,16 +106,23 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (BuildContext context) => SignIn(myphoneNumber)));
               }
+            else
+              {
+                ref.child(myphoneNumber).set({'Phonenumber': myphoneNumber , 'Password':'' , 'Name' :''});
+              }
+
           });
 
         }
         catch(e)
         { print("you got error: $e");}
 
+        /// if already stored in data base leave the function no need to send verification code
+        print(is_exists);
         if ( is_exists )
             return;
-        /// else : store in database and send verfication code
-        ref.child(phoneController.text).set({'Phonenumber': phoneController.text , 'Password':'' , 'Name' :''});
+
+
 
         setState(() {
           print("2222222222222");
@@ -125,7 +130,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
         });
         print("&&&&&&&&&&&&");
         await _auth.verifyPhoneNumber(
-          phoneNumber: phoneController.text,
+          phoneNumber: '+20'+myphoneNumber,
           verificationCompleted: (phoneAuthCredential) async {
             print("33333333");
             setState(() {
@@ -159,7 +164,6 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
      PhoneAuthCredential phoneAuthCredential =
      PhoneAuthProvider.credential(
          verificationId: verificationId, smsCode: otpController.text);
-
      signInWithPhoneAuthCredential(phoneAuthCredential);
    }
     ///---------------------------------------------------------------------
