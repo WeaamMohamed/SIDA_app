@@ -36,13 +36,11 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalization>
 
   @override
   bool isSupported(Locale locale) {
-    // TODO: implement isSupported
     return ['en', 'ar'].contains(locale.languageCode);
   }
 
   @override
   Future<AppLocalization> load(Locale locale) async {
-    // TODO: implement load
     AppLocalization localization = new AppLocalization(locale);
     await localization.load();
     return localization;
@@ -50,7 +48,6 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalization>
 
   @override
   bool shouldReload(LocalizationsDelegate<AppLocalization> old) {
-    // TODO: implement shouldReload
     return false;
   }
 }
