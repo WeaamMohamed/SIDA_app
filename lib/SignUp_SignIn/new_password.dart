@@ -153,9 +153,7 @@ class _NewPasswordState extends State<NewPassword> {
             final form= formKey.currentState;
             if(form.validate())
             {
-              print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-              print(widget.user_phoneNumber);
-             ref.child(widget.user_phoneNumber).update({'Password': mypassword });
+              ref.child(widget.user_phoneNumber).update({'Password': mypassword });
               Navigator.push(context, MaterialPageRoute(
                   builder: (BuildContext context) => HomeScreen()));
             }
