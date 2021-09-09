@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'package:sida_app/localization/app_localization.dart';
-// import 'package:sida_app/screens/splash_screen/SplashScreen.dart';
+// import 'package:sida_app/screens/SplashScreen.dart';
+// import 'localization/app_localization.dart';
 
 // void main() {
 //   runApp(MyApp());

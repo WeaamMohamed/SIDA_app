@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:adobe_xd/pinned.dart';
 import 'Signing.dart';
-import 'package:sida_app/localization/app_localization.dart';
 import 'package:sida_app/localization/localization_method.dart';
 import 'package:adobe_xd/page_link.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -127,7 +126,7 @@ class SplashScreen extends StatelessWidget {
                                             ),
                                           ),
                                           Pinned.fromPins(
-                                            Pin(size: 29.0, start: 10.5),
+                                            Pin(size: 35.0, start: 10.5),
                                             Pin(size: 21.0, start: 0.0),
                                             child: Text(
                                               '+20',
@@ -161,7 +160,7 @@ class SplashScreen extends StatelessWidget {
                                             ),
                                           ),
                                           Pinned.fromPins(
-                                            Pin(size: 119.0, start: 9.5),
+                                            Pin(size: 130.0, start: 9.5),
                                             Pin(size: 21.0, start: 0.0),
                                             child: Text(
                                               translate(context,'splash_third'),
