@@ -83,12 +83,6 @@ class _NewPasswordState extends State<NewPassword> {
     final screenHeight= MediaQuery.of(context).size.height;
     final screenWidth= MediaQuery.of(context).size.width;
     bool showPassword = false;
-    @override
-    void dispose() {
-      passwordController.dispose();
-      super.dispose();
-    }
-
     return Scaffold(
 
       body:Stack(

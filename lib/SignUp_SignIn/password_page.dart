@@ -29,7 +29,7 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
   @override
   Widget build(BuildContext context) => TextFormField(
     controller: widget.controller,
-    style: TextStyle( color: Colors.white, fontFamily: 'spoqa',fontSize: 20),
+    style: TextStyle( color: Colors.white ,fontSize: 20),
     obscureText: isHidden,
     decoration: InputDecoration(
       hintText: 'Password',
@@ -85,11 +85,7 @@ class _passWordState extends State<passWord> {
     final screenHeight= MediaQuery.of(context).size.height;
     final screenWidth= MediaQuery.of(context).size.width;
     bool showPassword = false;
-    @override
-    void dispose() {
-      passwordController.dispose();
-      super.dispose();
-    }
+
 
     return Scaffold(
 

@@ -94,7 +94,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           showLoading = true;
         });
         await _auth.verifyPhoneNumber(
-          phoneNumber: widget.user_phoneNumber,
+          phoneNumber: '+20'+ widget.user_phoneNumber,
           verificationCompleted: (phoneAuthCredential) async {
             setState(() {
               showLoading = false;
@@ -163,7 +163,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           icon:Icon(Icons.arrow_back) ,color: Colors.white,),
                       ),
                       SizedBox(height: screenHeight*0.04,),
-                           Text('Your Phone Number is: '  ,
+                           Text('Your Phone Number is: +20'  ,
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 20.0 )),
                       SizedBox(height: screenHeight*0.01,),
