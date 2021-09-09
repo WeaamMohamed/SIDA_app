@@ -63,7 +63,7 @@ class SplashScreen extends StatelessWidget {
                               child: Text.rich(
                                 TextSpan(
                                   style: TextStyle(
-                                    fontFamily: 'Spoqa Han Sans Neo',
+                                    fontFamily: 'Spoqa Han Sans Neo Regular',
                                     fontSize: 14,
                                     color: const Color(0xffffffff),
                                   ),
@@ -132,7 +132,7 @@ class SplashScreen extends StatelessWidget {
                                               '+20',
                                               style: TextStyle(
                                                 fontFamily:
-                                                    'Spoqa Han Sans Neo',
+                                                    'Spoqa Han Sans Neo Bold',
                                                 fontSize: 16,
                                                 color: const Color(0xccffffff),
                                                 fontWeight: FontWeight.w700,
@@ -166,7 +166,7 @@ class SplashScreen extends StatelessWidget {
                                               translate(context,'splash_third'),
                                               style: TextStyle(
                                                 fontFamily:
-                                                    'Spoqa Han Sans Neo',
+                                                    'Spoqa Han Sans Neo Regular',
                                                 fontSize: 17,
                                                 color: const Color(0xff9fa0b1),
                                               ),
