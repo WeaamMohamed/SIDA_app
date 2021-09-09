@@ -42,6 +42,7 @@ class AssistantMethods{
   }
 
   static void saveRideRequest({context}){
+    //
 
      rideRequestRef = FirebaseDatabase.instance.reference().child("Ride_Requests").push();
 
