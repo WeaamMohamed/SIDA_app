@@ -19,6 +19,7 @@ import '../shared/network/remote/assistantMethods.dart';
 import '../shared/network/remote/requestAssistant.dart';
 
 import 'package:sida_app/shared/data_handler/data_provider.dart';
+//TODO: convert to stateles
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
