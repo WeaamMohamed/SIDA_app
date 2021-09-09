@@ -93,8 +93,8 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
 
     void onpressed_phone () async
     {
-     // final form= formKey.currentState;
-    //  if(form.validate())
+      final form= formKey.currentState;
+     if(form.validate())
       {
         try {
           await ref.child(myphoneNumber).once().then((DataSnapshot snapshot) async {
@@ -184,7 +184,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                     ],
                   ),
                   image: DecorationImage(
-                    image: AssetImage("assets/images/splash_bg_no_cairo.png"),
+                    image: AssetImage("assets/images/splash_bg_opacity.png"),
                     fit: BoxFit.cover,
                     colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
                   )
@@ -257,7 +257,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                                     if (number == null) {
                                       return "Invalid phone number!";
                                     }
-                                    if(val.length != 11  ){return "Phone number must be 11 digits!";}
+                                    if(val.length != 10  ){return "Invalid Phone number";}
                                     return null;
                                   },
                                 ),
@@ -294,7 +294,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                   ],
                 ),
                 image: DecorationImage(
-                  image: AssetImage("assets/images/splash_bg_no_cairo.png"),
+                  image: AssetImage("assets/images/splash_bg_opacity.png"),
                   fit: BoxFit.cover,
                   colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
                 )
@@ -386,7 +386,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                 ],
               ),
               image: DecorationImage(
-                image: AssetImage("assets/images/splash_bg_no_cairo.png"),
+                image: AssetImage("assets/images/splash_bg_opacity.png"),
                 fit: BoxFit.cover,
                 colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
               )
