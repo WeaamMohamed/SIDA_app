@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sida_app/screens/home_screen.dart';
 import 'Name_page.dart';
 import 'mobile_phone_page.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +15,7 @@ class PasswordFieldWidget extends StatefulWidget {
   final TextEditingController controller;
   const PasswordFieldWidget({
     Key key,
-  this.controller,
+    this.controller,
 
   }) : super(key: key);
 
@@ -61,27 +62,24 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
 }
 ///------------------------------
 /// main class of the page:
-class passWord extends StatefulWidget {
+class NewPassword extends StatefulWidget {
 
   final String user_phoneNumber;
-  passWord(  this.user_phoneNumber,{Key key}):super(key: key);
+  NewPassword(  this.user_phoneNumber,{Key key}):super(key: key);
 
   @override
-  _passWordState createState() => _passWordState();
+  _NewPasswordState createState() => _NewPasswordState();
 }
 
-class _passWordState extends State<passWord> {
+class _NewPasswordState extends State<NewPassword> {
 
 
   bool isdisabled= true;
   final formKey = GlobalKey<FormState>();
 
-
   final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-
-
     final screenHeight= MediaQuery.of(context).size.height;
     final screenWidth= MediaQuery.of(context).size.width;
     bool showPassword = false;
@@ -132,7 +130,7 @@ class _passWordState extends State<passWord> {
 
                 SizedBox(height: 0.05 * screenHeight),
                 Center(
-                  child: Text('Enter your password:',
+                  child: Text('Enter your New password:',
                       style: TextStyle(
                           color: Colors.white, fontSize: 18.0, fontFamily: 'spoqa_han_sans')),
                 ),
@@ -152,25 +150,24 @@ class _passWordState extends State<passWord> {
         ],
       ),
       bottomNavigationBar:   SizedBox(
-      width: screenWidth,
-      height: 0.09* screenHeight,
-      child: RaisedButton(
-        color: HexColor("#FFBB00"),
-        onPressed:() async
-        {
-          final form= formKey.currentState;
-          if(form.validate())
+        width: screenWidth,
+        height: 0.09* screenHeight,
+        child: RaisedButton(
+          color: HexColor("#FFBB00"),
+          onPressed:() async
           {
-
-           ref.child(widget.user_phoneNumber).update({'Password': mypassword });
-            Navigator.push(context, MaterialPageRoute(
-                builder: (BuildContext context) => NamePage(widget.user_phoneNumber)));
-          }
-        },
-        child:   Text(' Next',
-            style: TextStyle(
-                color: Colors.white, fontSize: 20.0 )),),
-    ),
+            final form= formKey.currentState;
+            if(form.validate())
+            {
+              ref.child(widget.user_phoneNumber).update({'Password': mypassword });
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (BuildContext context) => HomeScreen()));
+            }
+          },
+          child:   Text('OK',
+              style: TextStyle(
+                  color: Colors.white, fontSize: 20.0 )),),
+      ),
 
 
 

@@ -15,11 +15,27 @@
       },
       "oauth_client": [
         {
-          "client_id": "644827566218-otvdnrtml2e3m8s012kmc6ekncprmt7d.apps.googleusercontent.com",
+          "client_id": "644827566218-1gedn2tcb0lg50n12m7n7l4upeamoe5k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.sida_app",
             "certificate_hash": "a3bace1d60597da1cf2f1ca2d96cf8f6f003341e"
+          }
+        },
+        {
+          "client_id": "644827566218-7d6fpnmsd877sst28nnfg281l7gtjoqc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sida_app",
+            "certificate_hash": "ea04d536406bb29599d138d1250fa2fa73c4cf74"
+          }
+        },
+        {
+          "client_id": "644827566218-kkqoh7hg64069atpq82rsd4jvhq2i43i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sida_app",
+            "certificate_hash": "b8c7d406698eb842b1da3463e87f2c681fe014d5"
           }
         },
         {
