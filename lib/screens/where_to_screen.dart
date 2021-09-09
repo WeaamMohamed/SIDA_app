@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:sida_app/shared/data_handler/app_data.dart';
+import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'package:sida_app/shared/styles/colors.dart';
 import 'package:sida_app/screens/seach_screen.dart';
 import 'package:sida_app/screens/picker_screen.dart';
@@ -92,7 +92,7 @@ class _WhereToScreenState extends State<WhereToScreen> {
                               child: Text(
                                 //  "El-Tahrir Square, ..."
                                 Provider
-                                    .of<AppData>(context)
+                                    .of<MapProvider>(context)
                                     .userPickUpLocation
                                     .placeName,
                                 style: TextStyle(
@@ -139,7 +139,7 @@ class _WhereToScreenState extends State<WhereToScreen> {
                                 //TODO: GO TO search for destination
 
 
-                                Provider.of<AppData>(context, listen: false).autoCompletePredictionsList = [];
+                                Provider.of<MapProvider>(context, listen: false).autoCompletePredictionsList = [];
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchScreen()));
 
                                 // getAutoCompleteResult("mit");
