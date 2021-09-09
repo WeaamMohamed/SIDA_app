@@ -1,12 +1,12 @@
 // import 'package:flutter/material.dart';
-// import 'package:sida_app/screens/splash_screen/FirstSplash.dart';
 // import 'package:flutter_localizations/flutter_localizations.dart';
-// //import 'localization/app_localization.dart';
-//
+// import 'package:sida_app/localization/app_localization.dart';
+// import 'package:sida_app/screens/splash_screen/SplashScreen.dart';
+
 // void main() {
 //   runApp(MyApp());
 // }
-//
+
 // class MyApp extends StatefulWidget
 // {
 //   static void setLocale(BuildContext context, Locale locale)
@@ -14,11 +14,11 @@
 //     _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
 //     state.setLocale(locale);
 //   }
-//
+
 //   @override
 //   _MyAppState createState() => _MyAppState();
 // }
-//
+
 // class _MyAppState extends State<MyApp>
 // {
 //   Locale _locale;
@@ -29,29 +29,29 @@
 //       _locale = locale;
 //     });
 //   }
-//
+
 //   @override
 //   Widget build(BuildContext context)
 //   {
 //     return MaterialApp(
 //       debugShowCheckedModeBanner: false,
 //       title: 'SIDA - Egyptian Ride Hailing App',
-//
+
 //       locale: _locale,
-//
+
 //       supportedLocales:
 //       [
 //         Locale('en', 'US'),
 //         Locale('ar', 'EG'),
 //       ],
-//
+
 //       localizationsDelegates:
 //       [
-//         //AppLocalization.localizationsDelegate,
+//         AppLocalization.localizationsDelegate,
 //         GlobalMaterialLocalizations.delegate,
 //         GlobalCupertinoLocalizations.delegate,
 //       ],
-//
+
 //       localeResolutionCallback: (deviceLocale, supportedLocales)
 //       {
 //         for (var locale in supportedLocales)
@@ -63,8 +63,8 @@
 //         }
 //         return supportedLocales.first;
 //       } ,
-//
-//       home: FirstSplash(),
+
+//       home: SplashScreen(),
 //     );
 //   }
 // }

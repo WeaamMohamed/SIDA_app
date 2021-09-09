@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:adobe_xd/pinned.dart';
 
-class SignNum extends StatelessWidget {
-  SignNum({
+class Signing extends StatelessWidget {
+  Signing({
     Key key,
   }) : super(key: key);
   @override
@@ -14,12 +14,12 @@ class SignNum extends StatelessWidget {
             Pin(start: 0.0, end: 0.0),
             Pin(start: 0.0, end: 0.0),
             child:
-                // Adobe XD layer: 'splash_bg_no_cairo' (shape)
+                // Adobe XD layer: 'splash_bg_no_cairob…' (shape)
                 Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image:
-                      const AssetImage('assets/images/splash_bg_no_cairo.png'),
+                      const AssetImage('assets/images/splash_bg_opacity.png'),
                   fit: BoxFit.fill,
                 ),
               ),

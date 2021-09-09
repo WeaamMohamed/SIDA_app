@@ -4,7 +4,6 @@ import 'package:flutter/rendering.dart';
 import 'package:sida_app/screens/home_screen.dart';
 import 'custom_checkbox.dart';
 import 'package:flutter/material.dart';
-import 'main.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:sida_app/SignUp_SignIn/Name_page.dart';
 class TermsPage extends StatefulWidget {
