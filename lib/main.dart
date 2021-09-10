@@ -4,7 +4,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/SignUp_SignIn/mobile_phone_page.dart';
 import 'package:sida_app/screens/home_screen.dart';
-import 'package:sida_app/screens/promotion_page.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'localization/app_localization.dart';
@@ -82,7 +81,7 @@ class _MyAppState extends State<MyApp>
           return supportedLocales.first;
         } ,
 
-        home: PromotionPage(),
+        home: PhoneNumberPage(),
       ),
     );
   }
