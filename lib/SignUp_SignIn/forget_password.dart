@@ -94,7 +94,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           showLoading = true;
         });
         await _auth.verifyPhoneNumber(
-          phoneNumber: '+20'+ widget.user_phoneNumber,
+          phoneNumber: '+2'+ widget.user_phoneNumber,
           verificationCompleted: (phoneAuthCredential) async {
             setState(() {
               showLoading = false;
@@ -133,27 +133,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         children: [
           SingleChildScrollView(
             child: Container(
-              width: screenWidth,
-              height: screenHeight,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      HexColor("#2C2B69"),
-                      HexColor("#121212"),
-                    ],
-                  ),
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/splash_bg_no_cairo.png"),
-                    fit: BoxFit.cover,
-                    colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
-                  )
-              ),
-              child: new BackdropFilter(
-                filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 1.0),
-                child: new Container(
-                  decoration: new BoxDecoration(color:  HexColor("#2C2B69").withOpacity(0.02)),
                   child:  Column(
                     children: [
                       SizedBox(height: screenHeight*0.05,),
@@ -163,7 +142,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           icon:Icon(Icons.arrow_back) ,color: Colors.white,),
                       ),
                       SizedBox(height: screenHeight*0.04,),
-                           Text('Your Phone Number is: +20'  ,
+                           Text('Your Phone Number is:'  ,
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 20.0 )),
                       SizedBox(height: screenHeight*0.01,),
@@ -172,18 +151,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                    color: Colors.amber, fontSize: 20.0 )),
 
                       SizedBox(height: screenHeight*0.02,),
-                      Flexible(
-                        child: Text(" click Verify to send verification code to your phone number",
+                      Text(" click Verify to send verification code to your phone number",
                             style: TextStyle(
                                 color: Colors.white, fontSize: 18.0 )),
-                      ),
 
                       SizedBox(height: screenHeight*0.5,),
 
                     ],
                   ),
-                ),
-              ),
+
             ),
           ),
 
@@ -196,25 +172,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       return  Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                    HexColor("#2C2B69"),
-                    HexColor("#121212"),
-                  ],
-                ),
-                image: DecorationImage(
-                  image: AssetImage("assets/images/splash_bg_no_cairo.png"),
-                  fit: BoxFit.cover,
-                  colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
-                )
-            ),
-            child: new BackdropFilter(
-              filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 1.0),
-              child: new Container(
-                decoration: new BoxDecoration(color:  HexColor("#2C2B69").withOpacity(0.02)),
                 child:  Column(
                   children: [
                     SizedBox(height: screenHeight*0.05,),
@@ -224,7 +181,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         setState(() {
                           currentState = MobileVerificationState.SHOW_MOBILE_FORM_STATE;
                         });
-
                       },
                         icon:Icon(Icons.arrow_back) ,color: Colors.white,),
                     ),
@@ -277,8 +233,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     ),
                   ],
                 ),
-              ),
-            ),
           ),
         ],
       );
@@ -298,9 +252,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               ],
             ),
             image: DecorationImage(
-              image: AssetImage("assets/images/splash_bg_no_cairo.png"),
+              image: AssetImage("assets/images/splash_bg_opacity.png"),
               fit: BoxFit.cover,
-              colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
             )
         ),
         child: showLoading

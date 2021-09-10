@@ -102,9 +102,9 @@ class _passWordState extends State<passWord> {
                   ],
                 ),
                 image: DecorationImage(
-                  image: AssetImage('assets/images/splash_bg_no_cairo.png'),
+                  image: AssetImage('assets/images/splash_bg_opacity.png'),
                   fit: BoxFit.cover,
-                  colorFilter: new ColorFilter.mode( HexColor("#2C2B69").withOpacity(0.2), BlendMode.dstATop),
+
                 )
             ),
             child: new BackdropFilter(
