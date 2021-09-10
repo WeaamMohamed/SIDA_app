@@ -4,13 +4,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sida_app/screens/home_screen.dart';
 import 'Agree_terms_page.dart';
 import 'password_page.dart';
 import 'package:sida_app/firebase_db.dart';
 class NamePage extends StatefulWidget {
 
-  final String user_phoneNumber;
-  NamePage(  this.user_phoneNumber,{Key key}):super(key: key);
+  final String userID;
+  NamePage(  this.userID,{Key key}):super(key: key);
   @override
   _NamePageState createState() => _NamePageState();
 }
@@ -19,7 +20,7 @@ class _NamePageState extends State<NamePage> {
 
  // final fb =FirebaseDatabase.instance;
   final formKey = GlobalKey<FormState>();
-  bool  is_disabled = false;
+  bool  is_disabled = true;
   int char_num=0;
 
 
@@ -63,7 +64,7 @@ class _NamePageState extends State<NamePage> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton( onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>passWord(widget.user_phoneNumber)));
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>HomeScreen()));
                   },
                     icon:Icon(Icons.arrow_back) ,color: Colors.white,),
                 ),
@@ -84,19 +85,22 @@ class _NamePageState extends State<NamePage> {
                       child: TextFormField(
                         controller: controller,
                         obscureText: false,
-                        style: TextStyle( color: Colors.white, fontFamily: 'spoqa',fontSize: 20),
+                        style: TextStyle( color: Colors.white,fontSize: 20),
                         decoration: InputDecoration(
                             hintText: "Your Name",
                         ),
                         onChanged: (val){
                           setState(() {
                             char_num = val.length;
-
+                          });
+                          setState(() {
+                            if (val.length == 1)
+                              is_disabled= false;
                           });
                         },
                         validator: (val) {
                           if(val.isEmpty){return "Please fill in your Name";}
-                          if(val.length>10){return "your Name can't exceed 10 characters";}
+                          if(val.length>15){return "your Name can't exceed 15 characters";}
                           return null;
                         },
                       ),
@@ -108,7 +112,7 @@ class _NamePageState extends State<NamePage> {
                   padding: const EdgeInsets.only(right:20),
                   child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text(char_num.toString()+'/10' , style: TextStyle( color: Colors.grey, fontSize: 10),)),
+                      child: Text(char_num.toString()+'/15' , style: TextStyle( color: Colors.grey, fontSize: 10),)),
                 ),
 
                 SizedBox(height: .5 * screenHeight),
@@ -122,17 +126,14 @@ class _NamePageState extends State<NamePage> {
       height: 0.09 * screenHeight,
       child: RaisedButton(
         color: HexColor("#FFBB00"),
-        onPressed: ()async
+        onPressed: is_disabled ? null : ()async
         {
           final form= formKey.currentState;
           if(form.validate())
           {
-           // ref.child('Users').push().child(phoneController.text).update({'Name':controller.text});
-         //   ref.child('User').push().child('Name').set(controller.text).asStream();
-            ref.child(widget.user_phoneNumber).update({'Name': controller.text });
-
+            ref.child(widget.userID).update({'Name': controller.text });
             Navigator.push(context, MaterialPageRoute(
-                builder: (BuildContext context) => TermsPage(widget.user_phoneNumber)));
+                builder: (BuildContext context) => HomeScreen()));
           }
         },
         child:   Text(' Next',

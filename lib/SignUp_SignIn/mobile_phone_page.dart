@@ -14,7 +14,7 @@ import 'Name_page.dart';
 import 'password_page.dart';
 import 'package:sida_app/firebase_db.dart';
 import 'SignIN.dart';
-
+import 'package:sida_app/screens/home_screen.dart';
 
 enum MobileVerificationState {
   SHOW_MOBILE_FORM_STATE,
@@ -44,7 +44,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
   String dropdownvalue = '+2';
   String code_country;
   var items = ['+7 840','+93','+355','+213','+1 684','+376','+244','+1 264','+1 268','+54','+374','+297','+247','+61','+672','+43','+994','+1 242','+973','+880','+1 246','+1 268','+375','+32','+501','+229','+1 441','+975','+591','+387','+267','+55','+246','+1 284','+673','+359','+226','+257','+855','+237','+1','+238','+ 345','+236','+235','+56','+86','+61','+61','+57','+269','+242','+243','+682','+506','+385','+53','+599','+537','+420','+45','+246','+253','+1 767','+1 809','+670','+56','+593','+20','+503','+240','+291','+372','+251','+500','+298','+679','+358','+33','+596','+594','+689','+241','+220','+995','+49','+233','+350','+30','+299','+1 473','+590','+1 671','+502','+224','+245','+595','+509','+504','+852','+36','+354','+91','+62','+98','+964','+353','+972','+39','+225','+1 876','+81','+962','+7 7','+254','+686','+965','+996','+856','+371','+961','+266','+231','+218','+423','+370','+352','+853','+389','+261','+265','+60','+960','+223','+356','+692','+596','+222','+230','+262','+52','+691','+1 808','+373','+377','+976','+382','+1664','+212','+95','+264','+674','+977','+31','+599','+1 869','+687','+64','+505','+227','+234','+683','+672','+850','+1 670','+47','+968','+92','+680','+970','+507','+675','+595','+51','+63','+48','+351','+1 787','+974','+262','+40','+7','+250','+685','+378','+966','+221','+381','+248','+232','+65','+421','+386','+677','+27','+500','+82','+34','+94','+249','+597','+268','+46','+41','+963','+886','+992','+255','+66','+670','+228','+690','+676','+1 868','+216','+90','+993','+1 649','+688','+1 340','+256','+380','+971','+44','+1','+598','+998','+678','+58','+84','+1 808','+681','+967','+260','+255','+263',];
-  //bool is_disabled = true;
+  bool is_disabled = true;
   bool is_exists = false;
   var formKey = GlobalKey<FormState>();
   final  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -66,12 +66,27 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
         showLoading = false;
       });
 
-      if(authCredential?.user != null){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> passWord(myphoneNumber)));
+      if(authCredential?.user != null)
+      {
+        try {
+          await ref.child(FirebaseAuth.instance.currentUser.uid).once().then((DataSnapshot snapshot) async {
+            if ( snapshot.value != null)
+            {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
+            }
+            else
+            {
+              ref.child(FirebaseAuth.instance.currentUser.uid).set({'Phonenumber': myphoneNumber , 'Name' :''});
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> NamePage(FirebaseAuth.instance.currentUser.uid)));
+            }
+          });
+
+        }
+        catch(e)
+        { print("you got error: $e");}
       }
 
     } on FirebaseAuthException catch (e) {
-      print("onnnnnnnnnnnnnnn");
       setState(() {
         showLoading = false;
       });
@@ -88,45 +103,15 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
 
     void onpressed_phone () async
     {
+      is_disabled=true;
      final form= formKey.currentState;
        if(form.validate())
       {
-        try {
-          await ref.child(myphoneNumber).once().then((DataSnapshot snapshot) async {
-
-            if ( snapshot.value != null)
-              {
-                print("=>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> not null");
-                print("++++++++++++++");
-                is_exists =true;
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (BuildContext context) => SignIn(myphoneNumber)));
-              }
-            else
-              {
-                print("=>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> null");
-                ref.child(myphoneNumber).set({'Phonenumber': myphoneNumber , 'Password':'' , 'Name' :''});
-              }
-          });
-
-        }
-        catch(e)
-        { print("you got error: $e");}
-
-        /// if already stored in data base leave the function no need to send verification code
-        print(is_exists);
-        if ( is_exists )
-          {
-            is_exists =false;
-            return;
-          }
-
-
         setState(() {
-          print("2222222222222");
+
           showLoading = true;
         });
-        print("&&&&&&&&&&&&");
+
         await _auth.verifyPhoneNumber(
           phoneNumber: '+2'+myphoneNumber,
           verificationCompleted: (phoneAuthCredential) async {
@@ -136,7 +121,6 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
             //signInWithPhoneAuthCredential(phoneAuthCredential);
           },
           verificationFailed: (verificationFailed) async {
-            print("4444444444");
             setState(() {
               showLoading = false;
             });
@@ -144,7 +128,6 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                 SnackBar(content: Text(verificationFailed.message)));
           },
           codeSent: (verificationId, resendingToken) async {
-            print("55555555");
             setState(() {
               showLoading = false;
               currentState = MobileVerificationState.SHOW_OTP_FORM_STATE;
@@ -152,7 +135,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
             });
           },
           codeAutoRetrievalTimeout: (verificationId) async {
-            print("777777777777777777777");
+
           },
         );
       }
@@ -199,7 +182,10 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                                     setState(() {
                                       myphoneNumber= phoneController.text;
                                     });
-
+                                    setState(() {
+                                      if (val.length == 1)
+                                        is_disabled= false;
+                                    });
                                   },
                                   validator: (val) {
                                     if(val.isEmpty){return "Please fill in your Phone Number";}
@@ -213,9 +199,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                                 ),
                               ),
                             ),
-
                       SizedBox(height: screenHeight*0.5,),
-
                     ],
                   ),
             ),
@@ -225,7 +209,6 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
       );
     }
 ///-------------------------------------------------------
-    ///
     getOtpFormWidget(context) {
       return  Stack(
         children: [
@@ -239,7 +222,6 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                         setState(() {
                           currentState = MobileVerificationState.SHOW_MOBILE_FORM_STATE;
                         });
-
                       },
                         icon:Icon(Icons.arrow_back) ,color: Colors.white,),
                     ),
@@ -257,9 +239,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                               color: Colors.blue, fontSize: 17.0)),
                     ),
                     SizedBox(height: 0.05 * screenHeight),
-                    Padding(
-                      padding: const EdgeInsets.all(9.0),
-                      child: PinCodeTextField(
+                     PinCodeTextField(
                           autoDisposeControllers: false,
                           controller: otpController,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -271,9 +251,14 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                               setState(() {
                                 my_verificationcode=otpController.text;
                               });
+
+                          setState(() {
+                            if (value.length == 1)
+                              is_disabled= false;
+                          });
                           },
                           pinTheme: PinTheme(
-                            shape: PinCodeFieldShape.box,
+                            shape: PinCodeFieldShape.underline,
                             fieldHeight: 60,
                             fieldWidth: 40,
                             inactiveColor: HexColor("#2C2B69"),
@@ -293,7 +278,6 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                          //  is_disabled=false;
                           }
                       ),
-                    ),
                   ],
                 ),
           ),
@@ -325,7 +309,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
           height: 0.09 * screenHeight,
           child: RaisedButton(
               color: HexColor("#FFBB00"),
-              onPressed:
+              onPressed: is_disabled ? null :
                currentState == MobileVerificationState.SHOW_MOBILE_FORM_STATE ? onpressed_phone:onpressed_code,
             child:   Text(' Next', style: TextStyle( color: Colors.white, fontSize: 20.0 )),),
     ),
