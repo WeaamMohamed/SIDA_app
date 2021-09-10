@@ -172,7 +172,7 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 8,
               ),
               Divider(
                 thickness: 1,
@@ -180,10 +180,10 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
                 color: Color(0xffE5E5E5),
               ),
               SizedBox(
-                height: 10,
+                height: 4,
               ),
               Flexible(
-                flex: 3,
+                flex: 4,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -390,37 +390,32 @@ Widget _buildBottomCard({
 
   child: InkWell(
     onTap:onTap,
-    child: Column(
+    child: Expanded(
+      child: Column(
 
 // mainAxisAlignment: MainAxisAlignment.center,
 
 // crossAxisAlignment: CrossAxisAlignment.stretch,
 
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
 
-      children: [
+        children: [
+          SvgPicture.asset(image),
+         // SizedBox(height: 5,),
+          Center(
+            child: Text(title,
+              style: TextStyle(
+                fontSize: 14,
 
-        SvgPicture.asset(image),
-
-        SizedBox(height: 5,),
-        Center(
-
-          child: Text(
-
-            title,
-
-            style: TextStyle(
-
-              fontSize: 14,
+              ),
 
             ),
 
           ),
 
-        ),
+        ],
 
-      ],
-
+      ),
     ),
   ),
 

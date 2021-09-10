@@ -1,9 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:sida_app/screens/home_screen.dart';
+import 'package:sida_app/shared/data_handler/data_provider.dart';
+import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'localization/app_localization.dart';
 import 'localization/home_page copy.dart';
 
-void main() {
+
+void main() async{
+
+  Provider.debugCheckInvalidValueType = null;
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -33,39 +43,45 @@ class _MyAppState extends State<MyApp>
   @override
   Widget build(BuildContext context)
   {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'SIDA - Egyptian Ride Hailing App',
-      theme: ThemeData(fontFamily: 'Spoqa Han Sans Neo'),
-
-      locale: _locale,
-
-      supportedLocales:
-      [
-        Locale('en', 'US'),
-        Locale('ar', 'EG'),
+    return MultiProvider(
+      providers:[
+        Provider<DataProvider>(create: (_) => DataProvider()),
+        Provider<MapProvider>(create: (_) => MapProvider()),
       ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'SIDA - Egyptian Ride Hailing App',
+        theme: ThemeData(fontFamily: 'Spoqa Han Sans Neo'),
 
-      localizationsDelegates:
-      [
-        AppLocalization.localizationsDelegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+        locale: _locale,
 
-      localeResolutionCallback: (deviceLocale, supportedLocales)
-      {
-        for (var locale in supportedLocales)
+        supportedLocales:
+        [
+          Locale('en', 'US'),
+          Locale('ar', 'EG'),
+        ],
+
+        localizationsDelegates:
+        [
+          AppLocalization.localizationsDelegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+
+        localeResolutionCallback: (deviceLocale, supportedLocales)
         {
-          if (locale.languageCode == deviceLocale.languageCode)
+          for (var locale in supportedLocales)
           {
-            return deviceLocale;
+            if (locale.languageCode == deviceLocale.languageCode)
+            {
+              return deviceLocale;
+            }
           }
-        }
-        return supportedLocales.first;
-      } ,
+          return supportedLocales.first;
+        } ,
 
-      home: HomePage(),
+        home: HomeScreen(),
+      ),
     );
   }
 }

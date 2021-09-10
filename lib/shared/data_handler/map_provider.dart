@@ -64,6 +64,7 @@ class MapProvider extends ChangeNotifier
         //Provider.of<AppData>(context, listen: false).autoCompletePredictionsList = placesAutoCompleteList;
         autoCompletePredictionsList  = placesAutoCompleteList;
 
+        notifyListeners();
 
 
       }
