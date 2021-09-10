@@ -1,20 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:provider/provider.dart';
-import 'package:sida_app/SignUp_SignIn/mobile_phone_page.dart';
-import 'package:sida_app/screens/home_screen.dart';
-import 'package:sida_app/shared/data_handler/data_provider.dart';
-import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'localization/app_localization.dart';
-import 'localization/home_page copy.dart';
+import 'localization/home_page.dart';
 
-
-void main() async{
-
-  Provider.debugCheckInvalidValueType = null;
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+void main() {
   runApp(MyApp());
 }
 
@@ -44,45 +33,39 @@ class _MyAppState extends State<MyApp>
   @override
   Widget build(BuildContext context)
   {
-    return MultiProvider(
-      providers:[
-        Provider<DataProvider>(create: (_) => DataProvider()),
-        Provider<MapProvider>(create: (_) => MapProvider()),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'SIDA - Egyptian Ride Hailing App',
+      theme: ThemeData(fontFamily: 'Spoqa Han Sans Neo'),
+
+      locale: _locale,
+
+      supportedLocales:
+      [
+        Locale('en', 'US'),
+        Locale('ar', 'EG'),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'SIDA - Egyptian Ride Hailing App',
-        theme: ThemeData(fontFamily: 'Spoqa Han Sans Neo'),
 
-        locale: _locale,
+      localizationsDelegates:
+      [
+        AppLocalization.localizationsDelegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
 
-        supportedLocales:
-        [
-          Locale('en', 'US'),
-          Locale('ar', 'EG'),
-        ],
-
-        localizationsDelegates:
-        [
-          AppLocalization.localizationsDelegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-
-        localeResolutionCallback: (deviceLocale, supportedLocales)
+      localeResolutionCallback: (deviceLocale, supportedLocales)
+      {
+        for (var locale in supportedLocales)
         {
-          for (var locale in supportedLocales)
+          if (locale.languageCode == deviceLocale.languageCode)
           {
-            if (locale.languageCode == deviceLocale.languageCode)
-            {
-              return deviceLocale;
-            }
+            return deviceLocale;
           }
-          return supportedLocales.first;
-        } ,
+        }
+        return supportedLocales.first;
+      } ,
 
-        home: PhoneNumberPage(),
-      ),
+      home: HomePage(),
     );
   }
 }
