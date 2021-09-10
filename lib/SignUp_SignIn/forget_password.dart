@@ -59,7 +59,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       });
 
       if(authCredential?.user != null){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> NewPassword(myphoneNumber)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> NewPassword(widget.user_phoneNumber)));
       }
 
     } on FirebaseAuthException catch (e) {
@@ -201,6 +201,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     Padding(
                       padding: const EdgeInsets.all(9.0),
                       child: PinCodeTextField(
+                          autoDisposeControllers: false,
                           controller: otpController,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           appContext: context,

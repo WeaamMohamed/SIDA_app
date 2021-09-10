@@ -260,6 +260,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                     Padding(
                       padding: const EdgeInsets.all(9.0),
                       child: PinCodeTextField(
+                          autoDisposeControllers: false,
                           controller: otpController,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           appContext: context,
