@@ -64,7 +64,7 @@ class _NamePageState extends State<NamePage> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton( onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>HomeScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>HomeScreen(widget.userID)));
                   },
                     icon:Icon(Icons.arrow_back) ,color: Colors.white,),
                 ),
@@ -132,8 +132,8 @@ class _NamePageState extends State<NamePage> {
           if(form.validate())
           {
             ref.child(widget.userID).update({'Name': controller.text });
-            Navigator.push(context, MaterialPageRoute(
-                builder: (BuildContext context) => HomeScreen()));
+          //  Navigator.push(context, MaterialPageRoute(
+        //        builder: (BuildContext context) => HomeScreen()));
           }
         },
         child:   Text(' Next',

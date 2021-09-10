@@ -257,12 +257,12 @@ class _TermsPageState extends State<TermsPage> {
         child: RaisedButton(
           color: HexColor("#FFBB00"),
           onPressed: (){
-            if (All_Terms.isChecked)
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>HomeScreen()));
-            else if ( (Term1.isChecked && Term2.isChecked &&Term3.isChecked &&Term4.isChecked &&Term5.isChecked )|| Term6.isChecked)
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>HomeScreen()));
-            else
-              showAlertDialog(context);
+          //  if (All_Terms.isChecked)
+           //   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>HomeScreen()));
+           // else if ( (Term1.isChecked && Term2.isChecked &&Term3.isChecked &&Term4.isChecked &&Term5.isChecked )|| Term6.isChecked)
+             // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>HomeScreen()));
+            //else
+              //showAlertDialog(context);
           },
 
           child:   Text('Confirm',

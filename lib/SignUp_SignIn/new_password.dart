@@ -155,8 +155,8 @@ class _NewPasswordState extends State<NewPassword> {
               print("+>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
               print(widget.user_phoneNumber);
               ref.child(widget.user_phoneNumber).update({'Password': mypassword });
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (BuildContext context) => HomeScreen()));
+              //Navigator.push(context, MaterialPageRoute(
+                 // builder: (BuildContext context) => HomeScreen()));
             }
           },
           child:   Text('OK',

@@ -2,8 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/shared/styles/colors.dart';
+import 'package:sida_app/firebase_db.dart';
+
 
 class EditProfileScreen extends StatefulWidget {
+  final String userID;
+  EditProfileScreen(  this.userID,{Key key}):super(key: key);
 
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
@@ -150,31 +154,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     textInputType: TextInputType.phone,
 
                   ),
-
-
-
                 ],
               ),
             ),
 
      Spacer(),
-
      customBlackButton(title: "Update",
              onTap: (){
-
                if(formKey.currentState.validate())
                  {
+                  ref.child(widget.userID).update({'Name': nameController.text });
+                  ref.child(widget.userID).update({'Phonenumber': phoneController.text });
                    print("updated.");
-
                  }
-
-
              }),
-
-
-
-
-
           ],),),
         ),
       ) ,);

@@ -10,6 +10,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:sida_app/screens/edit_profile_screen.dart';
 import 'Name_page.dart';
 import 'password_page.dart';
 import 'package:sida_app/firebase_db.dart';
@@ -52,13 +53,11 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
 
   void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) async {
 
-    print("helpppppppppppppppppppppppppppppp");
     setState(() {
       showLoading = true;
     });
 
     try {
-      print("tryyyyyyyyyyyyyy");
       final authCredential =
       await _auth.signInWithCredential(phoneAuthCredential);
 
@@ -72,7 +71,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
           await ref.child(FirebaseAuth.instance.currentUser.uid).once().then((DataSnapshot snapshot) async {
             if ( snapshot.value != null)
             {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfileScreen(FirebaseAuth.instance.currentUser.uid )));
             }
             else
             {
