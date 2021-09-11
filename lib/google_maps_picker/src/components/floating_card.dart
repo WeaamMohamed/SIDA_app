@@ -34,16 +34,16 @@ class FloatingCard extends StatelessWidget {
       left: leftPosition,
       right: rightPosition,
       bottom: bottomPosition,
-      // child: Container(
-      //   decoration: const BoxDecoration(
-      //   borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15),),
-      //   gradient: const LinearGradient(
-      //     begin: Alignment.centerLeft,
-      //     end: Alignment.centerRight,
-      //     colors: const <Color> [Color(0xffFED444), Color(0xffFEBA3F)],
-      //     tileMode: TileMode.repeated,
-      //   )
-      // ),
+      child: Container(
+        height: 93,
+        decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15),),
+        gradient: const LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: const <Color> [Color(0xffFED444), Color(0xffFEBA3F)],
+        )
+      ),
         child: RoundedFrame(
           width: width,
           height: height,
@@ -52,6 +52,7 @@ class FloatingCard extends StatelessWidget {
           color: color,
           child: child,
         ),
+      ),
     );
   }
 }
