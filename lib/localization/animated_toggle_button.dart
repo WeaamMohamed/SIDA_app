@@ -27,8 +27,10 @@ class AnimatedToggle extends StatefulWidget {
   _AnimatedToggleState createState() => _AnimatedToggleState();
 }
 
+bool initialPosition = true;
+
 class _AnimatedToggleState extends State<AnimatedToggle> {
-  bool initialPosition = true;
+
   @override
   Widget build(BuildContext context) {
     return Container(
