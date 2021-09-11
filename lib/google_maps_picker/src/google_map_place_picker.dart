@@ -6,18 +6,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import '/google_maps_picker/google_maps_place_picker.dart';
-// import '/google_maps_picker/providers/place_provider.dart';
-// import '/google_maps_picker/src/components/animated_pin.dart';
-// import '/google_maps_picker/src/components/floating_card.dart';
-// import '/google_maps_picker/src/place_picker.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/google_maps_picker/providers/place_provider.dart';
 import 'package:sida_app/google_maps_picker/src/place_picker.dart';
 import 'package:tuple/tuple.dart';
-
 import 'components/animated_pin.dart';
 import 'components/floating_card.dart';
 import 'models/pick_result.dart';
@@ -308,12 +302,13 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   Widget _defaultPlaceWidgetBuilder(BuildContext context, PickResult data, SearchingState state) {
     return FloatingCard(
-      bottomPosition: MediaQuery.of(context).size.height * 0.05,
-      leftPosition: MediaQuery.of(context).size.width * 0.025,
-      rightPosition: MediaQuery.of(context).size.width * 0.025,
-      width: MediaQuery.of(context).size.width * 0.9,
-      borderRadius: BorderRadius.circular(12.0),
-      elevation: 4.0,
+      bottomPosition: 0,
+      leftPosition: 0,
+      rightPosition: 0,
+      width: MediaQuery.of(context).size.width,
+      height: 93,
+      borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+      elevation: 0.0,
       color: Theme.of(context).cardColor,
       child: state == SearchingState.Searching ? _buildLoadingIndicator() : _buildSelectionDetails(context, data),
     );
@@ -334,27 +329,30 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   Widget _buildSelectionDetails(BuildContext context, PickResult result) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.only(top: 9, bottom: 9),
       child: Column(
         children: <Widget>[
           Text(
             result.formattedAddress,
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 10),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 10),
-          RaisedButton(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Text(
-              "Select here",
-              style: TextStyle(fontSize: 16),
+          SizedBox(height: 12),
+          Container(
+            width: 80,
+            child: RaisedButton(
+              //padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              child: Text(
+                "Set pickup location",
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              onPressed: () {
+                onPlacePicked(result);
+              },
             ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4.0),
-            ),
-            onPressed: () {
-              onPlacePicked(result);
-            },
           ),
         ],
       ),
