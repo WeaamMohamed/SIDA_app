@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -90,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       drawer: HomeDrawer(),
       body: SingleChildScrollView(
+
 
         child: Container(
 
@@ -254,6 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
     child: ElevatedButton(
       onPressed: () {
         scaffoldKey.currentState.openDrawer();
+        FirebaseAuth.instance.signOut();
       },
       // child: Icon(Icons.menu, color: Colors.black,),
       child: SvgPicture.asset("assets/images/menu_icon.svg"),

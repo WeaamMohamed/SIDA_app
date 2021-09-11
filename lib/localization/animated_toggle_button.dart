@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sida_app/shared/data_handler/data_provider.dart';
 
 class AnimatedToggle extends StatefulWidget {
   final List<String> values;
@@ -27,10 +29,13 @@ class AnimatedToggle extends StatefulWidget {
   _AnimatedToggleState createState() => _AnimatedToggleState();
 }
 
+//bool initialPosition = true;
+
 class _AnimatedToggleState extends State<AnimatedToggle> {
-  bool initialPosition = true;
+
   @override
   Widget build(BuildContext context) {
+    var mProvider = Provider.of<DataProvider>(context);
     return Container(
       width: 87,
       height: 28,
@@ -39,12 +44,21 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              initialPosition = !initialPosition;
-              var index = 0;
-              if (!initialPosition) {
-                index = 1;
-              }
-              widget.onToggleCallback(index);
+
+             /// initialPosition = !initialPosition;
+              Provider.of<DataProvider>(context, listen: false).toggleLanguage();
+
+
+             /// var index = 0;
+              ///
+              ///int index;
+             /// mProvider.isEnglish? index = 0: index = 1;
+              //if initial position is false
+              // if (!mProvider.isEnglish) {
+              //   index = 1;
+              // }
+              //TODO: here is error
+              widget.onToggleCallback(mProvider.isEnglish);
               setState(() {});
             },
             child: Container(
@@ -60,7 +74,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(
                   widget.values.length,
-                  (index) => Padding(
+                      (index) => Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12),
                     child: Text(
                       widget.values[index],
@@ -78,7 +92,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
             duration: const Duration(milliseconds: 250),
             curve: Curves.decelerate,
             alignment:
-                initialPosition ? Alignment.centerLeft : Alignment.centerRight,
+            mProvider.isEnglish ? Alignment.centerLeft : Alignment.centerRight,
             child: Container(
               width: 44,
               height: 28,
@@ -90,7 +104,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                 ),
               ),
               child: Text(
-                initialPosition ? widget.values[0] : widget.values[1],
+                mProvider.isEnglish ? widget.values[0] : widget.values[1],
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,

@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 class AddressModel{
   String placeFormattedAddress;
   String placeName;
@@ -7,5 +9,10 @@ class AddressModel{
 
   AddressModel({this.placeFormattedAddress, this.placeName,
     this.placeId, this.latitude, this.longitude});
+
+  void f(){
+    FirebaseAuth.instance.currentUser.uid;
+
+  }
 
 }
