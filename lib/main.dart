@@ -1,115 +1,138 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sida_app/shared/data_handler/data_provider.dart';
-import 'package:sida_app/shared/data_handler/map_provider.dart';
-import 'package:sida_app/shared/network/local/cache_helper.dart';
-import 'localization/app_localization.dart';
-import 'localization/home_page.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '/google_maps_picker/google_maps_place_picker.dart';
+import 'google_maps_picker/src/components/animated_pin.dart';
 
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
+void main() => runApp(MyApp());
 
+class MyApp extends StatelessWidget {
 
-  Provider.debugCheckInvalidValueType = null;
-  WidgetsFlutterBinding.ensureInitialized();
-  await CacheHelper.init();
-  // bool isEnglish = CacheHelper.getData(key: 'isEnglish',);
-  // print('shared pref in main' + isEnglish.toString());
+  final ThemeData lightTheme = ThemeData.light().copyWith(
+    // Background color of the FloatingCard
+    cardColor: Colors.white,
+    buttonTheme: ButtonThemeData(
+      // Select here's button color
+      buttonColor: Colors.black,
+      textTheme: ButtonTextTheme.primary,
+    ),
+  );
 
-  runApp(MyApp());
-}
-
-class MyApp extends StatefulWidget
-{
-  // bool isEnglish;
-  // MyApp(this.isEnglish);
-  static void setLocale(BuildContext context, Locale locale)
-  {
-    _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
-    state.setLocale(locale);
-  }
+  // Dark Theme
+  final ThemeData darkTheme = ThemeData.dark().copyWith(
+    // Background color of the FloatingCard
+    cardColor: Colors.grey,
+    buttonTheme: ButtonThemeData(
+      // Select here's button color
+      buttonColor: Colors.yellow,
+      textTheme: ButtonTextTheme.primary,
+    ),
+  );
 
   @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp>
-{
- // SharedPreferences prefs;
-
-  // getData() async{
-  //   prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     initialPosition = prefs.getBool('pos') ?? true;
-  //   });
-  // }
-
-  Locale _locale;
-  void setLocale(Locale locale)
-  {
-    setState(()
-    {
-      _locale = locale;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context)
-  {
-   // bool _isEnglish = widget.isEnglish;
-
-
-    // bool providerIsEnglish = Provider.of<DataProvider>(context).isEnglish;
-
-    //getData();
-    return MultiProvider(
-      providers: [
-        Provider<DataProvider>(create: (_) => DataProvider()),
-        Provider<MapProvider>(create: (_) => MapProvider()),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'SIDA - Egyptian Ride Hailing App',
-        theme: ThemeData(fontFamily: 'Spoqa Han Sans Neo'),
-
-        locale: _locale,
-
-        supportedLocales:
-        [
-          Locale('en', 'US'),
-          Locale('ar', 'EG'),
-        ],
-
-        localizationsDelegates:
-        [
-          AppLocalization.localizationsDelegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-
-
-          localeResolutionCallback: (deviceLocale, supportedLocales)
-        {
-
-          bool isEnglish = CacheHelper.getData();
-          print('shared pref in main: ' + isEnglish.toString());
-
-          //   Provider.of<DataProvider>(context, listen: false).setIsEnglishChosen(_isEnglish);
-
-          //TODO: here is language problem
-          if(CacheHelper.getData())
-            return Locale('en', 'US');
-          if(!CacheHelper.getData())
-            return Locale('ar', 'EG');
-          //TODO: use enum for language (AR, EN, DEFAULT)
-          // else
-          //   return supportedLocales.first;
-        },
-
-        home: HomePage(),
-      ),
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Google Map Place Picker',
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.light,
+      home: PickerPage(),
     );
+  }
+}
+
+class PickerPage extends StatefulWidget {
+  const PickerPage({Key key}) : super(key: key);
+  @override
+  _PickerPageState createState() => _PickerPageState();
+}
+
+class _PickerPageState extends State<PickerPage> {
+  PickResult selectedPlace;
+  @override
+  Widget build(BuildContext context) {
+    return PlacePicker(
+      pinBuilder: (context, state) {
+      if (state == PinState.Idle) {
+      return Stack(
+        children: <Widget>[
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SvgPicture.asset('assets/images/pickup_pin.svg'),
+                SizedBox(height: 42),
+              ],
+            ),
+          ),
+          Center(
+            child: Container(
+              width: 5,
+              height: 5,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Stack(
+        children: <Widget>[
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                AnimatedPin(child: SvgPicture.asset('assets/images/pickup_pin.svg')),
+                SizedBox(height: 42),
+              ],
+            ),
+          ),
+          Center(
+            child: Container(
+              width: 5,
+              height: 5,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+      },
+                          onPlacePicked: (result) {
+                            selectedPlace = result;
+                            print(selectedPlace);
+                            Navigator.of(context).pop();
+                            setState(() {});
+                          },
+                          
+                          // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
+                          //   print("state: $state, isSearchBarFocused: $isSearchBarFocused");
+                          //   return isSearchBarFocused
+                          //       ? Container()
+                          //       : FloatingCard(
+                          //           bottomPosition: 0.0, // MediaQuery.of(context) will cause rebuild. See MediaQuery document for the information.
+                          //           leftPosition: 0.0,
+                          //           rightPosition: 0.0,
+                          //           width: 500,
+                          //           borderRadius: BorderRadius.circular(12.0),
+                          //           child: state == SearchingState.Searching
+                          //               ? Center(child: CircularProgressIndicator())
+                          //               : RaisedButton(
+                          //                   child: Text("Pick Here"),
+                          //                   onPressed: () {
+                          //                     // IMPORTANT: You MUST manage selectedPlace data yourself as using this build will not invoke onPlacePicker as
+                          //                     //            this will override default 'Select here' Button.
+                          //                     print("do something with [selectedPlace] data");
+                          //                     Navigator.of(context).pop();
+                          //                   },
+                          //                 ),
+                          //         );
+                          // },
+                     );
   }
 }

@@ -6,11 +6,36 @@
 // void main() => runApp(MyApp());
 
 // class MyApp extends StatelessWidget {
+
+//   final ThemeData lightTheme = ThemeData.light().copyWith(
+//     // Background color of the FloatingCard
+//     cardColor: Colors.white,
+//     buttonTheme: ButtonThemeData(
+//       // Select here's button color
+//       buttonColor: Colors.black,
+//       textTheme: ButtonTextTheme.primary,
+//     ),
+//   );
+
+//   // Dark Theme
+//   final ThemeData darkTheme = ThemeData.dark().copyWith(
+//     // Background color of the FloatingCard
+//     cardColor: Colors.grey,
+//     buttonTheme: ButtonThemeData(
+//       // Select here's button color
+//       buttonColor: Colors.yellow,
+//       textTheme: ButtonTextTheme.primary,
+//     ),
+//   );
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
 //       debugShowCheckedModeBanner: false,
 //       title: 'Google Map Place Picker',
+//       theme: lightTheme,
+//       darkTheme: darkTheme,
+//       themeMode: ThemeMode.light,
 //       home: PickerPage(),
 //     );
 //   }
@@ -27,8 +52,6 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return PlacePicker(
-//       automaticallyImplyAppBarLeading: true,
-//       hidePlaceDetailsWhenDraggingPin: true,
 //       pinBuilder: (context, state) {
 //       if (state == PinState.Idle) {
 //       return Stack(
@@ -80,11 +103,12 @@
 //       );
 //     }
 //       },
-//                           // onPlacePicked: (result) {
-//                           //   selectedPlace = result;
-//                           //   Navigator.of(context).pop();
-//                           //   setState(() {});
-//                           // },
+//                           onPlacePicked: (result) {
+//                             selectedPlace = result;
+//                             print(selectedPlace);
+//                             Navigator.of(context).pop();
+//                             setState(() {});
+//                           },
                           
 //                           // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
 //                           //   print("state: $state, isSearchBarFocused: $isSearchBarFocused");

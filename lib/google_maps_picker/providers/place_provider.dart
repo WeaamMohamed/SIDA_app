@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import '/google_maps_picker/src/models/pick_result.dart';
-// import '/google_maps_picker/src/place_picker.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
@@ -36,14 +34,14 @@ class PlaceProvider extends ChangeNotifier {
   String sessionToken;
   bool isOnUpdateLocationCooldown = false;
   LocationAccuracy desiredAccuracy;
-  bool isAutoCompleteSearching = false;
+  bool isAutoCompleteSearching = true;
 
   Future<void> updateCurrentLocation(bool forceAndroidLocationManager) async {
     try {
       await Permission.location.request();
       if (await Permission.location.request().isGranted) {
         currentPosition = await getCurrentPosition(
-            desiredAccuracy: desiredAccuracy ?? LocationAccuracy.high);
+            desiredAccuracy: desiredAccuracy ?? LocationAccuracy.bestForNavigation);
       } else {
         currentPosition = null;
       }

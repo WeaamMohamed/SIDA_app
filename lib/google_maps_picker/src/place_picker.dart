@@ -3,23 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import '/google_maps_picker/google_maps_place_picker.dart';
-// import '/google_maps_picker/providers/place_provider.dart';
-// import '/google_maps_picker/src/autocomplete_search.dart';
-// import '/google_maps_picker/src/controllers/autocomplete_search_controller.dart';
-// import '/google_maps_picker/src/google_map_place_picker.dart';
-// import '/google_maps_picker/src/utils/uuid.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/google_maps_picker/providers/place_provider.dart';
 import 'package:sida_app/google_maps_picker/src/utils/uuid.dart';
-import 'dart:io' show Platform;
-
 import 'autocomplete_search.dart';
 import 'controllers/autocomplete_search_controller.dart';
 import 'google_map_place_picker.dart';
 import 'models/pick_result.dart';
+import 'dart:io' show Platform;
 
 enum PinState { Preparing, Idle, Dragging }
 enum SearchingState { Idle, Searching }
@@ -56,7 +49,7 @@ class PlacePicker extends StatefulWidget {
     this.forceSearchOnZoomChanged = false,
     this.automaticallyImplyAppBarLeading = true,
     this.autocompleteOnTrailingWhitespace = false,
-    this.hidePlaceDetailsWhenDraggingPin = true
+    this.hidePlaceDetailsWhenDraggingPin = false
   }) : super(key: key);
 
   final String apiKey = 'AIzaSyC8duRzIq6lUb6BuMVDIpV0vEMmdfHf0WQ';
@@ -69,8 +62,8 @@ class PlacePicker extends StatefulWidget {
 
   final String hintText;
   final String searchingText;
-  // final double searchBarHeight;
-  // final EdgeInsetsGeometry contentPadding;
+  //final double searchBarHeight;
+  //final EdgeInsetsGeometry contentPadding;
 
   final ValueChanged<String> onAutoCompleteFailed;
   final ValueChanged<String> onGeocodingSearchFailed;

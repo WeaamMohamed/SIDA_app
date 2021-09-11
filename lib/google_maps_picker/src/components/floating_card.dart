@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sida_app/google_maps_picker/src/components/rounded_frame.dart';
-// import 'package:sida_app/google_maps_picker/src/components/rounded_frame.dart';
 
 class FloatingCard extends StatelessWidget {
   const FloatingCard({
@@ -35,14 +34,24 @@ class FloatingCard extends StatelessWidget {
       left: leftPosition,
       right: rightPosition,
       bottom: bottomPosition,
-      child: RoundedFrame(
-        width: width,
-        height: height,
-        borderRadius: borderRadius,
-        elevation: elevation,
-        color: color,
-        child: child,
-      ),
+      // child: Container(
+      //   decoration: const BoxDecoration(
+      //   borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15),),
+      //   gradient: const LinearGradient(
+      //     begin: Alignment.centerLeft,
+      //     end: Alignment.centerRight,
+      //     colors: const <Color> [Color(0xffFED444), Color(0xffFEBA3F)],
+      //     tileMode: TileMode.repeated,
+      //   )
+      // ),
+        child: RoundedFrame(
+          width: width,
+          height: height,
+          borderRadius: borderRadius,
+          elevation: elevation,
+          color: color,
+          child: child,
+        ),
     );
   }
 }
