@@ -79,7 +79,6 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
               Navigator.push(context, MaterialPageRoute(builder: (context)=> NamePage(FirebaseAuth.instance.currentUser.uid)));
             }
           });
-
         }
         catch(e)
         { print("you got error: $e");}
@@ -182,7 +181,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                                       myphoneNumber= phoneController.text;
                                     });
                                     setState(() {
-                                      if (val.length == 1)
+                                      if (val.length >= 1)
                                         is_disabled= false;
                                     });
                                   },

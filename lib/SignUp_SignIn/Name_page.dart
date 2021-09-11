@@ -132,8 +132,8 @@ class _NamePageState extends State<NamePage> {
           if(form.validate())
           {
             ref.child(widget.userID).update({'Name': controller.text });
-          //  Navigator.push(context, MaterialPageRoute(
-        //        builder: (BuildContext context) => HomeScreen()));
+            Navigator.push(context, MaterialPageRoute(
+               builder: (BuildContext context) => HomeScreen(widget.userID)));
           }
         },
         child:   Text(' Next',
