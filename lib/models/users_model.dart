@@ -13,9 +13,10 @@ class UsersModel{
   UsersModel.fromSnapShot(DataSnapshot dataSnapshot)
   {
     id = dataSnapshot.key;
-    name = dataSnapshot.value["name"];
-    email = dataSnapshot.value["email"];
-    phone = dataSnapshot.value["phone"];
+    name = dataSnapshot.value["Name"];
+    //email = dataSnapshot.value["email"];
+    phone = dataSnapshot.value["Phonenumber"];
 
   }
+
 }

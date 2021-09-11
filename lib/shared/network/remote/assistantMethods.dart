@@ -68,8 +68,8 @@ class AssistantMethods{
       "pickup": pickUpLocMap,
       "dropoff": dropOffLocMap,
       "created_at": DateTime.now().toString(),
-      "rider_name": userCurrentInfo.name,
-      "rider_phone": userCurrentInfo.phone,
+      "Name": userCurrentInfo.name,
+      "Phonenumber": userCurrentInfo.phone,
       "pickup_address": pickUp.placeName,
       "dropoff_address": dropOff.placeName,
       //TODO: SAVE RIDE TYPE
