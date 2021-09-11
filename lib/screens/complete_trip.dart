@@ -65,13 +65,12 @@ class _CompleteTripState extends State<CompleteTrip> {
                   SizedBox(height: 0.05 * screenHeight),
                   Container(
                     width: 0.93*screenWidth,
-                    height: 0.9* screenHeight,
+                    height:  screenHeight,
                     decoration:BoxDecoration(
                       border: Border.all(color:HexColor('#FAF2C6').withOpacity(0.35) ),
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       color:HexColor('#FAF2C6').withOpacity(0.35),
                     ),
-                    child: SingleChildScrollView(
                       child: Column(
                         children: [
                           SizedBox(height: 0.05*0.9* screenHeight),
@@ -348,7 +347,6 @@ class _CompleteTripState extends State<CompleteTrip> {
                           SizedBox(height: 0.05 * screenHeight),
                         ],
                       ),
-                    ),
                   ),
                   SizedBox(height: 0.1 * screenHeight),
                 ],
