@@ -7,7 +7,6 @@ import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'package:sida_app/shared/network/local/cache_helper.dart';
 import 'localization/app_localization.dart';
 import 'localization/home_page.dart';
-import 'localization/animated_toggle_button.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

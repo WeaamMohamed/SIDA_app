@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sida_app/localization/animated_toggle_button.dart';
+import 'package:sida_app/models/animated_toggle_button.dart';
 import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
 import 'package:sida_app/shared/network/local/cache_helper.dart';
