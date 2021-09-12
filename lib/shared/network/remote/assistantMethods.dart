@@ -30,7 +30,7 @@ class AssistantMethods{
   {
     firebaseUser = FirebaseAuth.instance.currentUser;
     String userId = firebaseUser.uid;
-    DatabaseReference reference = FirebaseDatabase.instance.reference().child("users").child(userId);
+    DatabaseReference reference = FirebaseDatabase.instance.reference().child("Users").child(userId);
 
     reference.once().then((DataSnapshot dataSnapShot)
     {

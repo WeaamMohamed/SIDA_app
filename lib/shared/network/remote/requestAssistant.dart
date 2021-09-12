@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -64,31 +65,17 @@ class RequestAssistant
         userPickUpAddress.latitude = position.latitude;
 
 
-
-      //  placeAddress += decodeData["results"][0]["formatted_address"];
-        String str1, str2, str3, str4;
         placeAddress += decodeData["results"][0]["address_components"][0]["long_name"];
-      //  placeAddress +=  ","  + decodeData["results"][0]["address_components"][1]["long_name"];
         placeAddress +=  ", "  + decodeData["results"][0]["address_components"][2]["long_name"];
         placeAddress +=  ", "  + decodeData["results"][0]["address_components"][3]["long_name"];
-     //   placeAddress +=  ","  + decodeData["results"][0]["address_components"][4]["long_name"];
-        // placeAddress += "," + decodeData["results"][0]["address_components"][5]["long_name"];
-        // placeAddress += ","  + decodeData["results"][0]["address_components"][6]["long_name"];
-        // placeAddress += ","  + decodeData["results"][0]["address_components"][7]["long_name"];
-        userPickUpAddress.placeName = placeAddress;
+        userPickUpAddress.placeName = await placeAddress;
 
 
-        Provider.of<MapProvider>(context, listen: false).updatePickUpLocationAddress(userPickUpAddress);
+
+        await Provider.of<MapProvider>(context, listen: false).updatePickUpLocationAddress(userPickUpAddress);
 
         print("Place Name : " +userPickUpAddress.placeName);
         print("Place address : " +placeAddress);
-
-        // st1 = response["results"][0]["address_components"][4]["long_name"];
-        // st2 = response["results"][0]["address_components"][7]["long_name"];
-        // st3 = response["results"][0]["address_components"][6]["long_name"];
-        // st4 = response["results"][0]["address_components"][9]["long_name"];
-        // placeAddress = st1 + ", " + st2 + ", " + st3 + ", " + st4;
-
 
 
         return placeAddress;
