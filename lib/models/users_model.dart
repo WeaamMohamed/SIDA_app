@@ -4,7 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 class UsersModel{
 
   String id;
-  String name;
+  String name = "default";
   String email;
   String phone;
 

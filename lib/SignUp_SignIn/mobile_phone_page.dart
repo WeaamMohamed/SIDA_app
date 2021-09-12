@@ -71,7 +71,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
           await ref.child(FirebaseAuth.instance.currentUser.uid).once().then((DataSnapshot snapshot) async {
             if ( snapshot.value != null)
             {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfileScreen(FirebaseAuth.instance.currentUser.uid )));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> HomeScreen(FirebaseAuth.instance.currentUser.uid )));
             }
             else
             {
@@ -81,7 +81,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
           });
         }
         catch(e)
-        { print("you got error: $e");}
+        { print("you got error: ${e}");}
       }
 
     } on FirebaseAuthException catch (e) {
@@ -89,6 +89,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
         showLoading = false;
       });
 
+      print("your error ${e.message}");
       _scaffoldKey.currentState
           .showSnackBar(SnackBar(content: Text(e.message)));
     }

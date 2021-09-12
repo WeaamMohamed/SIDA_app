@@ -227,7 +227,7 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
 
 
           AssistantMethods.saveRideRequest(context: context);
-          Provider.of<DataProvider>(context).homeStatus = HomeStatus.FINDING_RIDE;
+          Provider.of<DataProvider>(context, listen: false).homeStatus = HomeStatus.FINDING_RIDE;
 
         }),
       ],

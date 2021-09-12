@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/models/direction_details_model.dart';
+import 'package:sida_app/screens/finding_a_ride.dart';
 import 'package:sida_app/screens/where_to_screen.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
@@ -197,6 +198,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
+              if(dataProvider.homeStatus == HomeStatus.FINDING_RIDE)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    //  height: MediaQuery.of(context).size.height / 4,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: mainHorizontalMargin,
+                      vertical: mqSize.height * 0.03,
+                    ),
+                    child: FindingRide(),
+
+                  ),
+                ),
 
               //for shadow
             ],
