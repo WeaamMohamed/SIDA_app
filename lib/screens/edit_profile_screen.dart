@@ -161,7 +161,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
      Spacer(),
      customBlackButton(title: "Update",
              onTap: (){
-               if(formKey.currentState.validate())
+               print("+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>") ;
+               print(widget.userID);
+               //if(formKey.currentState.validate())
                  {
                   ref.child(widget.userID).update({'Name': nameController.text });
                   ref.child(widget.userID).update({'Phonenumber': phoneController.text });

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -90,8 +91,8 @@ class _PromotionPageState extends State<PromotionPage> {
                          Text('0.00',
                              style: TextStyle(
                                color: HexColor('#FFBB00'), fontSize: 50.0, )),
-                         SizedBox(width: 0.09 * screenWidth),
-                         SvgPicture.asset("assets/Coin.svg",width: 65,height: 65)
+                         SizedBox(width: 0.06 * screenWidth),
+                         SvgPicture.asset("assets/images/Coin.svg",width: 65,height: 65)
 
                        ],
                      )
@@ -103,11 +104,14 @@ class _PromotionPageState extends State<PromotionPage> {
                    style: TextStyle(
                        color: Colors.grey, fontSize: 16.0 )),
                SizedBox(height: 0.05* screenHeight),
-              Image.asset('assets/challenges.png',width: screenWidth,),
+              Image.asset('assets/images/challenges.png',width: screenWidth,),
                SizedBox(height: 0.02* screenHeight),
-               Text('*Make your every six trips to get 1 FREE trip up to 35 EGP !',
-                   style: TextStyle(
-                       color: Colors.grey, fontSize: 15.0 )),
+               Padding(
+                 padding: const EdgeInsets.only(left:12.0),
+                 child: Text('*Make your every six trips to get 1 FREE trip up to 35 EGP !',
+                     style: TextStyle(
+                         color: Colors.grey, fontSize: 15.0 )),
+               ),
                SizedBox(height: 0.07* screenHeight),
                Align(
                  alignment: Alignment.centerLeft,
@@ -115,13 +119,13 @@ class _PromotionPageState extends State<PromotionPage> {
                      style: TextStyle(
                          color: Colors.black, fontSize: 25.0 )),
                ),
-               SizedBox(height: 0.03 * screenHeight),
+               SizedBox(height: 0.05* screenHeight),
                SizedBox(height: 1,width:screenWidth-50, child: Container( color: Colors.grey,),),
                SizedBox(height: 0.05 * screenHeight),
               /// box of the first offer
                Container(
                  width: 0.93*screenWidth,
-                 height: 0.56* screenHeight,
+                 height: 0.53* screenHeight,
                  decoration:BoxDecoration(
                    color: Colors.black.withOpacity(0.80),
                    border: Border.all(color:HexColor('#FAF2C6').withOpacity(0.35) ),
@@ -129,7 +133,7 @@ class _PromotionPageState extends State<PromotionPage> {
                  ),
                  child: Column(
                    children: [
-                     SizedBox(height: 0.05* screenHeight),
+                     SizedBox(height: 0.03* screenHeight),
                      Flexible(
                        child: Row(
                          crossAxisAlignment: CrossAxisAlignment.center,
@@ -137,26 +141,31 @@ class _PromotionPageState extends State<PromotionPage> {
                            SizedBox(width: 0.07 * screenWidth),
                            Text('AnySIDA discount 20%',
                                style: TextStyle(
-                                 color: Colors.white, fontSize: 22.0,fontWeight: FontWeight.bold )),
-                           SizedBox(width: 0.03* screenWidth),
-
-                          Image.asset("assets/offer1.png",width: 90,height: 90)
+                                 color: Colors.white, fontSize: 20.0,fontWeight: FontWeight.bold )),
+                           SizedBox(width: 0.03 * screenWidth),
+                        Image.asset("assets/images/offer1.png",width: 90,height: 90)
                          ],
                        ),
                      ),
                      SizedBox(height: 0.01* screenHeight),
-                     Text('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ',
-                         style: TextStyle(
-                             color: Colors.white, fontSize: 20.0)),
+                     Padding(
+                       padding: const EdgeInsets.all(10.0),
+                       child: DottedLine(
+                         dashLength: 10,
+                         dashGapLength: 10,
+                         lineThickness: 1,
+                         dashColor: Colors.white,
+                       ),
+                     ),
                      SizedBox(height: 0.03 * screenHeight),
                      Row(
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: [
                          SizedBox(width: 0.02 * screenWidth),
-                         SvgPicture.asset("assets/checked.svg",width: 25,height: 25),
+                         SvgPicture.asset("assets/images/checked.svg",width: 25,height: 25),
                          SizedBox(width: 0.03 * screenWidth),
                          Flexible(
-                           child: Text('Designed especially for women who go\n to work-home everyday frequently',
+                           child: Text('Designed especially for women who go to work-home everyday frequently',
                                style: TextStyle(
                                    color: Colors.white, fontSize: 18.0 )),
                          ),
@@ -167,7 +176,7 @@ class _PromotionPageState extends State<PromotionPage> {
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: [
                          SizedBox(width: 0.02 * screenWidth),
-                         SvgPicture.asset("assets/checked.svg",width: 25,height: 25),
+                         SvgPicture.asset("assets/images/checked.svg",width: 25,height: 25),
                          SizedBox(width: 0.03 * screenWidth),
                          Flexible(
                            child: Text('Save up to 500 (30 days)',
@@ -210,7 +219,7 @@ class _PromotionPageState extends State<PromotionPage> {
                /// box of the second offer
                Container(
                  width: 0.93*screenWidth,
-                 height: 0.56* screenHeight,
+                 height: 0.53* screenHeight,
                  decoration:BoxDecoration(
                    color: Colors.black.withOpacity(0.80),
                    border: Border.all(color:HexColor('#FAF2C6').withOpacity(0.35) ),
@@ -226,26 +235,31 @@ class _PromotionPageState extends State<PromotionPage> {
                            SizedBox(width: 0.07 * screenWidth),
                            Text('SIDA Kids School Service',
                                style: TextStyle(
-                                   color: Colors.white, fontSize: 22.0,fontWeight: FontWeight.bold )),
-                           SizedBox(width: 0.02 * screenWidth),
-                           Image.asset("assets/offer1.png",width: 50,height: 50 ,)
+                                   color: Colors.white, fontSize: 20.0,fontWeight: FontWeight.bold )),
+                          // Image.asset("assets/images/offer1.png",width: 90,height: 90)
                          ],
                        ),
                      ),
                      SizedBox(height: 0.01* screenHeight),
-                     Text('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ',
-                         style: TextStyle(
-                             color: Colors.white, fontSize: 20.0)),
+                     Padding(
+                       padding: const EdgeInsets.all(10.0),
+                       child: DottedLine(
+                         dashLength: 10,
+                         dashGapLength: 10,
+                         lineThickness: 1,
+                         dashColor: Colors.white,
+                       ),
+                     ),
                      SizedBox(height: 0.03 * screenHeight),
                      /// offer description
                      Row(
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: [
                          SizedBox(width: 0.02 * screenWidth),
-                         SvgPicture.asset("assets/checked.svg",width: 25,height: 25),
+                         SvgPicture.asset("assets/images/checked.svg",width: 25,height: 25),
                          SizedBox(width: 0.03 * screenWidth),
                          Flexible(
-                           child: Text('Full safety and quality service designed\nespecially for families living at the same\narea who wanted to bring their children to/from school every day, at the morning',
+                           child: Text('Full safety and quality service designed especially for families living at the same area who wanted to bring their children to/from school every day, at the morning',
                                style: TextStyle(
                                    color: Colors.white, fontSize: 18.0 )),
                          ),
@@ -276,6 +290,7 @@ class _PromotionPageState extends State<PromotionPage> {
                                    color: Colors.black, fontSize: 20.0, fontFamily: 'spoqa_han_sans',fontWeight: FontWeight.bold))
                        ),
                      ),
+                     SizedBox(height: 0.03* screenHeight),
                    ],
                  ),
                ),
