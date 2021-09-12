@@ -87,7 +87,7 @@ class _NamePageState extends State<NamePage> {
                         obscureText: false,
                         style: TextStyle( color: Colors.white,fontSize: 20),
                         decoration: InputDecoration(
-                            hintText: "Your Name",
+                               hintText: "Your Name",
                         ),
                         onChanged: (val){
                           setState(() {
