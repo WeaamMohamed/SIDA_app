@@ -129,7 +129,7 @@ class _TripDetailsState extends State<TripDetails> {
           color: Colors.white,
           child: Column(
             children: [
-              profileImage(AssetImage("assets/SIDAplus.jpg")),
+              profileImage(AssetImage("assets/images/SIDAplus.jpg")),
               Padding(
                 padding: const EdgeInsets.only(left: 30.0),
                 child: Align(
@@ -387,7 +387,7 @@ class _TripDetailsState extends State<TripDetails> {
                     Row(
                       children: [
                         SizedBox(width: 0.02 * screenWidth),
-                        SvgPicture.asset('assets/PickupFlag.svg',width:25,height:25),
+                        SvgPicture.asset('assets/images/PickupFlag.svg',width:25,height:25),
                         SizedBox(width: 0.03 * screenWidth),
                         Flexible(
                             child: Text('El-Tahrir Square, Qasr El Nil, Cairo Governorate',
@@ -400,7 +400,7 @@ class _TripDetailsState extends State<TripDetails> {
                     Row(
                       children: [
                         SizedBox(width: 0.02 * screenWidth),
-                        SvgPicture.asset('assets/TargetFlag.svg',width: 30,height: 30,),
+                        SvgPicture.asset('assets/images/TargetFlag.svg',width: 30,height: 30,),
                         SizedBox(width: 0.03 * screenWidth),
                         Flexible(
                           child: Text('Cairo - Al Wosta, Qasr Ad Dobarah, Qasr El Nile Cairo Governorate',
