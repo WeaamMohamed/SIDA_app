@@ -1,13 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sida_app/map_sample.dart';
+import 'package:sida_app/screens/complete_trip.dart';
 import 'package:sida_app/screens/edit_profile_screen.dart';
 import 'package:sida_app/screens/home_screen.dart';
-import 'package:sida_app/shared/network/remote/assistantMethods.dart';
 import 'SignUp_SignIn/mobile_phone_page.dart';
 import 'google_maps_picker/src/components/animated_pin.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -18,9 +16,8 @@ import 'package:sida_app/shared/network/local/cache_helper.dart';
 import 'google_maps_picker/src/models/pick_result.dart';
 import 'google_maps_picker/src/place_picker.dart';
 import 'localization/app_localization.dart';
-import 'package:sida_app/shared/data_handler/map_provider.dart';
-import 'package:sida_app/Assistants/geoFireAssistant.dart';
-import 'models/nearby_availabledrivers.dart';
+import 'screens/settings_screen.dart';
+
 //DON'T DELETE THIS PART//: CAN'T DELETE ANYTHING BELOW UNTILL ANOTHER COMMENT >>
 void main() async
 {
@@ -112,10 +109,24 @@ class _MyAppState extends State<MyApp> {
           // else
           //   return supportedLocales.first;
         },
-
-        home: FirebaseAuth.instance.currentUser== null? PhoneNumberPage(): HomeScreen(FirebaseAuth.instance.currentUser.uid), //YOU CAN ONLY CHANGE THIS
+        //home: SettingsScreen(),
+          home: getCurrentScreen(),
+        //
+        //  home: await FirebaseAuth.instance.currentUser== null? PhoneNumberPage(): HomeScreen(FirebaseAuth.instance.currentUser.uid), //YOU CAN ONLY CHANGE THIS
+     ///  home: FirebaseAuth.instance.currentUser== null? PhoneNumberPage(): EditProfileScreen(FirebaseAuth.instance.currentUser.uid), //YOU CAN ONLY CHANGE THIS
       ),
     );
+  }
+
+  Widget getCurrentScreen() {
+
+    if ( FirebaseAuth.instance.currentUser!= null) {
+      // already signed in
+      return HomeScreen(FirebaseAuth.instance.currentUser.uid);
+    } else {
+      return PhoneNumberPage();
+    }
+
   }
 }
 //://DON'T DELETE THIS PART//: YOU CAN DELETE ANYTHING BELOW >>
@@ -127,7 +138,6 @@ class PickerPage extends StatefulWidget {
 }
 
 class _PickerPageState extends State<PickerPage> {
-
   PickResult selectedPlace;
   @override
   Widget build(BuildContext context) {
@@ -215,7 +225,6 @@ class _PickerPageState extends State<PickerPage> {
                           // },
                      );
   }
-
 }
 
 

@@ -67,24 +67,25 @@ Widget customBlackButton({
   String title = "Update",
   Function onTap,
 }) =>
-    Container(
-      height: 60,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(14),
-        color: Colors.black,
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-            onTap: () {},
-            child: Center(
-              child: Text(title,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  )),
-            )),
+    InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 60,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          color: Colors.black,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: Center(
+            child: Text(title,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
+        ),
       ),
     );
 
@@ -120,6 +121,26 @@ Widget customTextFormField({
       validator: validator,
     );
 BorderRadius customBorderRadius = BorderRadius.circular(8);
+
+Widget customWhiteAppBar({String title, @required context})=>   AppBar(
+  //  backgroundColor: Colors.red,
+  centerTitle: true,
+  title: Text(title,
+    style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        color: Colors.black
+    ),),
+  elevation: 0,
+  backgroundColor: Colors.white,
+  leading: InkWell(
+    onTap: () {
+      Navigator.pop(context);
+    },
+    child: Icon(Icons.arrow_back, color: Colors.black,
+    ),
+  ),
+);
 
 enum CarTypes {
   ANY_SIDA,
