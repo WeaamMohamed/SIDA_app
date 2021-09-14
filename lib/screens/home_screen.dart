@@ -4,11 +4,14 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:sida_app/Assistants/geoFireAssistant.dart';
 import 'package:sida_app/models/direction_details_model.dart';
+import 'package:sida_app/models/nearby_availabledrivers.dart';
 import 'package:sida_app/screens/driver_arriving.dart';
 import 'package:sida_app/screens/finding_a_ride.dart';
 import 'package:sida_app/screens/where_to_screen.dart';
@@ -40,6 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
   // GoogleMapController newGoogleMapController;
 
+  Set<Marker> markersSet = {};
+  bool nearByavailableDriverKeysLoaded = false;
+  BitmapDescriptor nearByIcon;
 
   final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(30.033333, 31.233334),
@@ -52,6 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    createIconMarker();
+
     final mapProvider = Provider.of<MapProvider>(context);
     final dataProvider = Provider.of<DataProvider>(context);
 
@@ -81,6 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
       String currentUserAddress =
       await RequestAssistant.getSearchCoordinateAddress(position: position, context: context);
       print("this is your address: " + currentUserAddress);
+
+      initGeofireListener();
     }
 
     // final CameraPosition _kGooglePlex = CameraPosition(
@@ -304,9 +315,90 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   );
 
+  ///todo:call it at the end of locateposition function
+  void initGeofireListener ()
+  {
+    Geofire.initialize('availableDrivers');
+
+    Geofire.queryAtLocation(MapProvider().userPickUpLocation.latitude, MapProvider().userPickUpLocation.longitude, 10 ).listen((map) {
+      print(map);
+      if (map != null) {
+        var callBack = map['callBack'];
+
+        switch (callBack) {
+          case Geofire.onKeyEntered:
+            NearByAvailableDrivers nearByAvailableDrivers=NearByAvailableDrivers();
+            nearByAvailableDrivers.key= map['key'];
+            nearByAvailableDrivers.latitude=map['latitude'];
+            nearByAvailableDrivers.longitude=map['longitude'];
+            GeoFireAssistant.nearByAvailableDriversList.add(nearByAvailableDrivers);
+            if (nearByavailableDriverKeysLoaded)
+            {
+              updateAvailableDriversOnMap();
+            }
+            break;
+
+          case Geofire.onKeyExited:
+            GeoFireAssistant.removeDriverFromList(map['key']);
+            updateAvailableDriversOnMap();
+            break;
+
+          case Geofire.onKeyMoved:
+            NearByAvailableDrivers nearByAvailableDrivers=NearByAvailableDrivers();
+            nearByAvailableDrivers.key= map['key'];
+            nearByAvailableDrivers.latitude=map['latitude'];
+            nearByAvailableDrivers.longitude=map['longitude'];
+            GeoFireAssistant.updateDriverNearByLocation(nearByAvailableDrivers);
+            updateAvailableDriversOnMap();
+            break;
 
 
+          case Geofire.onGeoQueryReady:
+            updateAvailableDriversOnMap();
+            break;
+        }
+      }
 
+      setState(() {});
+    });
+  }
+
+  void updateAvailableDriversOnMap()
+  {
+    setState(() {
+
+      markersSet.clear();
+    });
+    Set<Marker> tMarkers = Set<Marker>();
+    for (NearByAvailableDrivers driver in GeoFireAssistant.nearByAvailableDriversList)
+    {
+      LatLng driveravalPosition= LatLng(driver.latitude, driver.longitude);
+      Marker marker = Marker(
+        markerId: MarkerId('driver${driver.key}'),
+        position: driveravalPosition,
+        ///TODO:IF we want to change the color
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow),
+        rotation: AssistantMethods.createRandomNumber(360),
+      );
+      tMarkers.add(marker);
+    }
+    setState(() {
+      markersSet = tMarkers;
+    });
+  }
+
+ void createIconMarker()
+ {
+   if ( nearByIcon == null)
+     {
+       ImageConfiguration imageConfiguration= createLocalImageConfiguration(context,size:Size(2,2) );
+       BitmapDescriptor.fromAssetImage(imageConfiguration, "assets/images/Driver_Car").then((value)
+       {
+         nearByIcon=value;
+
+       });
+     }
+ }
 }
 
 
