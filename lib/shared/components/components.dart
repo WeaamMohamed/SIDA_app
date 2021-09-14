@@ -67,24 +67,25 @@ Widget customBlackButton({
   String title = "Update",
   Function onTap,
 }) =>
-    Container(
-      height: 60,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(14),
-        color: Colors.black,
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-            onTap: () {},
-            child: Center(
-              child: Text(title,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  )),
-            )),
+    InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 60,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          color: Colors.black,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: Center(
+            child: Text(title,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
+        ),
       ),
     );
 
