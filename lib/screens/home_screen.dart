@@ -21,7 +21,6 @@ import 'package:sida_app/widgets/home_drawer.dart';
 import 'package:sida_app/widgets/select_and_confirm_ride.dart';
 import 'package:sida_app/shared/network/remote/assistantMethods.dart';
 import 'package:sida_app/shared/network/remote/requestAssistant.dart';
-
 import '../shared/network/remote/assistantMethods.dart';
 import '../shared/network/remote/requestAssistant.dart';
 

@@ -94,6 +94,7 @@ Widget customTextFormField({
   Function validator,
   TextEditingController textController,
   TextInputType textInputType,
+  String hint
 }) =>
     TextFormField(
       controller: textController,
@@ -101,6 +102,7 @@ Widget customTextFormField({
 //labelText:"label",
 
       decoration: InputDecoration(
+        hintText: hint,
         contentPadding: EdgeInsets.symmetric(vertical: 20.0,),
 
         errorStyle: TextStyle(
@@ -118,6 +120,7 @@ Widget customTextFormField({
       style: TextStyle(
         fontSize: 15,
       ),
+
       validator: validator,
     );
 BorderRadius customBorderRadius = BorderRadius.circular(8);

@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sida_app/shared/components/components.dart';
@@ -19,6 +21,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   var nameController = TextEditingController();
   var phoneController = TextEditingController();
   var formKey = GlobalKey<FormState>();
+  String UserName;
+  String UserNumber;
+
+
+
+  void initState(){
+    super.initState();
+    retrieve_name();
+  }
+  void retrieve_name ()async
+  {
+    try {
+      await ref.child(FirebaseAuth.instance.currentUser.uid).once().then((DataSnapshot snapshot) async {
+        setState(() {
+          UserName = snapshot.value['Name'];
+          UserNumber=snapshot.value['Phonenumber'];
+          print("=____________++++++++++++++++++++++");
+          print(UserNumber);
+          print(UserName);
+        });
+      });
+    }
+    catch(e)
+    { print("you got error: $e");}
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +148,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
 
                         customTextFormField(
+                          hint: UserName,
                           label: "Name",
                           textController: nameController,
                           validator:  (value) {
@@ -147,6 +176,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         //
                         // ),
                         customTextFormField(
+                          hint: UserNumber,
                           label: "Phone Number",
                           textController: phoneController,
                           validator: (value) {
@@ -166,11 +196,29 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   customBlackButton(
                       title: "Update",
                       onTap: (){
-
-                        print("+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>") ;
-                        print(widget.userID);
                         if(formKey.currentState.validate())
                         {
+                          ///TODO: Important: this is a security sensitive operation that
+                          ///requires the user to have recently signed in. If this requirement isn't met,
+                          ///ask the user to authenticate again and later call reauthenticate(AuthCredential).
+                          FirebaseAuth.instance.verifyPhoneNumber(
+                              phoneNumber: UserNumber,
+                              timeout: const Duration(minutes: 2),
+                              verificationCompleted: (credential) async {
+                                 FirebaseAuth.instance.currentUser.updatePhoneNumber(credential);
+                                // either this occurs or the user needs to manually enter the SMS code
+                              },
+                              verificationFailed: null,
+                              codeSent: (verificationId, [forceResendingToken]) async {
+                                String smsCode;
+                                // get the SMS code from the user somehow (probably using a text field)
+                                final AuthCredential credential =
+                                PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
+                                FirebaseAuth.instance.currentUser.updatePhoneNumber(credential);
+                              },
+                              codeAutoRetrievalTimeout: null);
+
+                        //  FirebaseAuth.instance.currentUser.updatePhoneNumber(phoneCredential)
                           ref.child(widget.userID).update({'Name': nameController.text });
                           ref.child(widget.userID).update({'Phonenumber': phoneController.text });
                           print("updated.");
