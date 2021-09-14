@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:geolocator/geolocator.dart';
@@ -88,6 +90,11 @@ class AssistantMethods{
 
   }
 
-
+   static double createRandomNumber( int num)
+   {
+     var random = Random();
+     int radNumber = random.nextInt(num);
+     return radNumber.toDouble();
+   }
 
 }

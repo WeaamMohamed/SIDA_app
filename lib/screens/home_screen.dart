@@ -4,17 +4,19 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:sida_app/Assistants/geoFireAssistant.dart';
 import 'package:sida_app/models/direction_details_model.dart';
+import 'package:sida_app/models/nearby_availabledrivers.dart';
 import 'package:sida_app/screens/driver_arriving.dart';
 import 'package:sida_app/screens/finding_a_ride.dart';
 import 'package:sida_app/screens/where_to_screen.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
-import 'package:sida_app/shared/utils.dart';
 import 'package:sida_app/widgets/home_drawer.dart';
 import 'package:sida_app/widgets/select_and_confirm_ride.dart';
 import 'package:sida_app/shared/network/remote/assistantMethods.dart';
@@ -32,14 +34,18 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
+class _HomeScreenState extends State<HomeScreen> {
 
   // List<LatLng> pLineCoordinates = [];
   // Set<Polyline> polylineSet = {};
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  Completer<GoogleMapController> _controllerGoogleMap = Completer();
   // GoogleMapController newGoogleMapController;
 
+  Set<Marker> markersSet = {};
+  bool nearByavailableDriverKeysLoaded = false;
+  BitmapDescriptor nearByIcon;
 
   final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(30.033333, 31.233334),
@@ -48,12 +54,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
 
   Position _userCurrentPosition;
 
-  Completer<GoogleMapController> _controllerGoogleMap = Completer();
   final double mainHorizontalMargin = 15.0;
 
   @override
   Widget build(BuildContext context) {
-  //_controllerGoogleMap ;
+
+    createIconMarker();
 
     final mapProvider = Provider.of<MapProvider>(context);
     final dataProvider = Provider.of<DataProvider>(context);
@@ -84,6 +90,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       String currentUserAddress =
       await RequestAssistant.getSearchCoordinateAddress(position: position, context: context);
       print("this is your address: " + currentUserAddress);
+
+      initGeofireListener();
     }
 
     // final CameraPosition _kGooglePlex = CameraPosition(
@@ -124,17 +132,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                 polylines: mapProvider.polylineSet,
                 // markers: markersSet,
                 // circles: circlesSet,
-                onMapCreated: (GoogleMapController controller) async{
-                 await _controllerGoogleMap.complete(controller);
+                onMapCreated: (GoogleMapController controller) {
+                  _controllerGoogleMap.complete(controller);
                   mapProvider.newGoogleMapController = controller;
                   locatePosition();
 
                   //  locatePosition();
                 },
-
-
               ),
-
 
               //for shadow
               _buildShadow(),
@@ -246,11 +251,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   @override
   void initState() {
 
-    //TODO: for map blank after resuming from background
-   /// WidgetsBinding.instance!.addObserver(this);
-    WidgetsBinding.instance.addObserver(this);
-
-
     AssistantMethods.getCurrentOnlineUserInfo();
 
     // TODO: implement initState
@@ -268,39 +268,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
     SystemChrome.setEnabledSystemUIOverlays(
         [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     super.dispose();
-  }
-
-  //onMapCreated method
-  void onMapCreated(GoogleMapController controller) {
-    controller.setMapStyle(Utils.mapStyles);
-
-    _controllerGoogleMap.complete(controller);
-
-
-    //TODO:
-
-
-  }
-// lifecycle
-  @override
-  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
-    super.didChangeAppLifecycleState(state);
-    switch (state) {
-      case AppLifecycleState.inactive:
-        print('appLifeCycleState inactive');
-        break;
-      case AppLifecycleState.resumed:
-        final GoogleMapController controller = await _controllerGoogleMap.future;
-    onMapCreated(controller);
-    print('appLifeCycleState resumed');
-    break;
-    case AppLifecycleState.paused:
-    print('appLifeCycleState paused');
-    break;
-    case AppLifecycleState.detached:
-    print('appLifeCycleState detached');
-    break;
-  }
   }
 
   Widget _buildShadow() => Positioned(
@@ -348,9 +315,90 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
     ),
   );
 
+  ///todo:call it at the end of locateposition function
+  void initGeofireListener ()
+  {
+    Geofire.initialize('availableDrivers');
+
+    Geofire.queryAtLocation(MapProvider().userPickUpLocation.latitude, MapProvider().userPickUpLocation.longitude, 10 ).listen((map) {
+      print(map);
+      if (map != null) {
+        var callBack = map['callBack'];
+
+        switch (callBack) {
+          case Geofire.onKeyEntered:
+            NearByAvailableDrivers nearByAvailableDrivers=NearByAvailableDrivers();
+            nearByAvailableDrivers.key= map['key'];
+            nearByAvailableDrivers.latitude=map['latitude'];
+            nearByAvailableDrivers.longitude=map['longitude'];
+            GeoFireAssistant.nearByAvailableDriversList.add(nearByAvailableDrivers);
+            if (nearByavailableDriverKeysLoaded)
+            {
+              updateAvailableDriversOnMap();
+            }
+            break;
+
+          case Geofire.onKeyExited:
+            GeoFireAssistant.removeDriverFromList(map['key']);
+            updateAvailableDriversOnMap();
+            break;
+
+          case Geofire.onKeyMoved:
+            NearByAvailableDrivers nearByAvailableDrivers=NearByAvailableDrivers();
+            nearByAvailableDrivers.key= map['key'];
+            nearByAvailableDrivers.latitude=map['latitude'];
+            nearByAvailableDrivers.longitude=map['longitude'];
+            GeoFireAssistant.updateDriverNearByLocation(nearByAvailableDrivers);
+            updateAvailableDriversOnMap();
+            break;
 
 
+          case Geofire.onGeoQueryReady:
+            updateAvailableDriversOnMap();
+            break;
+        }
+      }
 
+      setState(() {});
+    });
+  }
+
+  void updateAvailableDriversOnMap()
+  {
+    setState(() {
+
+      markersSet.clear();
+    });
+    Set<Marker> tMarkers = Set<Marker>();
+    for (NearByAvailableDrivers driver in GeoFireAssistant.nearByAvailableDriversList)
+    {
+      LatLng driveravalPosition= LatLng(driver.latitude, driver.longitude);
+      Marker marker = Marker(
+        markerId: MarkerId('driver${driver.key}'),
+        position: driveravalPosition,
+        ///TODO:IF we want to change the color
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow),
+        rotation: AssistantMethods.createRandomNumber(360),
+      );
+      tMarkers.add(marker);
+    }
+    setState(() {
+      markersSet = tMarkers;
+    });
+  }
+
+ void createIconMarker()
+ {
+   if ( nearByIcon == null)
+     {
+       ImageConfiguration imageConfiguration= createLocalImageConfiguration(context,size:Size(2,2) );
+       BitmapDescriptor.fromAssetImage(imageConfiguration, "assets/images/Driver_Car").then((value)
+       {
+         nearByIcon=value;
+
+       });
+     }
+ }
 }
 
 
