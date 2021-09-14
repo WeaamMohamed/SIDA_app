@@ -339,15 +339,15 @@ class GoogleMapPlacePicker extends StatelessWidget {
           ),
           SizedBox(height: 12),
           Container(
-            width: 80,
+            height: 34,
+            width: MediaQuery.of(context).size.width,
             child: RaisedButton(
-              //padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               child: Text(
                 "Set pickup location",
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
               ),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0),
+                borderRadius: BorderRadius.circular(0.0),
               ),
               onPressed: () {
                 onPlacePicked(result);

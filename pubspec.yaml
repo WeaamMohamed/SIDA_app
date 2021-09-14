@@ -36,7 +36,7 @@ dependencies:
   flutter_rating_bar: ^4.0.0
   shared_preferences: ^0.5.12+4
   dotted_line: ^3.0.0
-  flutter_geofire: ^2.0.0
+  flutter_geofire: ^1.0.3
 
 
 dependency_overrides:
