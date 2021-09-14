@@ -14,6 +14,7 @@ import 'package:sida_app/screens/finding_a_ride.dart';
 import 'package:sida_app/screens/where_to_screen.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
+import 'package:sida_app/shared/utils.dart';
 import 'package:sida_app/widgets/home_drawer.dart';
 import 'package:sida_app/widgets/select_and_confirm_ride.dart';
 import 'package:sida_app/shared/network/remote/assistantMethods.dart';
@@ -31,13 +32,12 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
 
   // List<LatLng> pLineCoordinates = [];
   // Set<Polyline> polylineSet = {};
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  Completer<GoogleMapController> _controllerGoogleMap = Completer();
   // GoogleMapController newGoogleMapController;
 
 
@@ -48,10 +48,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Position _userCurrentPosition;
 
+  Completer<GoogleMapController> _controllerGoogleMap = Completer();
   final double mainHorizontalMargin = 15.0;
 
   @override
   Widget build(BuildContext context) {
+  //_controllerGoogleMap ;
+
     final mapProvider = Provider.of<MapProvider>(context);
     final dataProvider = Provider.of<DataProvider>(context);
 
@@ -121,14 +124,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 polylines: mapProvider.polylineSet,
                 // markers: markersSet,
                 // circles: circlesSet,
-                onMapCreated: (GoogleMapController controller) {
-                  _controllerGoogleMap.complete(controller);
+                onMapCreated: (GoogleMapController controller) async{
+                 await _controllerGoogleMap.complete(controller);
                   mapProvider.newGoogleMapController = controller;
                   locatePosition();
 
                   //  locatePosition();
                 },
+
+
               ),
+
 
               //for shadow
               _buildShadow(),
@@ -240,6 +246,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
 
+    //TODO: for map blank after resuming from background
+   /// WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
+
+
     AssistantMethods.getCurrentOnlineUserInfo();
 
     // TODO: implement initState
@@ -257,6 +268,39 @@ class _HomeScreenState extends State<HomeScreen> {
     SystemChrome.setEnabledSystemUIOverlays(
         [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     super.dispose();
+  }
+
+  //onMapCreated method
+  void onMapCreated(GoogleMapController controller) {
+    controller.setMapStyle(Utils.mapStyles);
+
+    _controllerGoogleMap.complete(controller);
+
+
+    //TODO:
+
+
+  }
+// lifecycle
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.inactive:
+        print('appLifeCycleState inactive');
+        break;
+      case AppLifecycleState.resumed:
+        final GoogleMapController controller = await _controllerGoogleMap.future;
+    onMapCreated(controller);
+    print('appLifeCycleState resumed');
+    break;
+    case AppLifecycleState.paused:
+    print('appLifeCycleState paused');
+    break;
+    case AppLifecycleState.detached:
+    print('appLifeCycleState detached');
+    break;
+  }
   }
 
   Widget _buildShadow() => Positioned(
