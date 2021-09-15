@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/models/address_model.dart';
@@ -198,7 +199,7 @@ class PredictionTile extends StatelessWidget
         Provider.of<DataProvider>(context, listen: false).homeStatus = HomeStatus.SELECT_AND_CONFIRM_RIDE;
        ///TODO:change to user id in homescreen()
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-          builder: (context,) => HomeScreen('33'),), (route) => false);
+          builder: (context,) => HomeScreen(FirebaseAuth.instance.currentUser.uid),), (route) => false);
 
 
       }

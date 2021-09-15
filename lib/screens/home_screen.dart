@@ -17,6 +17,7 @@ import 'package:sida_app/screens/finding_a_ride.dart';
 import 'package:sida_app/screens/where_to_screen.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
+import 'package:sida_app/shared/utils.dart';
 import 'package:sida_app/widgets/home_drawer.dart';
 import 'package:sida_app/widgets/select_and_confirm_ride.dart';
 import 'package:sida_app/shared/network/remote/assistantMethods.dart';
@@ -27,13 +28,13 @@ import '../shared/network/remote/requestAssistant.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
 //TODO: convert to stateles
 class HomeScreen extends StatefulWidget {
-  final String userID;
-  HomeScreen(  this.userID,{Key key}):super(key: key);
+   String userID = FirebaseAuth.instance.currentUser.uid;
+  HomeScreen( this.userID);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   // List<LatLng> pLineCoordinates = [];
   // Set<Polyline> polylineSet = {};
@@ -46,12 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
   bool nearByavailableDriverKeysLoaded = false;
   BitmapDescriptor nearByIcon;
 
-  final CameraPosition _kGooglePlex = CameraPosition(
+   CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(30.033333, 31.233334),
     zoom: 14.4746,
   );
 
   Position _userCurrentPosition;
+
+ // Completer<GoogleMapController> _controllerGoogleMap = Completer();
 
   final double mainHorizontalMargin = 15.0;
 
@@ -67,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-    void locatePosition() async {
+    Future<void> locatePosition() async {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.bestForNavigation);
       _userCurrentPosition = position;
@@ -84,13 +87,16 @@ class _HomeScreenState extends State<HomeScreen> {
           .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
 
+      // setState(() {
+      //   _kGooglePlex = cameraPosition;
+      // });
 
       //to get user's current address
       String currentUserAddress =
       await RequestAssistant.getSearchCoordinateAddress(position: position, context: context);
       print("this is your address: " + currentUserAddress);
 
-      initGeofireListener();
+      /// initGeofireListener();
     }
 
     // final CameraPosition _kGooglePlex = CameraPosition(
@@ -104,10 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       drawer: HomeDrawer(),
       body: SingleChildScrollView(
-
-
         child: Container(
-
           height: MediaQuery.of(context).size.height,
           width: mqSize.width,
 
@@ -131,10 +134,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 polylines: mapProvider.polylineSet,
                 // markers: markersSet,
                 // circles: circlesSet,
-                onMapCreated: (GoogleMapController controller) {
-                  _controllerGoogleMap.complete(controller);
+                onMapCreated: (GoogleMapController controller) async{
+                  await _controllerGoogleMap.complete(controller);
                   mapProvider.newGoogleMapController = controller;
-                  locatePosition();
+                  locatePosition().then((value) => initGeofireListener(context: context));
+
+                  // _controllerGoogleMap.complete(controller);
+                  // mapProvider.newGoogleMapController = controller;
+                  // locatePosition().then((value) => initGeofireListener(context: context));
 
                   //  locatePosition();
                 },
@@ -246,10 +253,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
   @override
   void initState() {
 
+    WidgetsBinding.instance.addObserver(this);
     AssistantMethods.getCurrentOnlineUserInfo();
 
     // TODO: implement initState
@@ -267,6 +274,40 @@ class _HomeScreenState extends State<HomeScreen> {
     SystemChrome.setEnabledSystemUIOverlays(
         [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     super.dispose();
+  }
+
+  //onMapCreated method
+  void onMapCreated(GoogleMapController controller) {
+    controller.setMapStyle(Utils.mapStyles);
+
+    _controllerGoogleMap.complete(controller);
+
+
+    //TODO:
+
+
+
+  }
+// lifecycle
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.inactive:
+        print('appLifeCycleState inactive');
+        break;
+      case AppLifecycleState.resumed:
+        final GoogleMapController controller = await _controllerGoogleMap.future;
+        onMapCreated(controller);
+        print('appLifeCycleState resumed');
+        break;
+      case AppLifecycleState.paused:
+        print('appLifeCycleState paused');
+        break;
+      case AppLifecycleState.detached:
+        print('appLifeCycleState detached');
+        break;
+    }
   }
 
   Widget _buildShadow() => Positioned(
@@ -315,11 +356,13 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 
   ///todo:call it at the end of locateposition function
-  void initGeofireListener ()
+  void initGeofireListener ({@required context})
   {
+    var _mapProvider = Provider.of<MapProvider>(context, listen: false);
     Geofire.initialize('availableDrivers');
 
-    Geofire.queryAtLocation(MapProvider().userPickUpLocation.latitude, MapProvider().userPickUpLocation.longitude, 10 ).listen((map) {
+    Geofire.queryAtLocation(_mapProvider.userPickUpLocation.latitude,
+        _mapProvider.userPickUpLocation.longitude, 10 ).listen((map) {
       print(map);
       if (map != null) {
         var callBack = map['callBack'];
