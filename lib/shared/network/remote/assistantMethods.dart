@@ -46,7 +46,7 @@ class AssistantMethods{
   static void saveRideRequest({context}){
     //
 
-     rideRequestRef = FirebaseDatabase.instance.reference().child("Ride_Requests").push();
+     rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests").push();
 
     var pickUp = Provider.of<MapProvider>(context, listen: false).userPickUpLocation;
     var dropOff = Provider.of<MapProvider>(context, listen: false).userDropOffLocation;
