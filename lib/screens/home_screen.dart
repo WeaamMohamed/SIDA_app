@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Set<Marker> _Markers = {};
   bool nearbyAvailableDriversKeysLoaded = false;
-  BitmapDescriptor nearByIcon;
+  BitmapDescriptor nearbyIcon;
 
    CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(30.033333, 31.233334),
@@ -67,8 +67,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final dataProvider = Provider.of<DataProvider>(context);
 
     Size mqSize = MediaQuery.of(context).size;
-
-
 
     Future<void> locatePosition() async {
       Position position = await Geolocator.getCurrentPosition(
@@ -96,11 +94,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       await RequestAssistant.getSearchCoordinateAddress(position: position, context: context);
       print("this is your address: " + currentUserAddress);
 
-<<<<<<< HEAD
       startGeofireListener();
-=======
-      /// initGeofireListener();
->>>>>>> f9be1a8836ebd3b3a2684121b0c48ec6773fff8c
     }
 
     // final CameraPosition _kGooglePlex = CameraPosition(
@@ -141,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 onMapCreated: (GoogleMapController controller) async{
                   await _controllerGoogleMap.complete(controller);
                   mapProvider.newGoogleMapController = controller;
-                  locatePosition().then((value) => initGeofireListener(context: context));
+                  locatePosition().then((value) => startGeofireListener(context: context));
 
                   // _controllerGoogleMap.complete(controller);
                   // mapProvider.newGoogleMapController = controller;
@@ -360,24 +354,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   );
 
   ///todo:call it at the end of locateposition function
-<<<<<<< HEAD
-  void startGeofireListener ()
-=======
-  void initGeofireListener ({@required context})
->>>>>>> f9be1a8836ebd3b3a2684121b0c48ec6773fff8c
+  void startGeofireListener ({@required context})
   {
     var _mapProvider = Provider.of<MapProvider>(context, listen: false);
     Geofire.initialize('availableDrivers');
-<<<<<<< HEAD
     //TODO: Check below statement (UserPickup or currentPosition) ++ Change the distance to 10KM (Operating)
-    Geofire.queryAtLocation(MapProvider().userPickUpLocation.latitude, MapProvider().userPickUpLocation.longitude, 2147483647).listen((map) {
+    Geofire.queryAtLocation(_mapProvider.userPickUpLocation.latitude, _mapProvider.userPickUpLocation.longitude, 2147483647).listen((map) {
       //print(map);
-=======
-
-    Geofire.queryAtLocation(_mapProvider.userPickUpLocation.latitude,
-        _mapProvider.userPickUpLocation.longitude, 10 ).listen((map) {
-      print(map);
->>>>>>> f9be1a8836ebd3b3a2684121b0c48ec6773fff8c
       if (map != null) {
         var callBack = map['callBack'];
 
@@ -448,16 +431,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
  void createIconMarker()
  {
-   if ( nearByIcon == null)
+   if ( nearbyIcon == null)
      {
        ImageConfiguration imageConfiguration= createLocalImageConfiguration(context,size:Size(2,2) );
        BitmapDescriptor.fromAssetImage(imageConfiguration, "assets/images/Driver_Car").then((value)
        {
-         nearByIcon=value;
-
+         nearbyIcon=value;
        });
      }
  }
 }
-
-
