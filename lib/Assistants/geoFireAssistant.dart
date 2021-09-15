@@ -1,18 +1,27 @@
-import 'package:sida_app/models/nearby_availabledrivers.dart';
+import 'package:sida_app/models/nearby_available_drivers.dart';
+
 class GeoFireAssistant
 {
-  static List<NearByAvailableDrivers> nearByAvailableDriversList=[];
-  static void removeDriverFromList( String key)
+
+  static List<NearbyAvailableDrivers> nearbyAvailableDriversList = [];
+
+  static void removeDriverFromList(String key)
+
   {
-    int index = nearByAvailableDriversList.indexWhere((element) => element.key == key);
-    nearByAvailableDriversList.removeAt(index);
+    int index = nearbyAvailableDriversList.indexWhere((element) => element.key == key);
+
+    if(nearbyAvailableDriversList.length > 0){
+      nearbyAvailableDriversList.removeAt(index);
+    }
   }
 
-  static void updateDriverNearByLocation(NearByAvailableDrivers driver)
+  static void updateDriverNearByLocation(NearbyAvailableDrivers driver)
   {
-    int index = nearByAvailableDriversList.indexWhere((element) => element.key == driver.key);
-    nearByAvailableDriversList[index].latitude = driver.latitude;
-    nearByAvailableDriversList[index].longitude = driver.longitude;
+    int index = nearbyAvailableDriversList.indexWhere((element) => element.key == driver.key);
+
+    nearbyAvailableDriversList[index].latitude = driver.latitude;
+    nearbyAvailableDriversList[index].longitude = driver.longitude;
 
   }
+
 }

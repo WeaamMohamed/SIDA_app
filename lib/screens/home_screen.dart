@@ -11,7 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/Assistants/geoFireAssistant.dart';
 import 'package:sida_app/models/direction_details_model.dart';
-import 'package:sida_app/models/nearby_availabledrivers.dart';
+import 'package:sida_app/models/nearby_available_drivers.dart';
 import 'package:sida_app/screens/driver_arriving.dart';
 import 'package:sida_app/screens/finding_a_ride.dart';
 import 'package:sida_app/screens/where_to_screen.dart';
@@ -42,8 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
   // GoogleMapController newGoogleMapController;
 
-  Set<Marker> markersSet = {};
-  bool nearByavailableDriverKeysLoaded = false;
+  Set<Marker> _Markers = {};
+  bool nearbyAvailableDriversKeysLoaded = false;
   BitmapDescriptor nearByIcon;
 
   final CameraPosition _kGooglePlex = CameraPosition(
@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
       await RequestAssistant.getSearchCoordinateAddress(position: position, context: context);
       print("this is your address: " + currentUserAddress);
 
-      initGeofireListener();
+      startGeofireListener();
     }
 
     // final CameraPosition _kGooglePlex = CameraPosition(
@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 zoomControlsEnabled: false,
                 compassEnabled: false,
                 polylines: mapProvider.polylineSet,
-                // markers: markersSet,
+                markers: _Markers,
                 // circles: circlesSet,
                 onMapCreated: (GoogleMapController controller) {
                   _controllerGoogleMap.complete(controller);
@@ -315,23 +315,25 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 
   ///todo:call it at the end of locateposition function
-  void initGeofireListener ()
+  void startGeofireListener ()
   {
     Geofire.initialize('availableDrivers');
-
-    Geofire.queryAtLocation(MapProvider().userPickUpLocation.latitude, MapProvider().userPickUpLocation.longitude, 10 ).listen((map) {
-      print(map);
+    //TODO: Check below statement (UserPickup or currentPosition) ++ Change the distance to 10KM (Operating)
+    Geofire.queryAtLocation(MapProvider().userPickUpLocation.latitude, MapProvider().userPickUpLocation.longitude, 2147483647).listen((map) {
+      //print(map);
       if (map != null) {
         var callBack = map['callBack'];
 
         switch (callBack) {
           case Geofire.onKeyEntered:
-            NearByAvailableDrivers nearByAvailableDrivers=NearByAvailableDrivers();
-            nearByAvailableDrivers.key= map['key'];
-            nearByAvailableDrivers.latitude=map['latitude'];
-            nearByAvailableDrivers.longitude=map['longitude'];
-            GeoFireAssistant.nearByAvailableDriversList.add(nearByAvailableDrivers);
-            if (nearByavailableDriverKeysLoaded)
+
+            NearbyAvailableDrivers nearbyAvailableDrivers = NearbyAvailableDrivers();
+            nearbyAvailableDrivers.key = map['key'];
+            nearbyAvailableDrivers.latitude = map['latitude'];
+            nearbyAvailableDrivers.longitude = map['longitude'];
+            GeoFireAssistant.nearbyAvailableDriversList.add(nearbyAvailableDrivers);
+
+            if (nearbyAvailableDriversKeysLoaded)
             {
               updateAvailableDriversOnMap();
             }
@@ -343,11 +345,11 @@ class _HomeScreenState extends State<HomeScreen> {
             break;
 
           case Geofire.onKeyMoved:
-            NearByAvailableDrivers nearByAvailableDrivers=NearByAvailableDrivers();
-            nearByAvailableDrivers.key= map['key'];
-            nearByAvailableDrivers.latitude=map['latitude'];
-            nearByAvailableDrivers.longitude=map['longitude'];
-            GeoFireAssistant.updateDriverNearByLocation(nearByAvailableDrivers);
+            NearbyAvailableDrivers nearbyAvailableDrivers=NearbyAvailableDrivers();
+            nearbyAvailableDrivers.key= map['key'];
+            nearbyAvailableDrivers.latitude=map['latitude'];
+            nearbyAvailableDrivers.longitude=map['longitude'];
+            GeoFireAssistant.updateDriverNearByLocation(nearbyAvailableDrivers);
             updateAvailableDriversOnMap();
             break;
 
@@ -365,24 +367,25 @@ class _HomeScreenState extends State<HomeScreen> {
   void updateAvailableDriversOnMap()
   {
     setState(() {
-
-      markersSet.clear();
+      _Markers.clear();
     });
+
     Set<Marker> tMarkers = Set<Marker>();
-    for (NearByAvailableDrivers driver in GeoFireAssistant.nearByAvailableDriversList)
+
+    for (NearbyAvailableDrivers driver in GeoFireAssistant.nearbyAvailableDriversList)
     {
-      LatLng driveravalPosition= LatLng(driver.latitude, driver.longitude);
-      Marker marker = Marker(
+      LatLng driverPosition = LatLng(driver.latitude, driver.longitude);
+      Marker thisMarker = Marker(
         markerId: MarkerId('driver${driver.key}'),
-        position: driveravalPosition,
+        position: driverPosition,
         ///TODO:IF we want to change the color
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow),
         rotation: AssistantMethods.createRandomNumber(360),
       );
-      tMarkers.add(marker);
+      tMarkers.add(thisMarker);
     }
     setState(() {
-      markersSet = tMarkers;
+      _Markers = tMarkers;
     });
   }
 
