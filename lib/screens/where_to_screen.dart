@@ -7,6 +7,7 @@ import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'package:sida_app/shared/styles/colors.dart';
 import 'package:sida_app/screens/seach_screen.dart';
 import 'package:sida_app/screens/picker_screen.dart';
+import 'package:sida_app/screens/new_search_screen.dart';
 class WhereToScreen extends StatefulWidget {
 
   @override
@@ -94,7 +95,7 @@ class _WhereToScreenState extends State<WhereToScreen> {
                                 Provider
                                     .of<MapProvider>(context)
                                     .userPickUpLocation
-                                    .placeName,
+                                    .placeName?? "loading..",
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black.withOpacity(0.3),
@@ -139,8 +140,8 @@ class _WhereToScreenState extends State<WhereToScreen> {
                                 //TODO: GO TO search for destination
 
 
-                                Provider.of<MapProvider>(context, listen: false).autoCompletePredictionsList = [];
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchScreen()));
+                              ///  Provider.of<MapProvider>(context, listen: false).updateAutoCompletePredictionsList([]);
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewSearchScreen()));
 
                                 // getAutoCompleteResult("mit");
 

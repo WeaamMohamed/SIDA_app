@@ -110,10 +110,10 @@ class _MyAppState extends State<MyApp> {
           //   return supportedLocales.first;
         },
         //home: SettingsScreen(),
-          home: getCurrentScreen(),
+       //   home: getCurrentScreen(),
         //
         //  home: await FirebaseAuth.instance.currentUser== null? PhoneNumberPage(): HomeScreen(FirebaseAuth.instance.currentUser.uid), //YOU CAN ONLY CHANGE THIS
-     ///  home: FirebaseAuth.instance.currentUser== null? PhoneNumberPage(): EditProfileScreen(FirebaseAuth.instance.currentUser.uid), //YOU CAN ONLY CHANGE THIS
+     home: FirebaseAuth.instance.currentUser== null? PhoneNumberPage(): HomeScreen(FirebaseAuth.instance.currentUser.uid), //YOU CAN ONLY CHANGE THIS
       ),
     );
   }

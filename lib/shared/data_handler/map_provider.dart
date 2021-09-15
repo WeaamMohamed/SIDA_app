@@ -19,12 +19,13 @@ class MapProvider extends ChangeNotifier
   List<LatLng> _pLineCoordinates = [];
   Set<Polyline> _polylineSet = {};
 
-  List<PlacePredictionsAutoComplete> _autoCompletePredictionsList =[];
+ // List<PlacePredictionsAutoComplete> _autoCompletePredictionsList =[];
   AddressModel _userPickUpLocation;
   AddressModel _userDropOffLocation;
   DirectionDetails _directionDetails;
 
   GoogleMapController _newGoogleMapController;
+  int _autoCompletePredictionsLength = 0;
 
   void updatePickUpLocationAddress(AddressModel pickUpLocation){
 
@@ -62,7 +63,7 @@ class MapProvider extends ChangeNotifier
 
 
         //Provider.of<AppData>(context, listen: false).autoCompletePredictionsList = placesAutoCompleteList;
-        autoCompletePredictionsList  = placesAutoCompleteList;
+        ///updateAutoCompletePredictionsList(placesAutoCompleteList) ;
 
         notifyListeners();
 
@@ -79,13 +80,18 @@ class MapProvider extends ChangeNotifier
 
 
 
-  List<PlacePredictionsAutoComplete> get autoCompletePredictionsList =>
-      _autoCompletePredictionsList;
+  // List<PlacePredictionsAutoComplete> get autoCompletePredictionsList =>
+  //     _autoCompletePredictionsList;
+  //
+  // void updateAutoCompletePredictionsList(List<PlacePredictionsAutoComplete> value) {
+  //   _autoCompletePredictionsList = value;
+  //   _autoCompletePredictionsLength = value.length;
+  //
+  //   notifyListeners();
+ // }
 
-  set autoCompletePredictionsList(List<PlacePredictionsAutoComplete> value) {
-    _autoCompletePredictionsList = value;
-    notifyListeners();
-  }
+
+  //int get autoCompletePredictionsLength => _autoCompletePredictionsLength;
 
   AddressModel get userDropOffLocation => _userDropOffLocation;
   AddressModel get userPickUpLocation => _userPickUpLocation;
