@@ -9,8 +9,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:sida_app/Assistants/geoFireAssistant.dart';
-import 'package:sida_app/models/direction_details_model.dart';
+import 'package:sida_app/helpers/geofirehelper.dart';
+import 'package:sida_app/models/direction_details.dart';
 import 'package:sida_app/models/nearby_available_drivers.dart';
 import 'package:sida_app/screens/driver_arriving.dart';
 import 'package:sida_app/screens/finding_a_ride.dart';
@@ -20,10 +20,10 @@ import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'package:sida_app/shared/utils.dart';
 import 'package:sida_app/widgets/home_drawer.dart';
 import 'package:sida_app/widgets/select_and_confirm_ride.dart';
-import 'package:sida_app/shared/network/remote/assistantMethods.dart';
-import 'package:sida_app/shared/network/remote/requestAssistant.dart';
-import '../shared/network/remote/assistantMethods.dart';
-import '../shared/network/remote/requestAssistant.dart';
+import 'package:sida_app/helpers/helpermethods.dart';
+import 'package:sida_app/helpers/requesthelper.dart';
+import '../helpers/helpermethods.dart';
+import '../helpers/requesthelper.dart';
 
 import 'package:sida_app/shared/data_handler/data_provider.dart';
 //TODO: convert to stateles
@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
       //to get user's current address
       String currentUserAddress =
-      await RequestAssistant.getSearchCoordinateAddress(position: position, context: context);
+      await RequestHelper.getSearchCoordinateAddress(position: position, context: context);
       print("this is your address: " + currentUserAddress);
 
       startGeofireListener();
@@ -255,7 +255,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void initState() {
 
     WidgetsBinding.instance.addObserver(this);
-    AssistantMethods.getCurrentOnlineUserInfo();
+    HelperMethods.getCurrentOnlineUserInfo();
 
     // TODO: implement initState
     //to hide app bar and status bar
@@ -371,7 +371,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             nearbyAvailableDrivers.key = map['key'];
             nearbyAvailableDrivers.latitude = map['latitude'];
             nearbyAvailableDrivers.longitude = map['longitude'];
-            GeoFireAssistant.nearbyAvailableDriversList.add(nearbyAvailableDrivers);
+            GeoFireHelper.nearbyAvailableDriversList.add(nearbyAvailableDrivers);
 
             if (nearbyAvailableDriversKeysLoaded)
             {
@@ -380,7 +380,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             break;
 
           case Geofire.onKeyExited:
-            GeoFireAssistant.removeDriverFromList(map['key']);
+            GeoFireHelper.removeDriverFromList(map['key']);
             updateAvailableDriversOnMap();
             break;
 
@@ -389,7 +389,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             nearbyAvailableDrivers.key= map['key'];
             nearbyAvailableDrivers.latitude=map['latitude'];
             nearbyAvailableDrivers.longitude=map['longitude'];
-            GeoFireAssistant.updateDriverNearByLocation(nearbyAvailableDrivers);
+            GeoFireHelper.updateDriverNearByLocation(nearbyAvailableDrivers);
             updateAvailableDriversOnMap();
             break;
 
@@ -412,7 +412,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     Set<Marker> tMarkers = Set<Marker>();
 
-    for (NearbyAvailableDrivers driver in GeoFireAssistant.nearbyAvailableDriversList)
+    for (NearbyAvailableDrivers driver in GeoFireHelper.nearbyAvailableDriversList)
     {
       LatLng driverPosition = LatLng(driver.latitude, driver.longitude);
       Marker thisMarker = Marker(
@@ -420,7 +420,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         position: driverPosition,
         ///TODO:IF we want to change the color
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow),
-        rotation: AssistantMethods.createRandomNumber(360),
+        rotation: HelperMethods.generateRandomNumber(360),
       );
       tMarkers.add(thisMarker);
     }

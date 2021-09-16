@@ -20,8 +20,8 @@
 // import 'package:rider_app/AllWidgets/Divider.dart';
 // import 'package:rider_app/AllWidgets/noDriverAvailableDialog.dart';
 // import 'package:rider_app/AllWidgets/progressDialog.dart';
-// import 'package:rider_app/Assistants/assistantMethods.dart';
-// import 'package:rider_app/Assistants/geoFireAssistant.dart';
+// import 'package:rider_app/Assistants/HelperMethods.dart';
+// import 'package:rider_app/Assistants/GeoFireHelper.dart';
 // import 'package:rider_app/DataHandler/appData.dart';
 // import 'package:rider_app/Models/directDetails.dart';
 // import 'package:rider_app/Models/history.dart';
@@ -89,10 +89,10 @@
 //     // TODO: implement initState
 //     super.initState();
 //
-//     AssistantMethods.getCurrentOnlineUserInfo();
+//     HelperMethods.getCurrentOnlineUserInfo();
 //   }
 //
-//   void saveRideRequest()
+//   void createRideRequest()
 //   {
 //     rideRequestRef = FirebaseDatabase.instance.reference().child("Ride Requests").push();
 //
@@ -118,8 +118,8 @@
 //       "pickup": pickUpLocMap,
 //       "dropoff": dropOffLocMap,
 //       "created_at": DateTime.now().toString(),
-//       "rider_name": userCurrentInfo.name,
-//       "rider_phone": userCurrentInfo.phone,
+//       "rider_name": currentUserInfo.name,
+//       "rider_phone": currentUserInfo.phone,
 //       "pickup_address": pickUp.placeName,
 //       "dropoff_address": dropOff.placeName,
 //       "ride_type": carRideType,
@@ -230,7 +230,7 @@
 //       isRequestingPositionDetails = true;
 //
 //       var positionUserLatLng = LatLng(currentPosition.latitude, currentPosition.longitude);
-//       var details = await AssistantMethods.obtainPlaceDirectionDetails(driverCurrentLocation, positionUserLatLng);
+//       var details = await HelperMethods.obtainPlaceDirectionDetails(driverCurrentLocation, positionUserLatLng);
 //       if(details == null)
 //       {
 //         return;
@@ -252,7 +252,7 @@
 //       var dropOff = Provider.of<AppData>(context, listen: false).dropOffLocation;
 //       var dropOffUserLatLng = LatLng(dropOff.latitude, dropOff.longitude);
 //
-//       var details = await AssistantMethods.obtainPlaceDirectionDetails(driverCurrentLocation, dropOffUserLatLng);
+//       var details = await HelperMethods.obtainPlaceDirectionDetails(driverCurrentLocation, dropOffUserLatLng);
 //       if(details == null)
 //       {
 //         return;
@@ -282,7 +282,7 @@
 //       drawerOpen = true;
 //     });
 //
-//     saveRideRequest();
+//     createRideRequest();
 //   }
 //
 //   void displayDriverDetailsContainer()
@@ -342,14 +342,14 @@
 //     CameraPosition cameraPosition = new CameraPosition(target: latLatPosition, zoom: 14);
 //     newGoogleMapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 //
-//     String address = await AssistantMethods.searchCoordinateAddress(position, context);
+//     String address = await HelperMethods.searchCoordinateAddress(position, context);
 //     print("This is your Address :: " + address);
 //
 //     initGeoFireListner();
 //
-//     uName = userCurrentInfo.name;
+//     uName = currentUserInfo.name;
 //
-//     AssistantMethods.retrieveHistoryInfo(context);
+//     HelperMethods.retrieveHistoryInfo(context);
 //   }
 //
 //   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -669,7 +669,7 @@
 //                             carRideType = "bike";
 //                           });
 //                           displayRequestRideContainer();
-//                           availableDrivers = GeoFireAssistant.nearByAvailableDriversList;
+//                           availableDrivers = GeoFireHelper.nearByAvailableDriversList;
 //                           searchNearestDriver();
 //                         },
 //                         child: Container(
@@ -693,7 +693,7 @@
 //                                 ),
 //                                 Expanded(child: Container()),
 //                                 Text(
-//                                   ((tripDirectionDetails != null) ? '\$${(AssistantMethods.calculateFares(tripDirectionDetails))/2}' : ''), style: TextStyle(fontFamily: "Brand Bold",),
+//                                   ((tripDirectionDetails != null) ? '\$${(HelperMethods.calculateFares(tripDirectionDetails))/2}' : ''), style: TextStyle(fontFamily: "Brand Bold",),
 //                                 ),
 //                               ],
 //                             ),
@@ -716,7 +716,7 @@
 //                             carRideType = "uber-go";
 //                           });
 //                           displayRequestRideContainer();
-//                           availableDrivers = GeoFireAssistant.nearByAvailableDriversList;
+//                           availableDrivers = GeoFireHelper.nearByAvailableDriversList;
 //                           searchNearestDriver();
 //                         },
 //                         child: Container(
@@ -740,7 +740,7 @@
 //                                 ),
 //                                 Expanded(child: Container()),
 //                                 Text(
-//                                   ((tripDirectionDetails != null) ? '\$${AssistantMethods.calculateFares(tripDirectionDetails)}' : ''), style: TextStyle(fontFamily: "Brand Bold",),
+//                                   ((tripDirectionDetails != null) ? '\$${HelperMethods.calculateFares(tripDirectionDetails)}' : ''), style: TextStyle(fontFamily: "Brand Bold",),
 //                                 ),
 //                               ],
 //                             ),
@@ -763,7 +763,7 @@
 //                             carRideType = "uber-x";
 //                           });
 //                           displayRequestRideContainer();
-//                           availableDrivers = GeoFireAssistant.nearByAvailableDriversList;
+//                           availableDrivers = GeoFireHelper.nearByAvailableDriversList;
 //                           searchNearestDriver();
 //                         },
 //                         child: Container(
@@ -787,7 +787,7 @@
 //                                 ),
 //                                 Expanded(child: Container()),
 //                                 Text(
-//                                   ((tripDirectionDetails != null) ? '\$${(AssistantMethods.calculateFares(tripDirectionDetails))*2}' : ''), style: TextStyle(fontFamily: "Brand Bold",),
+//                                   ((tripDirectionDetails != null) ? '\$${(HelperMethods.calculateFares(tripDirectionDetails))*2}' : ''), style: TextStyle(fontFamily: "Brand Bold",),
 //                                 ),
 //                               ],
 //                             ),
@@ -1004,7 +1004,7 @@
 //         builder: (BuildContext context) => ProgressDialog(message: "Please wait...",)
 //     );
 //
-//     var details = await AssistantMethods.obtainPlaceDirectionDetails(pickUpLatLng, dropOffLatLng);
+//     var details = await HelperMethods.obtainPlaceDirectionDetails(pickUpLatLng, dropOffLatLng);
 //     setState(() {
 //       tripDirectionDetails = details;
 //     });
@@ -1121,7 +1121,7 @@
 //             nearbyAvailableDrivers.key = map['key'];
 //             nearbyAvailableDrivers.latitude = map['latitude'];
 //             nearbyAvailableDrivers.longitude = map['longitude'];
-//             GeoFireAssistant.nearByAvailableDriversList.add(nearbyAvailableDrivers);
+//             GeoFireHelper.nearByAvailableDriversList.add(nearbyAvailableDrivers);
 //             if(nearbyAvailableDriverKeysLoaded == true)
 //             {
 //               updateAvailableDriversOnMap();
@@ -1129,7 +1129,7 @@
 //             break;
 //
 //           case Geofire.onKeyExited:
-//             GeoFireAssistant.removeDriverFromList(map['key']);
+//             GeoFireHelper.removeDriverFromList(map['key']);
 //             updateAvailableDriversOnMap();
 //             break;
 //
@@ -1138,7 +1138,7 @@
 //             nearbyAvailableDrivers.key = map['key'];
 //             nearbyAvailableDrivers.latitude = map['latitude'];
 //             nearbyAvailableDrivers.longitude = map['longitude'];
-//             GeoFireAssistant.updateDriverNearbyLocation(nearbyAvailableDrivers);
+//             GeoFireHelper.updateDriverNearbyLocation(nearbyAvailableDrivers);
 //             updateAvailableDriversOnMap();
 //             break;
 //
@@ -1160,7 +1160,7 @@
 //     });
 //
 //     Set<Marker> tMakers = Set<Marker>();
-//     for(NearbyAvailableDrivers driver in GeoFireAssistant.nearByAvailableDriversList)
+//     for(NearbyAvailableDrivers driver in GeoFireHelper.nearByAvailableDriversList)
 //     {
 //       LatLng driverAvaiablePosition = LatLng(driver.latitude, driver.longitude);
 //
@@ -1168,7 +1168,7 @@
 //         markerId: MarkerId('driver${driver.key}'),
 //         position: driverAvaiablePosition,
 //         icon: nearByIcon,
-//         //rotation: AssistantMethods.createRandomNumber(360),
+//         //rotation: HelperMethods.generateRandomNumber(360),
 //       );
 //
 //       tMakers.add(marker);
@@ -1242,7 +1242,7 @@
 //       if(snap.value != null)
 //       {
 //         String token = snap.value.toString();
-//         AssistantMethods.sendNotificationToDriver(token, context, rideRequestRef.key);
+//         HelperMethods.sendNotificationToDriver(token, context, rideRequestRef.key);
 //       }
 //       else
 //       {

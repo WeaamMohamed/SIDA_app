@@ -36,7 +36,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       await ref.child(FirebaseAuth.instance.currentUser.uid).once().then((DataSnapshot snapshot) async {
         setState(() {
           UserName = snapshot.value['Name'];
-          UserNumber=snapshot.value['Phonenumber'];
+          UserNumber=snapshot.value['Phone'];
           print("=____________++++++++++++++++++++++");
           print(UserNumber);
           print(UserName);
@@ -220,7 +220,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                         //  FirebaseAuth.instance.currentUser.updatePhoneNumber(phoneCredential)
                           ref.child(widget.userID).update({'Name': nameController.text });
-                          ref.child(widget.userID).update({'Phonenumber': phoneController.text });
+                          ref.child(widget.userID).update({'Phone': phoneController.text });
                           print("updated.");
                         }
 

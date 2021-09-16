@@ -1,15 +1,15 @@
 class PlacePredictionsAutoComplete{
 
-  String secondary_text;
-  String main_text;
-  String place_id;
+  String placeId;
+  String mainText;
+  String secondaryText;
 
-  PlacePredictionsAutoComplete({this.secondary_text, this.main_text, this.place_id});
+  PlacePredictionsAutoComplete({this.secondaryText, this.mainText, this.placeId});
 
   PlacePredictionsAutoComplete.fromJson(Map<String, dynamic> json)
   {
-    place_id = json["place_id"];
-    main_text = json["structured_formatting"]["main_text"];
-    secondary_text = json["structured_formatting"]["secondary_text"];
+    placeId = json["placeId"];
+    mainText = json["structured_formatting"]["mainText"];
+    secondaryText = json["structured_formatting"]["secondaryText"];
   }
 }

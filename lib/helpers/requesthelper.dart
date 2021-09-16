@@ -1,17 +1,16 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:sida_app/models/direction_details_model.dart';
+import 'package:sida_app/models/direction_details.dart';
 import 'package:sida_app/shared/components/constants.dart';
-import 'package:sida_app/models/address_model.dart';
+import 'package:sida_app/models/address.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
 
 //For  reverse geocoding
-class RequestAssistant
+class RequestHelper
 {
 
 
@@ -58,9 +57,9 @@ class RequestAssistant
         var decodeData = jsonDecode(jSonData);
 
 
-      //  dynamic response = RequestAssistant.getRequest(_url);
+      //  dynamic response = RequestHelper.getRequest(_url);
 
-        AddressModel userPickUpAddress = new AddressModel();
+        Address userPickUpAddress = new Address();
         userPickUpAddress.longitude = position.longitude;
         userPickUpAddress.latitude = position.latitude;
 

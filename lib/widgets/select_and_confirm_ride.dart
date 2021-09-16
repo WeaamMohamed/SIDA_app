@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/shared/components/components.dart';
-import 'package:sida_app/shared/network/remote/assistantMethods.dart';
+import 'package:sida_app/helpers/helpermethods.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
 
 class SelectAndConfirmRide extends StatefulWidget {
@@ -226,7 +226,7 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
         customHomeButton(context: context, title: "Book Now", onTap: () {
 
 
-          AssistantMethods.saveRideRequest(context: context);
+          HelperMethods.createRideRequest(context: context);
           Provider.of<DataProvider>(context, listen: false).homeStatus = HomeStatus.FINDING_RIDE;
 
         }),

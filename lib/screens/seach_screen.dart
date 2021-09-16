@@ -5,7 +5,7 @@
 // import 'package:sida_app/models/place_predictions_auto_complete.dart';
 // import 'package:sida_app/shared/components/constants.dart';
 // import 'package:sida_app/shared/data_handler/map_provider.dart';
-// import 'package:sida_app/shared/network/remote/requestAssistant.dart';
+// import 'package:sida_app/shared/network/remote/RequestHelper.dart';
 // import 'home_screen.dart';
 // import 'package:sida_app/shared/data_handler/data_provider.dart';
 //
@@ -136,8 +136,8 @@
 //       onPressed: ()
 //       {
 //
-//         getPlaceAddressDetails(placeId: placePredictions.place_id, context: context);
-//         //  getPlaceAddressDetails(placePredictions.place_id, context);
+//         getPlaceAddressDetails(placeId: placePredictions.placeId, context: context);
+//         //  getPlaceAddressDetails(placePredictions.placeId, context);
 //       },
 //       child: Container(
 //         child: Column(
@@ -152,9 +152,9 @@
 //                     crossAxisAlignment: CrossAxisAlignment.start,
 //                     children: [
 //                       SizedBox(height: 8.0,),
-//                       Text(placePredictions.main_text, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 16.0, color: Colors.black),),
+//                       Text(placePredictions.mainText, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 16.0, color: Colors.black),),
 //                       SizedBox(height: 2.0,),
-//                       Text(placePredictions.secondary_text, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.0, color: Colors.grey),),
+//                       Text(placePredictions.secondaryText, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.0, color: Colors.grey),),
 //                       SizedBox(height: 8.0,),
 //                     ],
 //                   ),
@@ -175,14 +175,14 @@
 //
 //     //TODO: show progress bar.
 //     // &fields=name,rating,formatted_phone_number
-//     String detailUrl = "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$MAP_API_KEY";
+//     String detailUrl = "https://maps.googleapis.com/maps/api/place/details/json?placeId=$placeId&key=$MAP_API_KEY";
 //
-//     var response = await RequestAssistant.getRequest(detailUrl);
+//     var response = await RequestHelper.getRequest(detailUrl);
 //     if(response != "failed")
 //     {
 //       if(response["status"] == "OK")
 //       {
-//         AddressModel dropOffAddress = AddressModel(
+//         Address dropOffAddress = Address(
 //           placeName: response["result"]["name"],
 //           latitude: response["result"]["geometry"]["location"]["lat"],
 //           longitude: response["result"]["geometry"]["location"]["lng"],

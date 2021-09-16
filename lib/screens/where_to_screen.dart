@@ -366,7 +366,7 @@ class _WhereToScreenState extends State<WhereToScreen> {
 //
 //     String ATUO_COMPLETE_URL = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$destinationName&key=$MAP_API_KEY&components=country:EG";
 //
-//     var response = await RequestAssistant.getRequest(ATUO_COMPLETE_URL);
+//     var response = await RequestHelper.getRequest(ATUO_COMPLETE_URL);
 //     if(response != "failed")
 //     {
 //       if(response["status"] == "OK")
@@ -416,7 +416,7 @@ class _WhereToScreenState extends State<WhereToScreen> {
 //  //    padding: EdgeInsets.all(0.0),
 //       onPressed: ()
 //       {
-//       //  getPlaceAddressDetails(placePredictions.place_id, context);
+//       //  getPlaceAddressDetails(placePredictions.placeId, context);
 //       },
 //       child: Container(
 //         child: Column(
@@ -431,9 +431,9 @@ class _WhereToScreenState extends State<WhereToScreen> {
 //                     crossAxisAlignment: CrossAxisAlignment.start,
 //                     children: [
 //                       SizedBox(height: 8.0,),
-//                       Text(placePredictions.main_text, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 16.0),),
+//                       Text(placePredictions.mainText, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 16.0),),
 //                       SizedBox(height: 2.0,),
-//                       Text(placePredictions.secondary_text, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.0, color: Colors.white),),
+//                       Text(placePredictions.secondaryText, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.0, color: Colors.white),),
 //                       SizedBox(height: 8.0,),
 //                     ],
 //                   ),

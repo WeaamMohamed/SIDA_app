@@ -1,6 +1,6 @@
 import 'package:sida_app/models/nearby_available_drivers.dart';
 
-class GeoFireAssistant
+class GeoFireHelper
 {
 
   static List<NearbyAvailableDrivers> nearbyAvailableDriversList = [];
