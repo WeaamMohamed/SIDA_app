@@ -8,6 +8,7 @@ import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/directions.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/helpers/geofirehelper.dart';
 import 'package:sida_app/models/direction_details.dart';
@@ -28,7 +29,10 @@ import '../helpers/requesthelper.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
 //TODO: convert to stateles
 class HomeScreen extends StatefulWidget {
-   String userID = FirebaseAuth.instance.currentUser.uid;
+
+  // final User user = auth.currentUser;
+  // final uid = user.uid;
+//   String userID =  FirebaseAuth.instance.currentUser.uid;
   // HomeScreen( this.userID);
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -36,6 +40,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
+  //String userID;
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
@@ -45,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   BitmapDescriptor nearbyIcon;
 
    CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(30.033333, 31.233334),
+    target: LatLng(30.8025, 26.8206),
     zoom: 14.4746,
   );
 
@@ -54,9 +59,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
  // Completer<GoogleMapController> _controllerGoogleMap = Completer();
 
   final double mainHorizontalMargin = 15.0;
+  bool _isGPSEnabled = false;
 
   @override
   Widget build(BuildContext context) {
+
 
     createIconMarker();
 
@@ -112,7 +119,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           child: Stack(
             children: [
 
-              GoogleMap(
+           // _isGPSEnabled?
+            GoogleMap(
                 padding: EdgeInsets.only(
                   bottom: mqSize.height / 4,
                   top: 25.0,
@@ -140,7 +148,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
                   //  locatePosition();
                 },
-              ),
+              )
+            ,
 
               //for shadow
               _buildShadow(),
@@ -251,6 +260,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
 
+    // final FirebaseAuth auth = FirebaseAuth.instance;
+    //
+    // final User user = auth.currentUser;
+    // final uid = user.uid;
+   /// checkLocationServiceInDevice();
     WidgetsBinding.instance.addObserver(this);
     HelperMethods.getCurrentOnlineUserInfo();
 
@@ -270,6 +284,62 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     super.dispose();
   }
+
+
+  Future<void> checkLocationServiceInDevice() async{
+
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+     // return Future.error('Location services are disabled.');
+      print("please open your GPS");
+
+
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+      ///  checkLocationServiceInDevice();
+       print('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      print(
+          'Location permissions are permanently denied, we cannot request permissions.');
+      permission = await Geolocator.requestPermission();
+      print("asking requestPermission again");
+     // checkLocationServiceInDevice();
+      // Permissions are denied forever, handle appropriately.
+
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    // return await Geolocator.getCurrentPosition();
+    //
+    setState(() {
+      _isGPSEnabled = serviceEnabled;
+    });
+
+
+
+  }
+
+
 
   //onMapCreated method
   void onMapCreated(GoogleMapController controller) {

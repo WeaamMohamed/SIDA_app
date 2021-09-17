@@ -12,6 +12,7 @@ class HelperMethods{
 
   static void getCurrentOnlineUserInfo() async
   {
+
     currentUser = FirebaseAuth.instance.currentUser;
     String userId = currentUser.uid;
 

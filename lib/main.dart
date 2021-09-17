@@ -42,9 +42,10 @@ void main() async
   // });
 
   Widget currentScreen;
-  bool isSignedIn = CacheHelper.getData(key: IS_SIGNED_IN_SHARED_PREF)?? false;
+  bool isSignedIn = CacheHelper.getData(key: IS_SIGNED_IN_SHARED_PREF) == null? false:CacheHelper.getData(key: IS_SIGNED_IN_SHARED_PREF);
   print("is Signed In ? "+ isSignedIn.toString());
   isSignedIn? currentScreen = HomeScreen(): currentScreen = PhoneNumberPage();
+
 
   runApp(MyApp(currentScreen));
 
