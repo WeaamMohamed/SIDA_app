@@ -20,18 +20,27 @@ class CacheHelper {
     return Provider.of<DataProvider>(context).isEnglish;
   }
 
-  static getData({
+  static getIsEnglishData({
     key = 'isEnglish',
 
   }) {
     return _sharedPref.get(key)?? true;
   }
+
+  static getData({
+    key,
+  }) {
+    return _sharedPref.get(key);
+  }
 static Future<bool> saveData({
   @required key,
-  @required bool isEnglish,
+  @required bool data,
 }) async {
 
-  return await _sharedPref.setBool(key, isEnglish);
+  return await _sharedPref.setBool(key, data);
 
 }
-  }
+
+
+
+}

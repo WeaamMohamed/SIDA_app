@@ -235,7 +235,7 @@ class PredictionTile extends StatelessWidget
         Provider.of<DataProvider>(context, listen: false).homeStatus = HomeStatus.SELECT_AND_CONFIRM_RIDE;
         ///TODO:change to user id in homescreen()
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-          builder: (context,) => HomeScreen(FirebaseAuth.instance.currentUser.uid),), (route) => false);
+          builder: (context,) => HomeScreen(),), (route) => false);
 
 
       }

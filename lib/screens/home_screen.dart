@@ -29,19 +29,16 @@ import 'package:sida_app/shared/data_handler/data_provider.dart';
 //TODO: convert to stateles
 class HomeScreen extends StatefulWidget {
    String userID = FirebaseAuth.instance.currentUser.uid;
-  HomeScreen( this.userID);
+  // HomeScreen( this.userID);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
-  // List<LatLng> pLineCoordinates = [];
-  // Set<Polyline> polylineSet = {};
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
-  // GoogleMapController newGoogleMapController;
 
   Set<Marker> _Markers = {};
   bool nearbyAvailableDriversKeysLoaded = false;
@@ -94,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       await RequestHelper.getSearchCoordinateAddress(position: position, context: context);
       print("this is your address: " + currentUserAddress);
 
-      startGeofireListener();
+    //  startGeofireListener(context: context);
     }
 
     // final CameraPosition _kGooglePlex = CameraPosition(

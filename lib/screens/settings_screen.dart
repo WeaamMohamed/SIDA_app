@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sida_app/SignUp_SignIn/mobile_phone_page.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:flutter/services.dart';
+import 'package:sida_app/shared/components/constants.dart';
+import 'package:sida_app/shared/network/local/cache_helper.dart';
 
 class SettingsScreen extends StatefulWidget {
 
@@ -84,8 +88,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
           onTap: (){
             //TODO: Add work
           }),
-         _signOut(onTap: (){
+         _signOut(onTap: () async{
            //TODO: sign out
+
+             await FirebaseAuth.instance.signOut().then((value) {
+               print("singed out successfully");
+               CacheHelper.saveData(key: IS_SIGNED_IN_SHARED_PREF, data: false);
+             }).onError((error, stackTrace){
+               print(error.toString());
+             });
+             
+             //Navigator.pushAndRemoveUntil(context, newRoute, (route) => false)
+
+             Navigator.pushAndRemoveUntil<dynamic>(
+               context,
+               MaterialPageRoute<dynamic>(
+                 builder: (BuildContext context) => PhoneNumberPage(),
+               ),
+                   (route) => false,//if you want to disable back feature set to false
+             );
+
          }),
 
           // Container(

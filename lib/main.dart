@@ -2,10 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sida_app/map_sample.dart';
-import 'package:sida_app/screens/complete_trip.dart';
 import 'package:sida_app/screens/edit_profile_screen.dart';
 import 'package:sida_app/screens/home_screen.dart';
+import 'package:sida_app/shared/components/constants.dart';
 import 'SignUp_SignIn/mobile_phone_page.dart';
 import 'google_maps_picker/src/components/animated_pin.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -26,12 +25,35 @@ void main() async
   Provider.debugCheckInvalidValueType = null;
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
-  runApp(MyApp());
+  //
+  // Widget currentScreen = PhoneNumberPage();
+  // FirebaseAuth.instance
+  //     .authStateChanges()
+  //     .listen((User user) {
+  //   if (user == null) {
+  //     print('User is currently signed out!');
+  //      currentScreen = PhoneNumberPage();
+  //
+  //   } else {
+  //     print('User is signed in!');
+  //     currentScreen = HomeScreen();
+  //
+  //   }
+  // });
+
+  Widget currentScreen;
+  bool isSignedIn = CacheHelper.getData(key: IS_SIGNED_IN_SHARED_PREF)?? false;
+  print("is Signed In ? "+ isSignedIn.toString());
+  isSignedIn? currentScreen = HomeScreen(): currentScreen = PhoneNumberPage();
+
+  runApp(MyApp(currentScreen));
+
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({ Key key }) : super(key: key);
 
+  final Widget currentScreen;
+  MyApp(this.currentScreen);
   static void setLocale(BuildContext context, Locale locale)
   {
     _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
@@ -95,30 +117,30 @@ class _MyAppState extends State<MyApp> {
           localeResolutionCallback: (deviceLocale, supportedLocales)
         {
 
-          bool isEnglish = CacheHelper.getData();
-          print('shared pref in main: ' + isEnglish.toString());
+          bool isEnglish = CacheHelper.getIsEnglishData();
+          print('shared pref in main is English?  ' + isEnglish.toString());
 
           //   Provider.of<DataProvider>(context, listen: false).setIsEnglishChosen(_isEnglish);
 
           //TODO: here is language problem
-          if(CacheHelper.getData())
+          if(CacheHelper.getIsEnglishData())
             return Locale('en', 'US');
-          if(!CacheHelper.getData())
+          if(!CacheHelper.getIsEnglishData())
             return Locale('ar', 'EG');
           //TODO: use enum for language (AR, EN, DEFAULT)
           // else
           //   return supportedLocales.first;
         },
         //home: SettingsScreen(),
-       //   home: getCurrentScreen(),
-        //
-        //  home: await FirebaseAuth.instance.currentUser== null? PhoneNumberPage(): HomeScreen(FirebaseAuth.instance.currentUser.uid), //YOU CAN ONLY CHANGE THIS
-     home: FirebaseAuth.instance.currentUser== null? PhoneNumberPage(): HomeScreen(FirebaseAuth.instance.currentUser.uid), //YOU CAN ONLY CHANGE THIS
+        home: widget.currentScreen,
+       // home:  FirebaseAuth.instance.currentUser== null? PhoneNumberPage(): HomeScreen(FirebaseAuth.instance.currentUser.uid), //YOU CAN ONLY CHANGE THIS
+    // home: FirebaseAuth.instance.currentUser== null? PhoneNumberPage(): HomeScreen(), //YOU CAN ONLY CHANGE THIS
       ),
     );
   }
 
   Widget getCurrentScreen() {
+
 
     if ( FirebaseAuth.instance.currentUser!= null) {
       // already signed in

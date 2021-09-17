@@ -11,6 +11,8 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sida_app/screens/edit_profile_screen.dart';
+import 'package:sida_app/shared/components/constants.dart';
+import 'package:sida_app/shared/network/local/cache_helper.dart';
 import 'Name_page.dart';
 import 'password_page.dart';
 import 'package:sida_app/firebase_db.dart';
@@ -71,7 +73,8 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
           await ref.child(FirebaseAuth.instance.currentUser.uid).once().then((DataSnapshot snapshot) async {
             if ( snapshot.value != null)
             {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> HomeScreen(FirebaseAuth.instance.currentUser.uid )));
+              CacheHelper.saveData(key: IS_SIGNED_IN_SHARED_PREF, data: true);
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
             }
             else
             {
