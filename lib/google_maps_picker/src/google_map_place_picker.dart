@@ -11,6 +11,8 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/google_maps_picker/providers/place_provider.dart';
 import 'package:sida_app/google_maps_picker/src/place_picker.dart';
+import 'package:sida_app/shared/components/components.dart';
+import 'package:sida_app/shared/styles/colors.dart';
 import 'package:tuple/tuple.dart';
 import 'components/animated_pin.dart';
 import 'components/floating_card.dart';
@@ -306,7 +308,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
       leftPosition: 0,
       rightPosition: 0,
       width: MediaQuery.of(context).size.width,
-      height: 93,
+     /// height: 93,
       borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
       elevation: 0.0,
       color: Theme.of(context).cardColor,
@@ -321,44 +323,55 @@ class GoogleMapPlacePicker extends StatelessWidget {
         child: SizedBox(
           width: 24,
           height: 24,
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator(
+            valueColor:AlwaysStoppedAnimation<Color>(Colors.black),
+          ),
         ),
       ),
     );
   }
 
   Widget _buildSelectionDetails(BuildContext context, PickResult result) {
+
     return Container(
-      margin: EdgeInsets.only(top: 9, bottom: 9),
+      height: 55,
       child: Column(
-        children: <Widget>[
-          Text(
-            result.formattedAddress,
-            style: TextStyle(fontSize: 10),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 12),
-          Container(
-            height: 34,
-            width: MediaQuery.of(context).size.width,
-            child: RaisedButton(
-              child: Text(
-                "Set pickup location",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(0.0),
-              ),
-              onPressed: () {
-                onPlacePicked(result);
+        children: [
 
 
-              },
-            ),
+          Padding(
+            padding:  EdgeInsets.symmetric(horizontal: 10.0, vertical: 4,),
+            child: Text(result.formattedAddress, style: TextStyle(
+              fontSize: 14, color: Colors.black,
+         ),),
           ),
+          ElevatedButton(onPressed: (){
+            onPlacePicked(result);
+          },
+          child: Text("Set pickup location", style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+          ),
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.black),
+         // padding: MaterialStateProperty.all(EdgeInsets.all(50)),
+        //  textStyle: MaterialStateProperty.all(TextStyle(fontSize: 30),
+          ),
+          ),
+          // Container(
+          //   margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.2),
+          //   child: customBlackButton(title: "Set pickup location", onTap: (){
+          //
+          //     onPlacePicked(result);
+          //
+          //   }),
+          // ),
+
         ],
       ),
     );
+
+
   }
 
   Widget _buildMapIcons(BuildContext context) {
@@ -400,4 +413,30 @@ class GoogleMapPlacePicker extends StatelessWidget {
       ),
     );
   }
+  Widget customButton({
+    String title ,
+    Function onTap,
+  }) =>
+      InkWell(
+        onTap: onTap,
+        child: Container(
+          height: 60,
+          //padding: EdgeInsets.symmetric(vertical: 20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            color: Colors.black,
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: Center(
+              child: Text(title,
+                  style: TextStyle(
+                    // fontSize: 13,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+          ),
+        ),
+      );
 }
