@@ -26,6 +26,7 @@ class _FindingRideState extends State<FindingRide> {
 
 
     return  Container(
+
       // color: Colors.lightGreen,
       child: Column(
         children: [

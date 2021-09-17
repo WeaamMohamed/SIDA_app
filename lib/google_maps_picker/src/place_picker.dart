@@ -8,6 +8,7 @@ import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/google_maps_picker/providers/place_provider.dart';
 import 'package:sida_app/google_maps_picker/src/utils/uuid.dart';
+import 'package:sida_app/helpers/helpermethods.dart';
 import 'autocomplete_search.dart';
 import 'controllers/autocomplete_search_controller.dart';
 import 'google_map_place_picker.dart';
@@ -373,7 +374,30 @@ class _PlacePickerState extends State<PlacePicker> {
       onMoveStart: () {
         searchBarController.reset();
       },
-      onPlacePicked: widget.onPlacePicked,
+      onPlacePicked: (result){
+        widget.onPlacePicked;
+
+       // print("picked location name "+ result.name);
+        print( " placeId "+ result.placeId);
+        print(" id "+ result.id.toString());
+        print( " url "+ result.url.toString());
+        print(" adrAddress "+ result.adrAddress.toString());
+        print(" formattedAddress "+ result.formattedAddress.toString());
+        print(" latitude "+ result.geometry.location.lat.toString() );
+        print(" longitude "+ result.geometry.location.lng.toString() );
+
+        HelperMethods.formChoosingPickUpToHomeScreen(context: context,
+        placeId: result.placeId,
+        placeName:result.formattedAddress.toString(),
+        latitude: result.geometry.location.lat,
+        longitude: result.geometry.location.lng,);
+
+        // print("picked location name "+ result.name +  " placeId "+ result.placeId
+        //     +  " id "+ result.id+   " url "+ result.url+
+        //     " adrAddress "+ result.adrAddress+   " formattedAddress "+ result.formattedAddress
+        //     + " latitude "+ result.geometry.location.lat.toString() + " longitude "+ result.geometry.location.lat.toString()
+        // );
+      } ,
     );
   }
 }

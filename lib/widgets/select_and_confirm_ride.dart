@@ -6,6 +6,8 @@ import 'package:sida_app/helpers/helpermethods.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
 
 class SelectAndConfirmRide extends StatefulWidget {
+  // Function onTap;
+  // SelectAndConfirmRide({this.onTap});
   @override
   _SelectAndConfirmRideState createState() => _SelectAndConfirmRideState();
 }
@@ -223,13 +225,14 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
         SizedBox(
           height: sizedBoxHeight,
         ),
-        customHomeButton(context: context, title: "Book Now", onTap: () {
+        customHomeButton(context: context, title: "Book Now", onTap:  () {
 
+          Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.FINDING_RIDE) ;
 
+          print(HomeStatus.FINDING_RIDE);
           HelperMethods.createRideRequest(context: context);
-          Provider.of<DataProvider>(context, listen: false).homeStatus = HomeStatus.FINDING_RIDE;
 
-        }),
+        },),
       ],
     );
   }
@@ -390,32 +393,30 @@ Widget _buildBottomCard({
 
   child: InkWell(
     onTap:onTap,
-    child: Expanded(
-      child: Column(
+    child: Column(
 
 // mainAxisAlignment: MainAxisAlignment.center,
 
 // crossAxisAlignment: CrossAxisAlignment.stretch,
 
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
 
-        children: [
-          SvgPicture.asset(image),
-         // SizedBox(height: 5,),
-          Center(
-            child: Text(title,
-              style: TextStyle(
-                fontSize: 14,
-
-              ),
+      children: [
+        SvgPicture.asset(image),
+       // SizedBox(height: 5,),
+        Center(
+          child: Text(title,
+            style: TextStyle(
+              fontSize: 14,
 
             ),
 
           ),
 
-        ],
+        ),
 
-      ),
+      ],
+
     ),
   ),
 

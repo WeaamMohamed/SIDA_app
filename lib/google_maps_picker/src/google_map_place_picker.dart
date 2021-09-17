@@ -351,6 +351,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
               ),
               onPressed: () {
                 onPlacePicked(result);
+
+
               },
             ),
           ),

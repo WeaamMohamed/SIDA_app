@@ -16,7 +16,7 @@ class Users{
   Users.fromSnapShot(DataSnapshot dataSnapshot)
   {
     id = dataSnapshot.key;
-    name = dataSnapshot.value["Name"];
+    name = dataSnapshot.value["Name"]?? "error while loading name";
     //email = dataSnapshot.value["email"];
     phone = dataSnapshot.value["Phone"];
 

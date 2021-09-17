@@ -39,10 +39,9 @@ class DataProvider extends ChangeNotifier{
   HomeStatus _homeStatus = HomeStatus.INITIAL;
   HomeStatus get homeStatus => _homeStatus;
 
-  set homeStatus(HomeStatus value) {
+  void updateHomeStatus(HomeStatus value) {
     _homeStatus = value;
     notifyListeners();
   }
-
 
 }

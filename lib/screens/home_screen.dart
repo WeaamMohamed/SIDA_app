@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     createIconMarker();
 
     final mapProvider = Provider.of<MapProvider>(context);
-    final dataProvider = Provider.of<DataProvider>(context);
+   // final dataProvider = Provider.of<DataProvider>(context);
 
     Size mqSize = MediaQuery.of(context).size;
 
@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               //menu button
               _buildMenuButton(),
 
-              if(dataProvider.homeStatus == HomeStatus.INITIAL) Positioned(
+              if(Provider.of<DataProvider>(context).homeStatus == HomeStatus.INITIAL) Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
@@ -204,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               ),
 
 
-              if(dataProvider.homeStatus == HomeStatus.SELECT_AND_CONFIRM_RIDE)Positioned(
+              if(Provider.of<DataProvider>(context).homeStatus == HomeStatus.SELECT_AND_CONFIRM_RIDE)Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
@@ -220,23 +220,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               ),
 
 
-              if(dataProvider.homeStatus == HomeStatus.FINDING_RIDE)Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    //  height: MediaQuery.of(context).size.height / 4,
-                    margin: EdgeInsets.symmetric(
-                      horizontal: mainHorizontalMargin,
-                      vertical: mqSize.height * 0.03,
-                    ),
-                    child: FindingRide(),
-
-                  ),
-                ),
-
-
-              if(dataProvider.homeStatus == HomeStatus.FINDING_RIDE)Positioned(
+              if(Provider.of<DataProvider>(context).homeStatus == HomeStatus.FINDING_RIDE)Positioned(
                 left: 0,
                 right: 0,
                 bottom: 0,
@@ -246,11 +230,31 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     horizontal: mainHorizontalMargin,
                     vertical: mqSize.height * 0.03,
                   ),
-                  child: DriverArriving(),
+                  child: FindingRide(),
 
                 ),
               ),
-              //for shadow
+
+
+              //TODO: driver arriving
+              if(Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVING)Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    //  height: MediaQuery.of(context).size.height / 4,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: mainHorizontalMargin,
+                      vertical: mqSize.height * 0.03,
+                    ),
+                    child: DriverArriving(),
+
+                  ),
+                ),
+
+
+
+
             ],
           ),
         ),
