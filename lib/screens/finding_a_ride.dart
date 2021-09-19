@@ -152,35 +152,6 @@ class _FindingRideState extends State<FindingRide> {
           SizedBox(height: sizedBoxHeight,),
           //TODO: to cancel trip
           customBlackButton(title: "Cancel", onTap: (){}),
-          // SizedBox(
-          //   width: 0.88*screenWidth,
-          //   height: 0.08*screenHeight,
-          //   child: TextButton(
-          //       onPressed: ( ){
-          //
-          //       },
-          //       style: ButtonStyle(
-          //           backgroundColor:   MaterialStateProperty.all<Color>(Colors.black),
-          //           padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
-          //           overlayColor: MaterialStateProperty.all<Color>(Colors.amber),
-          //           foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-          //           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          //               RoundedRectangleBorder(
-          //                   borderRadius: BorderRadius.circular(10.0),
-          //                   side: BorderSide()
-          //               )
-          //           )
-          //       ),
-          //       child:   Align(
-          //         alignment: Alignment.center,
-          //         child: Text('Cancel',
-          //             style: TextStyle(
-          //                 color: Colors.white, fontSize: 18, fontFamily: 'spoqa_han_sans',fontWeight: FontWeight.bold)),
-          //       )
-          //   ),
-          // ),
-
-         // SizedBox(height: sizedBoxHeight,),
 
         ],),
     );

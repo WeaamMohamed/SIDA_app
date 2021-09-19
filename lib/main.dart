@@ -134,6 +134,7 @@ class _MyAppState extends State<MyApp> {
         },
         //home: SettingsScreen(),
         home: widget.currentScreen,
+     //   home: HomeScreen(),
        // home:  FirebaseAuth.instance.currentUser== null? PhoneNumberPage(): HomeScreen(FirebaseAuth.instance.currentUser.uid), //YOU CAN ONLY CHANGE THIS
     // home: FirebaseAuth.instance.currentUser== null? PhoneNumberPage(): HomeScreen(), //YOU CAN ONLY CHANGE THIS
       ),

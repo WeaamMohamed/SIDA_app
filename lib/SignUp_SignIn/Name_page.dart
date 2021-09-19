@@ -5,6 +5,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:sida_app/screens/home_screen.dart';
+import 'package:sida_app/shared/components/constants.dart';
+import 'package:sida_app/shared/network/local/cache_helper.dart';
 import 'Agree_terms_page.dart';
 import 'password_page.dart';
 import 'package:sida_app/firebase_db.dart';
@@ -64,6 +66,7 @@ class _NamePageState extends State<NamePage> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton( onPressed: (){
+                    CacheHelper.saveData(key: IS_SIGNED_IN_SHARED_PREF, data: true);
                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>HomeScreen()));
                   },
                     icon:Icon(Icons.arrow_back) ,color: Colors.white,),
@@ -134,6 +137,7 @@ class _NamePageState extends State<NamePage> {
             ref.child(widget.userID).update({'Name': controller.text });
             Navigator.push(context, MaterialPageRoute(
                builder: (BuildContext context) => HomeScreen()));
+            CacheHelper.saveData(key: IS_SIGNED_IN_SHARED_PREF, data: true);
           }
         },
         child:   Text(' Next',

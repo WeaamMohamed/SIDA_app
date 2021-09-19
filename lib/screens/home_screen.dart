@@ -38,8 +38,11 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
+
+  HomeStatus _homeStatus;
   //String userID;
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -204,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               ),
 
 
-              if(Provider.of<DataProvider>(context).homeStatus == HomeStatus.SELECT_AND_CONFIRM_RIDE)Positioned(
+              if(Provider.of<DataProvider>(context).homeStatus == HomeStatus.SELECT_AND_CONFIRM_RIDE )Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
@@ -264,6 +267,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
 
+    _homeStatus = HomeStatus.INITIAL;
     // final FirebaseAuth auth = FirebaseAuth.instance;
     //
     // final User user = auth.currentUser;
@@ -471,12 +475,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         }
       }
 
+      //TODO: memory leak
       setState(() {});
     });
   }
 
   void updateAvailableDriversOnMap()
   {
+
+    //TODO: memory leak
     setState(() {
       _Markers.clear();
     });

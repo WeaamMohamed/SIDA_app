@@ -4,7 +4,7 @@ import 'package:sida_app/models/users.dart';
 
 const String MAP_API_KEY = "AIzaSyC8duRzIq6lUb6BuMVDIpV0vEMmdfHf0WQ";
 
-User currentUser;
-Users currentUserInfo;
+// User currentUser;
+// Users currentUserInfo;
 
 const String IS_SIGNED_IN_SHARED_PREF = "isSignedIn";

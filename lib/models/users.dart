@@ -5,20 +5,20 @@ class Users{
   String id;
   String name = "default";
   //String email;
-  String phone;
+  String Phonenumber;
 
   Users({
     this.id, 
     this.name, 
     //this.email, 
-    this.phone});
+    this.Phonenumber});
 
   Users.fromSnapShot(DataSnapshot dataSnapshot)
   {
     id = dataSnapshot.key;
     name = dataSnapshot.value["Name"]?? "error while loading name";
     //email = dataSnapshot.value["email"];
-    phone = dataSnapshot.value["Phone"];
+    Phonenumber = dataSnapshot.value["Phonenumber"];
 
   }
 

@@ -228,9 +228,11 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
         customHomeButton(context: context, title: "Book Now", onTap:  () {
 
           Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.FINDING_RIDE) ;
-
           print(HomeStatus.FINDING_RIDE);
-          HelperMethods.createRideRequest(context: context);
+          String carType;
+          selectCarType == CarTypes.SIDA_PLUS? carType = "SIDA Plus":  carType = "Any SIDA";
+
+          HelperMethods.createRideRequest(context: context, carType: carType);
 
         },),
       ],

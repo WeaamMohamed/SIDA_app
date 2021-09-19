@@ -9,6 +9,7 @@ import 'package:sida_app/models/address.dart';
 import 'package:sida_app/screens/home_screen.dart';
 import 'package:sida_app/shared/components/constants.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
+import '../firebase_db.dart';
 import '../models/direction_details.dart';
 import 'package:sida_app/models/users.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
@@ -19,18 +20,43 @@ class HelperMethods{
   {
 
     currentUser = FirebaseAuth.instance.currentUser;
-    String userId = currentUser.uid;
+    String userId = FirebaseAuth.instance.currentUser.uid;
+    print("WEAAM" + FirebaseAuth.instance.currentUser.uid);
+    DatabaseReference reference = FirebaseDatabase.instance.reference().child("Users").child(userId);
 
-    DatabaseReference userRef = FirebaseDatabase.instance.reference().child('Users/$userId');
-    userRef.once().then((DataSnapshot dataSnapShot)
+    reference.once().then((DataSnapshot dataSnapShot)
     {
       if(dataSnapShot.value != null)
       {
+       // currentUser = Users.fromSnapShot(dataSnapShot);
         currentUserInfo = Users.fromSnapShot(dataSnapShot);
-        print('my name is ${currentUserInfo.name}');
+      }
+      else{
+
+        print("data snapshot = null");
 
       }
     });
+
+    // currentUser = FirebaseAuth.instance.currentUser;
+    // String userId = (await FirebaseAuth.instance.currentUser).uid;
+    //
+    // DatabaseReference userRef = FirebaseDatabase.instance.reference().child('Users/$userId');
+    // userRef.once().then((DataSnapshot dataSnapShot)
+    // {
+    //   if(dataSnapShot.value != null)
+    //   {
+    //     currentUserInfo = Users.fromSnapShot(dataSnapShot);
+    //     print('my name is ${currentUserInfo.name}');
+    //     print('my name is ${currentUserInfo.phone}');
+    //     print('my name is ${currentUserInfo.id}');
+    //
+    //   }
+    //   else
+    //     {
+    //       print("data snapshot = null");
+    //     }
+    // });
   }
 
 
@@ -112,9 +138,9 @@ class HelperMethods{
 
   static DatabaseReference rideRequestRef;
 
-  static void createRideRequest({context}){
+  static void createRideRequest({context, String carType}){
 
-    rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests").push();
+  //  rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).push();
 
     var pickUp = Provider.of<MapProvider>(context, listen: false).userPickUpLocation;
     var dropOff = Provider.of<MapProvider>(context, listen: false).userDropOffLocation;
@@ -135,19 +161,20 @@ class HelperMethods{
     {
       "created_at": DateTime.now().toString(),
       //TODO:
-      // "rider_name": currentUserInfo.name ?? 'error',
-     // "rider_phone": currentUserInfo.phone,
+      "rider_name": currentUserInfo.name ?? 'error',
+     "rider_phone": currentUserInfo.Phonenumber ?? 'not available',
       "pickup_address": pickUp.placeName,
       "dropoff_address": dropOff.placeName,
       "pickup_location": pickUpLocMap,
       "dropoff_location": dropOffLocMap,
       "payment_method": "cash",
       "driver_id": "waiting",
-      //TODO: SAVE RIDE TYPE
-      // "ride_type": carRideType,
+       "ride_type": carType,
     };
 
-    rideRequestRef.set(rideInfoMap);
+    FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).set(rideInfoMap);
+
+    // rideRequestRef.set(rideInfoMap);
 
 
   }
