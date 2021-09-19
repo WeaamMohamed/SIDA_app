@@ -180,12 +180,7 @@ class HelperMethods{
   }
 
 
-  static void cancelRideRequest(){
 
-    rideRequestRef.remove();
-    //TODO: Then set appState to NORMAL
-
-  }
 
   static double generateRandomNumber(int max)
   {

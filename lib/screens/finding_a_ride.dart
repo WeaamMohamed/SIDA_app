@@ -1,14 +1,21 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
 import 'package:sida_app/shared/components/components.dart';
+import 'package:sida_app/shared/data_handler/data_provider.dart';
 import 'any_sida.dart';
 
 
 class FindingRide extends StatefulWidget {
+  Function onCancel;
+  FindingRide({this.onCancel});
+
   @override
   _FindingRideState createState() => _FindingRideState();
 }
@@ -151,7 +158,7 @@ class _FindingRideState extends State<FindingRide> {
          // SizedBox(height: 0.03* screenHeight),
           SizedBox(height: sizedBoxHeight,),
           //TODO: to cancel trip
-          customBlackButton(title: "Cancel", onTap: (){}),
+          customBlackButton(title: "Cancel", onTap: widget.onCancel),
 
         ],),
     );

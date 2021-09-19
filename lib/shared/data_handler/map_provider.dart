@@ -174,5 +174,12 @@ class MapProvider extends ChangeNotifier
     notifyListeners();
   }
 
+  Set<Circle> get circleSet => _circleSet;
+
+  Set<Marker> get markerSet => _markerSet;
+
+  Polyline get polyline => _polyline;
+
+  List<LatLng> get pLineCoordinates => _pLineCoordinates;
 }
 

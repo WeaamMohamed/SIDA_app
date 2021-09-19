@@ -75,34 +75,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     Size mqSize = MediaQuery.of(context).size;
 
-    Future<void> locatePosition() async {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.bestForNavigation);
-      _userCurrentPosition = position;
 
-      LatLng userLatLangPosition = LatLng(
-        position.latitude,
-        position.longitude,
-      );
-
-      CameraPosition cameraPosition =
-      new CameraPosition(target: userLatLangPosition, zoom: 17);
-
-      mapProvider.newGoogleMapController
-          .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-
-
-      // setState(() {
-      //   _kGooglePlex = cameraPosition;
-      // });
-
-      //to get user's current address
-      String currentUserAddress =
-      await RequestHelper.getSearchCoordinateAddress(position: position, context: context);
-      print("this is your address: " + currentUserAddress);
-
-    //  startGeofireListener(context: context);
-    }
 
     // final CameraPosition _kGooglePlex = CameraPosition(
     //   target: LatLng(37.42796133580664, -122.085749655962),
@@ -168,7 +141,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   //  height: MediaQuery.of(context).size.height / 4,
                     margin: EdgeInsets.symmetric(
                       horizontal: 15,
-                      vertical: mqSize.height * 0.06,
+                     vertical: 20,
+                      // vertical: mqSize.height * 0.06,
                     ),
                     child:
                     Column(
@@ -233,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     horizontal: mainHorizontalMargin,
                     vertical: mqSize.height * 0.03,
                   ),
-                  child: FindingRide(),
+                  child: FindingRide(onCancel: ()=> cancelRideRequest(),),
 
                 ),
               ),
@@ -293,6 +267,34 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.dispose();
   }
 
+  Future<void> locatePosition() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.bestForNavigation);
+    _userCurrentPosition = position;
+
+    LatLng userLatLangPosition = LatLng(
+      position.latitude,
+      position.longitude,
+    );
+
+    CameraPosition cameraPosition =
+    new CameraPosition(target: userLatLangPosition, zoom: 17);
+
+    Provider.of<MapProvider>(context, listen: false).newGoogleMapController
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+
+    // setState(() {
+    //   _kGooglePlex = cameraPosition;
+    // });
+
+    //to get user's current address
+    String currentUserAddress =
+    await RequestHelper.getSearchCoordinateAddress(position: position, context: context);
+    print("this is your address: " + currentUserAddress);
+
+    //  startGeofireListener(context: context);
+  }
 
   Future<void> checkLocationServiceInDevice() async{
 
@@ -348,6 +350,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
 
+  void resetApp()
+  {
+
+    var mapProvider = Provider.of<MapProvider>(context, listen: false);
+    mapProvider.polylineSet.clear();
+    mapProvider.markerSet.clear();
+    mapProvider.circleSet.clear();
+    mapProvider.pLineCoordinates.clear();
+
+    // statusRide = "";
+    // driverName = "";
+    // driverphone = "";
+    // carDetailsDriver = "";
+    // rideStatus = "Driver is Coming";
+    // driverDetailsContainerHeight = 0.0;
+    locatePosition();
+  }
 
   //onMapCreated method
   void onMapCreated(GoogleMapController controller) {
@@ -388,7 +407,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     left: 0,
     right: 0,
     child: Container(
-      height: MediaQuery.of(context).size.height / 4,
+      height: MediaQuery.of(context).size.height * 0.22,
       decoration: BoxDecoration(
         // gradient: LinearGradient(colors: [
         //   Colors.black.withOpacity(0.1),
@@ -518,4 +537,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
        });
      }
  }
+
+   void cancelRideRequest(){
+
+     Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.INITIAL);
+     FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).remove();
+    resetApp();
+
+
+  }
 }
