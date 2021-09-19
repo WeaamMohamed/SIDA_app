@@ -347,6 +347,9 @@ class GoogleMapPlacePicker extends StatelessWidget {
           ),
           ElevatedButton(onPressed: (){
             onPlacePicked(result);
+           //TODO: Show CircularProgressIndicator(
+            //             valueColor:AlwaysStoppedAnimation<Color>(Colors.black),
+            //           ),
           },
           child: Text("Set pickup location", style: TextStyle(
             fontWeight: FontWeight.bold,
