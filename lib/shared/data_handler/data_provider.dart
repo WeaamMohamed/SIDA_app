@@ -13,8 +13,13 @@ class DataProvider extends ChangeNotifier{
 
   static bool _isEnglish = CacheHelper.getIsEnglishData();
   bool get isEnglish => _isEnglish;
+  String carType;
 
 
+  void updateCarType(String type){
+    carType = type;
+    notifyListeners();
+  }
    void setIsEnglishChosen (bool value) async {
      _isEnglish = value;
      CacheHelper.saveData(key: "isEnglish", data: value);

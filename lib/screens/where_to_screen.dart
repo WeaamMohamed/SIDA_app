@@ -140,8 +140,9 @@ class _WhereToScreenState extends State<WhereToScreen> {
                                 //TODO: GO TO search for destination
 
 
+
                               ///  Provider.of<MapProvider>(context, listen: false).updateAutoCompletePredictionsList([]);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewSearchScreen()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => PickerScreen()));
 
                                 // getAutoCompleteResult("mit");
 

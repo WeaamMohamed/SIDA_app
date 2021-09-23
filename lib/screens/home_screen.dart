@@ -23,12 +23,16 @@ import 'package:sida_app/widgets/home_drawer.dart';
 import 'package:sida_app/widgets/select_and_confirm_ride.dart';
 import 'package:sida_app/helpers/helpermethods.dart';
 import 'package:sida_app/helpers/requesthelper.dart';
+import '../firebase_db.dart';
 import '../helpers/helpermethods.dart';
 import '../helpers/requesthelper.dart';
 
 import 'package:sida_app/shared/data_handler/data_provider.dart';
 //TODO: convert to stateles
 class HomeScreen extends StatefulWidget {
+
+  final HomeStatus homeStatus;
+  HomeScreen({this.homeStatus});
 
   // final User user = auth.currentUser;
   // final uid = user.uid;
@@ -42,7 +46,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
 
-  HomeStatus _homeStatus;
+  HomeStatus _homeStatus = HomeStatus.INITIAL;
   //String userID;
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -63,9 +67,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   final double mainHorizontalMargin = 15.0;
   bool _isGPSEnabled = false;
+  List<NearbyAvailableDrivers> availableDriversList;
 
   @override
   Widget build(BuildContext context) {
+
+    if(widget.homeStatus != null)
+      {
+        setState(() {
+          _homeStatus = widget.homeStatus;
+        });
+      }
 
 
     createIconMarker();
@@ -83,138 +95,144 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // );
 
     //#FED444 - #FEBA3F
-    return Scaffold(
-      key: scaffoldKey,
+    return ChangeNotifierProvider.value(
+      value: DataProvider(),
+      child: Scaffold(
+        key: scaffoldKey,
 
-      drawer: HomeDrawer(),
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: mqSize.width,
+        drawer: HomeDrawer(),
+        body: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: mqSize.width,
 
-          child: Stack(
-            children: [
+            child: Stack(
+              children: [
 
-           // _isGPSEnabled?
-            GoogleMap(
-                padding: EdgeInsets.only(
-                  bottom: mqSize.height / 4,
-                  top: 25.0,
-                ),
-                mapType: MapType.normal,
+             // _isGPSEnabled?
+              GoogleMap(
+                  padding: EdgeInsets.only(
+                    bottom: mqSize.height / 4,
+                    top: 25.0,
+                  ),
+                  mapType: MapType.normal,
 
-                myLocationButtonEnabled: true,
-                initialCameraPosition: _kGooglePlex,
-                myLocationEnabled: true,
-                zoomGesturesEnabled: true,
-                tiltGesturesEnabled: true,
-                zoomControlsEnabled: false,
-                compassEnabled: false,
-                polylines: mapProvider.polylineSet,
-                markers: _Markers,
-                // circles: circlesSet,
-                onMapCreated: (GoogleMapController controller) async{
-                  await _controllerGoogleMap.complete(controller);
-                  mapProvider.newGoogleMapController = controller;
-                  locatePosition().then((value) => startGeofireListener(context: context));
+                  myLocationButtonEnabled: true,
+                  initialCameraPosition: _kGooglePlex,
+                  myLocationEnabled: true,
+                  zoomGesturesEnabled: true,
+                  tiltGesturesEnabled: true,
+                  zoomControlsEnabled: false,
+                  compassEnabled: false,
+                  polylines: mapProvider.polylineSet,
+                  markers: _Markers,
+                  // circles: circlesSet,
+                  onMapCreated: (GoogleMapController controller) async{
+                    await _controllerGoogleMap.complete(controller);
+                    mapProvider.newGoogleMapController = controller;
+                    locatePosition().then((value) => startGeofireListener(context: context));
 
-                  // _controllerGoogleMap.complete(controller);
-                  // mapProvider.newGoogleMapController = controller;
-                  // locatePosition().then((value) => initGeofireListener(context: context));
+                    // _controllerGoogleMap.complete(controller);
+                    // mapProvider.newGoogleMapController = controller;
+                    // locatePosition().then((value) => initGeofireListener(context: context));
 
-                  //  locatePosition();
-                },
-              )
-            ,
+                    //  locatePosition();
+                  },
+                )
+              ,
 
-              //for shadow
-              _buildShadow(),
+                //for shadow
+                _buildShadow(),
 
-              //menu button
-              _buildMenuButton(),
+                //menu button
+                _buildMenuButton(),
 
-              if(Provider.of<DataProvider>(context).homeStatus == HomeStatus.INITIAL) Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  //  height: MediaQuery.of(context).size.height / 4,
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 15,
-                     vertical: 20,
-                      // vertical: mqSize.height * 0.06,
-                    ),
-                    child:
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        customHomeButton(
-                          context: context,
-                          //TODO: add your pick up location
-                          title:
-                          mapProvider.userPickUpLocation != null?
-                          mapProvider.userPickUpLocation.placeName:
-                          "Loading Pickup address...",
-
-                          // "El-Tahrir Square, Qasr El N aaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaa",
-                          withIcon: true,
-                          //    onTap: () {},
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        customHomeButton(
+                (Provider.of<DataProvider>(context).homeStatus == HomeStatus.INITIAL)?
+              // (_homeStatus == HomeStatus.INITIAL)?
+                  Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    //  height: MediaQuery.of(context).size.height / 4,
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 15,
+                       vertical: 20,
+                        // vertical: mqSize.height * 0.06,
+                      ),
+                      child:
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          customHomeButton(
                             context: context,
-                            title: "Set pickup location",
-                            onTap: () {
+                            //TODO: add your pick up location
+                            title:
+                            mapProvider.userPickUpLocation != null?
+                            mapProvider.userPickUpLocation.placeName:
+                            "Loading Pickup address...",
 
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => WhereToScreen(),),
-                              );
+                            // "El-Tahrir Square, Qasr El N aaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaa",
+                            withIcon: true,
+                            //    onTap: () {},
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          customHomeButton(
+                              context: context,
+                              title: "Set pickup location",
+                              onTap: () {
+
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => WhereToScreen(),),
+                                );
 
 
-                            }),
-                      ],
-                    )
+                              }),
+                        ],
+                      )
 
-                ),
-              ),
-
-
-              if(Provider.of<DataProvider>(context).homeStatus == HomeStatus.SELECT_AND_CONFIRM_RIDE )Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  //  height: MediaQuery.of(context).size.height / 4,
-                  margin: EdgeInsets.symmetric(
-                    horizontal: mainHorizontalMargin,
-                    vertical: mqSize.height * 0.03,
                   ),
-                  child: SelectAndConfirmRide(),
-
-                ),
-              ),
+                ): Container(),
 
 
-              if(Provider.of<DataProvider>(context).homeStatus == HomeStatus.FINDING_RIDE)Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: Container(
-                  //  height: MediaQuery.of(context).size.height / 4,
-                  margin: EdgeInsets.symmetric(
-                    horizontal: mainHorizontalMargin,
-                    vertical: mqSize.height * 0.03,
+                (Provider.of<DataProvider>(context).homeStatus == HomeStatus.SELECT_AND_CONFIRM_RIDE )?
+               // (_homeStatus == HomeStatus.SELECT_AND_CONFIRM_RIDE )?
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    //  height: MediaQuery.of(context).size.height / 4,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: mainHorizontalMargin,
+                      vertical: mqSize.height * 0.03,
+                    ),
+                    child: SelectAndConfirmRide(
+                      onTap: (){
+                        Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.FINDING_RIDE) ;
+                        print(HomeStatus.FINDING_RIDE);
+                        HelperMethods.createRideRequest(context: context, carType: Provider.of<DataProvider>(context, listen: false).carType,
+                        );
+
+                        setState(() {
+                        availableDriversList = GeoFireHelper.nearbyAvailableDriversList;
+                        _homeStatus = HomeStatus.FINDING_RIDE;
+                        print("selectANdConfirm");
+
+                      });
+
+
+                    },),
+
                   ),
-                  child: FindingRide(onCancel: ()=> cancelRideRequest(),),
-
-                ),
-              ),
+                ): Container(),
 
 
-              //TODO: driver arriving
-              if(Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVING)Positioned(
+                (Provider.of<DataProvider>(context).homeStatus == HomeStatus.FINDING_RIDE)?
+               // (_homeStatus== HomeStatus.FINDING_RIDE)?
+                Positioned(
                   left: 0,
                   right: 0,
                   bottom: 0,
@@ -224,15 +242,45 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       horizontal: mainHorizontalMargin,
                       vertical: mqSize.height * 0.03,
                     ),
-                    child: DriverArriving(),
+                    child: FindingRide(onCancel: (){
+                      cancelRideRequest();
+                      setState(() {
+                        _homeStatus = HomeStatus.INITIAL;
+                      });
+                    },
+                    onTap: (){
+                      setState(() {
+                        _homeStatus = HomeStatus.DRIVER_ARRIVING;
+                      });
+                    },),
 
                   ),
-                ),
+                ): Container(),
+
+
+                //TODO: driver arriving
+               (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVING)?
+               // (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVING)?
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: Container(
+                      //  height: MediaQuery.of(context).size.height / 4,
+                      margin: EdgeInsets.symmetric(
+                        horizontal: mainHorizontalMargin,
+                        vertical: mqSize.height * 0.03,
+                      ),
+                      child: DriverArriving(),
+
+                    ),
+                  ): Container(),
 
 
 
 
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -241,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
 
-    _homeStatus = HomeStatus.INITIAL;
+
     // final FirebaseAuth auth = FirebaseAuth.instance;
     //
     // final User user = auth.currentUser;
@@ -465,6 +513,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             nearbyAvailableDrivers.key = map['key'];
             nearbyAvailableDrivers.latitude = map['latitude'];
             nearbyAvailableDrivers.longitude = map['longitude'];
+
             GeoFireHelper.nearbyAvailableDriversList.add(nearbyAvailableDrivers);
 
             if (nearbyAvailableDriversKeysLoaded)
@@ -545,5 +594,98 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     resetApp();
 
 
+  }
+
+
+  void searchNearestDriver()
+  {
+    if(availableDriversList.length == 0)
+    {
+      cancelRideRequest();
+      resetApp();
+      noDriverFound();
+      return;
+    }
+
+    var driver = availableDriversList[0];
+
+    driversRef.child(driver.key).child("car_details").child("type").once().then((DataSnapshot snap) async
+    {
+      if(await snap.value != null)
+      {
+        String availableCarType = snap.value.toString();
+        if(availableCarType == Provider.of<DataProvider>(context).carType)
+        {
+
+         notifyDriver(driver);
+          availableDriversList.removeAt(0);
+        }
+        else
+        {
+          defaultToast(message: Provider.of<DataProvider>(context).carType +" drivers not available. Try again.", state: ToastState.ERROR);
+         // displayToastMessage(carRideType + " drivers not available. Try again.", context);
+        }
+      }
+      else
+      {
+
+        defaultToast(message: "No car found. Try again.", state: ToastState.ERROR);
+        //displayToastMessage(, context);
+      }
+    });
+  }
+
+  void noDriverFound() {
+    //todo;
+  }
+
+
+  void notifyDriver(NearbyAvailableDrivers driver)
+  {
+    driversRef.child(driver.key).child("newRide").set(rideRequestRef.key);
+
+    driversRef.child(driver.key).child("token").once().then((DataSnapshot snap){
+      if(snap.value != null)
+      {
+        String token = snap.value.toString();
+        HelperMethods.sendNotificationToDriver(token, context, rideRequestRef.key);
+      }
+      else
+      {
+        return;
+      }
+
+      // const oneSecondPassed = Duration(seconds: 1);
+      // var timer = Timer.periodic(oneSecondPassed, (timer) {
+      //   if(state != "requesting")
+      //   {
+      //     driversRef.child(driver.key).child("newRide").set("cancelled");
+      //     driversRef.child(driver.key).child("newRide").onDisconnect();
+      //     driverRequestTimeOut = 40;
+      //     timer.cancel();
+      //   }
+      //
+      //   driverRequestTimeOut = driverRequestTimeOut - 1;
+      //
+      //   driversRef.child(driver.key).child("newRide").onValue.listen((event) {
+      //     if(event.snapshot.value.toString() == "accepted")
+      //     {
+      //       driversRef.child(driver.key).child("newRide").onDisconnect();
+      //       driverRequestTimeOut = 40;
+      //       timer.cancel();
+      //     }
+      //   });
+      //
+      //   if(driverRequestTimeOut == 0)
+      //   {
+      //     driversRef.child(driver.key).child("newRide").set("timeout");
+      //     driversRef.child(driver.key).child("newRide").onDisconnect();
+      //     driverRequestTimeOut = 40;
+      //     timer.cancel();
+      //
+      //     searchNearestDriver();
+      //   }
+      // });
+    });
   }
 }
