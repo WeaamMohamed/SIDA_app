@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sida_app/shared/styles/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -148,4 +149,37 @@ Widget customWhiteAppBar({String title, @required context})=>   AppBar(
 enum CarTypes {
   ANY_SIDA,
   SIDA_PLUS,
+}
+
+
+void defaultToast({
+  @required message,
+  @required ToastState state,
+}) async {
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 5,
+      backgroundColor: changeToastColor(state),
+      textColor: Colors.white,
+      fontSize: 14.0);
+}
+
+enum ToastState { ERROR, SUCCESSFUL, WARNING }
+
+Color changeToastColor(ToastState state) {
+  switch (state) {
+    case ToastState.ERROR:
+      return Colors.red[400];
+      break;
+    case ToastState.SUCCESSFUL:
+      return Colors.green;
+      break;
+    case ToastState.WARNING:
+      return Colors.orange;
+      break;
+    default:
+      return null;
+  }
 }

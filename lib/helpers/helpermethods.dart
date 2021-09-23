@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,7 +14,7 @@ import '../firebase_db.dart';
 import '../models/direction_details.dart';
 import 'package:sida_app/models/users.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
-
+import 'package:http/http.dart' as http;
 class HelperMethods{
 
   static void getCurrentOnlineUserInfo() async
@@ -98,7 +99,7 @@ class HelperMethods{
         Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.SELECT_AND_CONFIRM_RIDE)  ;
         ///TODO:change to user id in homescreen()
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-          builder: (context,) => HomeScreen(),), (route) => false);
+          builder: (context,) => HomeScreen(homeStatus: HomeStatus.SELECT_AND_CONFIRM_RIDE,),), (route) => false);
 
 
       //}
@@ -189,5 +190,46 @@ class HelperMethods{
     
     return randInt.toDouble();
   }
+
+
+  static sendNotificationToDriver(String token, context, String ride_request_id) async
+  {
+    var destionation = Provider.of<MapProvider>(context, listen: false).userDropOffLocation;
+    Map<String, String> headerMap =
+    {
+      'Content-Type': 'application/json',
+      'Authorization': serverToken,
+    };
+
+    Map notificationMap =
+    {
+      //TODO: we can change title
+      'body': 'DropOff Address, ${destionation.placeName}',
+      'title': 'New Ride Request'
+    };
+
+    Map dataMap =
+    {
+      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+      'id': '1',
+      'status': 'done',
+      'ride_request_id': ride_request_id,
+    };
+
+    Map sendNotificationMap =
+    {
+      "notification": notificationMap,
+      "data": dataMap,
+      "priority": "high",
+      "to": token,
+    };
+
+    var res = await http.post(
+      'https://fcm.googleapis.com/fcm/send',
+      headers: headerMap,
+      body: jsonEncode(sendNotificationMap),
+    );
+  }
+
 
 }

@@ -6,8 +6,8 @@ import 'package:sida_app/helpers/helpermethods.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
 
 class SelectAndConfirmRide extends StatefulWidget {
-  // Function onTap;
-  // SelectAndConfirmRide({this.onTap});
+  final Function onTap;
+  SelectAndConfirmRide({this.onTap});
   @override
   _SelectAndConfirmRideState createState() => _SelectAndConfirmRideState();
 }
@@ -225,16 +225,22 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
         SizedBox(
           height: sizedBoxHeight,
         ),
-        customHomeButton(context: context, title: "Book Now", onTap:  () {
+        customHomeButton(context: context, title: "Book Now",
+          onTap:  () {
 
-          Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.FINDING_RIDE) ;
-          print(HomeStatus.FINDING_RIDE);
+         // widget.onTap();
+         //  Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.FINDING_RIDE) ;
+         //  print(HomeStatus.FINDING_RIDE);
           String carType;
           selectCarType == CarTypes.SIDA_PLUS? carType = "SIDA Plus":  carType = "Any SIDA";
+          Provider.of<DataProvider>(context, listen: false).updateCarType(carType);
 
-          HelperMethods.createRideRequest(context: context, carType: carType);
+          // HelperMethods.createRideRequest(context: context, carType: carType);
 
-        },),
+            widget.onTap();
+            print("ontap called inside select and cofirm ride");
+        },
+        ),
       ],
     );
   }

@@ -13,8 +13,9 @@ import 'any_sida.dart';
 
 
 class FindingRide extends StatefulWidget {
-  Function onCancel;
-  FindingRide({this.onCancel});
+  final Function onCancel;
+  final Function onTap;
+  FindingRide({this.onCancel, this.onTap});
 
   @override
   _FindingRideState createState() => _FindingRideState();
