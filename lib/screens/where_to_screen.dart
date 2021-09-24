@@ -94,8 +94,10 @@ class _WhereToScreenState extends State<WhereToScreen> {
                                 //  "El-Tahrir Square, ..."
                                 Provider
                                     .of<MapProvider>(context)
-                                    .userPickUpLocation
-                                    .placeName?? "loading..",
+                                    .userPickUpLocation == null ? "loading..":
+                                Provider
+                                    .of<MapProvider>(context)
+                                    .userPickUpLocation.placeName ,
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black.withOpacity(0.3),

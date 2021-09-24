@@ -68,17 +68,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final double mainHorizontalMargin = 15.0;
   bool _isGPSEnabled = false;
   List<NearbyAvailableDrivers> availableDriversList;
+  String _carType;
+  HomeStatus _homeStatus;
 
   @override
   Widget build(BuildContext context) {
-    String _carType = Provider.of<DataProvider>(context).carType;
+     _carType = Provider.of<DataProvider>(context).carType;
+     _homeStatus = Provider.of<DataProvider>(context).homeStatus;
 
-    if(widget.homeStatus != null)
-      {
-        // setState(() {
-        //   _homeStatus = widget.homeStatus;
-        // });
-      }
+    // if(widget.homeStatus != null)
+    //   {
+    //     // setState(() {
+    //     //   _homeStatus = widget.homeStatus;
+    //     // });
+    //   }
 
 
     createIconMarker();
@@ -149,8 +152,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 _buildMenuButton(),
 
                 (Provider.of<DataProvider>(context).homeStatus == HomeStatus.INITIAL)?
-              // (_homeStatus == HomeStatus.INITIAL)?
-                  Positioned(
+                Positioned(
                   bottom: 0,
                   left: 0,
                   right: 0,
@@ -158,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     //  height: MediaQuery.of(context).size.height / 4,
                       margin: EdgeInsets.symmetric(
                         horizontal: 15,
-                       vertical: 20,
+                        vertical: 20,
                         // vertical: mqSize.height * 0.06,
                       ),
                       child:
@@ -196,6 +198,59 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
                   ),
                 ): Container(),
+              // (_homeStatus == HomeStatus.INITIAL)?
+              //   Consumer<DataProvider>(
+              //     builder: (context, myModel, child){
+              //       return (myModel.homeStatus == HomeStatus.INITIAL)?
+              //         Positioned(
+              //         bottom: 0,
+              //         left: 0,
+              //         right: 0,
+              //         child: Container(
+              //           //  height: MediaQuery.of(context).size.height / 4,
+              //             margin: EdgeInsets.symmetric(
+              //               horizontal: 15,
+              //               vertical: 20,
+              //               // vertical: mqSize.height * 0.06,
+              //             ),
+              //             child:
+              //             Column(
+              //               mainAxisAlignment: MainAxisAlignment.center,
+              //               children: [
+              //                 customHomeButton(
+              //                   context: context,
+              //                   //TODO: add your pick up location
+              //                   title:
+              //                   mapProvider.userPickUpLocation != null?
+              //                   mapProvider.userPickUpLocation.placeName:
+              //                   "Loading Pickup address...",
+              //
+              //                   // "El-Tahrir Square, Qasr El N aaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaa",
+              //                   withIcon: true,
+              //                   //    onTap: () {},
+              //                 ),
+              //                 SizedBox(
+              //                   height: 20,
+              //                 ),
+              //                 customHomeButton(
+              //                     context: context,
+              //                     title: "Set pickup location",
+              //                     onTap: () {
+              //
+              //                       Navigator.of(context).push(
+              //                         MaterialPageRoute(builder: (context) => WhereToScreen(),),
+              //                       );
+              //
+              //
+              //                     }),
+              //               ],
+              //             )
+              //
+              //         ),
+              //       ): Container();
+              //     }
+              //     ),
+                    ///: Container(),
 
 
                 (Provider.of<DataProvider>(context).homeStatus == HomeStatus.SELECT_AND_CONFIRM_RIDE )?
@@ -220,8 +275,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
                         setState(() {
                         availableDriversList = GeoFireHelper.nearbyAvailableDriversList;
+
+                        searchNearestDriver();
+                        print('availableDriversList length' + availableDriversList.length.toString());
                        // _homeStatus = HomeStatus.FINDING_RIDE;
-                        print("selectANdConfirm");
+                      // print("selectANdConfirm");
 
                       });
 
@@ -245,7 +303,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       vertical: mqSize.height * 0.03,
                     ),
                     child: FindingRide(onCancel: (){
+                      ///Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.INITIAL);
+
+                      setState(() {
+
+                      });
                       cancelRideRequest();
+                      //Provider.of<DataProvider>(context).updateHomeStatus(HomeStatus.INITIAL);
                       // setState(() {
                       //   _homeStatus = HomeStatus.INITIAL;
                       // });
@@ -593,7 +657,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
      Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.INITIAL);
      FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).remove();
-    resetApp();
+     resetApp();
 
 
   }
@@ -607,6 +671,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       cancelRideRequest();
       resetApp();
       noDriverFound();
+      print('weaam : there is no drivers available.');
+      defaultToast(message: 'there is no drivers available.', state: ToastState.ERROR);
+
       return;
     }
 
@@ -617,7 +684,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       if(await snap.value != null)
       {
         String availableCarType = snap.value.toString();
-        if(availableCarType == Provider.of<DataProvider>(context).carType)
+        if(availableCarType == _carType)
         {
 
          notifyDriver(driver);
@@ -625,7 +692,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         }
         else
         {
-          defaultToast(message: Provider.of<DataProvider>(context).carType +" drivers not available. Try again.", state: ToastState.ERROR);
+
+          defaultToast(message: _carType +" drivers not available. Try again.", state: ToastState.ERROR);
+          print('weaam : $_carType +" drivers not available. Try again.');
+          cancelRideRequest();
          // displayToastMessage(carRideType + " drivers not available. Try again.", context);
         }
       }
@@ -633,6 +703,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       {
 
         defaultToast(message: "No car found. Try again.", state: ToastState.ERROR);
+        print('weaam : No car found. Try again.');
         //displayToastMessage(, context);
       }
     });
@@ -667,7 +738,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         //canceled
         //if(state != "requesting")
         //if user cancel trip
-        if(Provider.of<DataProvider>(context).homeStatus != HomeStatus.FINDING_RIDE)
+        print('_homeStatus $_homeStatus');
+        if(_homeStatus != HomeStatus.FINDING_RIDE)
         {
           driversRef.child(driver.key).child("newRide").set("cancelled");
           driversRef.child(driver.key).child("newRide").onDisconnect();
@@ -695,6 +767,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           driversRef.child(driver.key).child("newRide").onDisconnect();
           driverRequestTimeOut = 40;
           timer.cancel();
+
+          print('weaam: time out searching for new driver');
+          defaultToast(message: ' time out searching for new driver',state: ToastState.WARNING,);
 
           searchNearestDriver();
         }

@@ -13,12 +13,12 @@ class DataProvider extends ChangeNotifier{
 
   static bool _isEnglish = CacheHelper.getIsEnglishData();
   bool get isEnglish => _isEnglish;
-  String carType = 'defaultCarType';
+  String carType = 'SIDA Plus';
 
 
   void updateCarType(String type){
     carType = type;
-    print('update car type to '+ type + carType);
+    print('weaam : update car type to '+ type + carType);
     notifyListeners();
   }
    void setIsEnglishChosen (bool value) async {
@@ -47,7 +47,7 @@ class DataProvider extends ChangeNotifier{
 
   void updateHomeStatus(HomeStatus value) {
     _homeStatus = value;
-    print('home status updated to : ' + value.toString());
+    print('weaam : home status updated to : ' + value.toString());
     notifyListeners();
   }
 
