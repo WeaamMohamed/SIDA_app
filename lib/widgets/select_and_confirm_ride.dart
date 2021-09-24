@@ -235,10 +235,11 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
           selectCarType == CarTypes.SIDA_PLUS? carType = "SIDA Plus":  carType = "Any SIDA";
           Provider.of<DataProvider>(context, listen: false).updateCarType(carType);
 
+          print("car type form select and confirm : "+ carType);
           // HelperMethods.createRideRequest(context: context, carType: carType);
 
             widget.onTap();
-            print("ontap called inside select and cofirm ride");
+            print("weaam ontap called inside select and cofirm ride");
         },
         ),
       ],

@@ -46,7 +46,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
 
-  HomeStatus _homeStatus = HomeStatus.INITIAL;
+ /// HomeStatus _homeStatus = HomeStatus.INITIAL;
   //String userID;
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -71,12 +71,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    String _carType = Provider.of<DataProvider>(context).carType;
 
     if(widget.homeStatus != null)
       {
-        setState(() {
-          _homeStatus = widget.homeStatus;
-        });
+        // setState(() {
+        //   _homeStatus = widget.homeStatus;
+        // });
       }
 
 
@@ -213,12 +214,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       onTap: (){
                         Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.FINDING_RIDE) ;
                         print(HomeStatus.FINDING_RIDE);
-                        HelperMethods.createRideRequest(context: context, carType: Provider.of<DataProvider>(context, listen: false).carType,
+
+                        HelperMethods.createRideRequest(context: context, carType: _carType,
                         );
 
                         setState(() {
                         availableDriversList = GeoFireHelper.nearbyAvailableDriversList;
-                        _homeStatus = HomeStatus.FINDING_RIDE;
+                       // _homeStatus = HomeStatus.FINDING_RIDE;
                         print("selectANdConfirm");
 
                       });
@@ -244,14 +246,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     ),
                     child: FindingRide(onCancel: (){
                       cancelRideRequest();
-                      setState(() {
-                        _homeStatus = HomeStatus.INITIAL;
-                      });
+                      // setState(() {
+                      //   _homeStatus = HomeStatus.INITIAL;
+                      // });
                     },
                     onTap: (){
-                      setState(() {
-                        _homeStatus = HomeStatus.DRIVER_ARRIVING;
-                      });
+                      // setState(() {
+                      //   _homeStatus = HomeStatus.DRIVER_ARRIVING;
+                      // });
                     },),
 
                   ),
@@ -544,7 +546,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
 
       //TODO: memory leak
-      setState(() {});
+     // setState(() {});
     });
   }
 
@@ -552,9 +554,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   {
 
     //TODO: memory leak
-    setState(() {
+   // setState(() {
       _Markers.clear();
-    });
+   // });
 
     Set<Marker> tMarkers = Set<Marker>();
 
@@ -570,9 +572,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       );
       tMarkers.add(thisMarker);
     }
-    setState(() {
+   // setState(() {
       _Markers = tMarkers;
-    });
+    //});
   }
 
  void createIconMarker()
@@ -599,6 +601,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void searchNearestDriver()
   {
+    print("weaam : searchNearestDdriver() is called");
     if(availableDriversList.length == 0)
     {
       cancelRideRequest();
@@ -609,7 +612,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     var driver = availableDriversList[0];
 
-    driversRef.child(driver.key).child("car_details").child("type").once().then((DataSnapshot snap) async
+    driversRef.child(driver.key).child("carDetails").child("ride_type").once().then((DataSnapshot snap) async
     {
       if(await snap.value != null)
       {
@@ -637,11 +640,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void noDriverFound() {
     //todo;
+    print('weaam : noDriverFound()');
   }
 
 
   void notifyDriver(NearbyAvailableDrivers driver)
   {
+    print('weaam : notifyDriver()');
     driversRef.child(driver.key).child("newRide").set(rideRequestRef.key);
 
     driversRef.child(driver.key).child("token").once().then((DataSnapshot snap){
