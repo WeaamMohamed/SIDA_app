@@ -11,3 +11,6 @@ User currentUser;
 Users currentUserInfo;
 
 const String serverToken = 'key=AAAAliK30Io:APA91bHJtvyyOP1ZJC0zTlvkwWUoR6heaxQvErYYj9-Ef7ervqZzNuSnWTX66H_qRW4JQmU3BBm38sXR_4gjBB4FX9791n5UCUdB7ewKrQ-fyy_wtisYF4MiNi6nZDB0AyzqI-UT0ELt';
+
+
+int driverRequestTimeOut = 40;

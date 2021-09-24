@@ -46,6 +46,7 @@ class DataProvider extends ChangeNotifier{
 
   void updateHomeStatus(HomeStatus value) {
     _homeStatus = value;
+    print('home status updated to : ' + value.toString());
     notifyListeners();
   }
 

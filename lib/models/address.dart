@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Address{
-  String placeName = "";
+  String placeName = "loading...";
   double latitude;
   double longitude;
   String placeId;

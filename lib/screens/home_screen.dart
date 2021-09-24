@@ -655,37 +655,45 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         return;
       }
 
-      // const oneSecondPassed = Duration(seconds: 1);
-      // var timer = Timer.periodic(oneSecondPassed, (timer) {
-      //   if(state != "requesting")
-      //   {
-      //     driversRef.child(driver.key).child("newRide").set("cancelled");
-      //     driversRef.child(driver.key).child("newRide").onDisconnect();
-      //     driverRequestTimeOut = 40;
-      //     timer.cancel();
-      //   }
-      //
-      //   driverRequestTimeOut = driverRequestTimeOut - 1;
-      //
-      //   driversRef.child(driver.key).child("newRide").onValue.listen((event) {
-      //     if(event.snapshot.value.toString() == "accepted")
-      //     {
-      //       driversRef.child(driver.key).child("newRide").onDisconnect();
-      //       driverRequestTimeOut = 40;
-      //       timer.cancel();
-      //     }
-      //   });
-      //
-      //   if(driverRequestTimeOut == 0)
-      //   {
-      //     driversRef.child(driver.key).child("newRide").set("timeout");
-      //     driversRef.child(driver.key).child("newRide").onDisconnect();
-      //     driverRequestTimeOut = 40;
-      //     timer.cancel();
-      //
-      //     searchNearestDriver();
-      //   }
-      // });
+      const oneSecondPassed = Duration(seconds: 1);
+      var timer = Timer.periodic(oneSecondPassed, (timer) {
+
+
+        //canceled
+        //if(state != "requesting")
+        //if user cancel trip
+        if(Provider.of<DataProvider>(context).homeStatus != HomeStatus.FINDING_RIDE)
+        {
+          driversRef.child(driver.key).child("newRide").set("cancelled");
+          driversRef.child(driver.key).child("newRide").onDisconnect();
+          driverRequestTimeOut = 40;
+          timer.cancel();
+        }
+
+        driverRequestTimeOut = driverRequestTimeOut - 1;
+        print("time out: " + driverRequestTimeOut.toString());
+
+        //trip accepted
+        driversRef.child(driver.key).child("newRide").onValue.listen((event) {
+          if(event.snapshot.value.toString() == "accepted")
+          {
+            driversRef.child(driver.key).child("newRide").onDisconnect();
+            driverRequestTimeOut = 40;
+            timer.cancel();
+          }
+        });
+
+        //time out
+        if(driverRequestTimeOut == 0)
+        {
+          driversRef.child(driver.key).child("newRide").set("timeout");
+          driversRef.child(driver.key).child("newRide").onDisconnect();
+          driverRequestTimeOut = 40;
+          timer.cancel();
+
+          searchNearestDriver();
+        }
+      });
     });
   }
 }
