@@ -319,7 +319,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ref.child(currentUser.uid).child('ProfilePhoto').update({"Path": imageFile.path});
 
       StorageUploadTask storageUploadTask = refr.putFile(imageFile);
+      showDialog(context: context, builder:  ((builder)=> Center(child: CircularProgressIndicator( color: Colors.grey))));
       StorageTaskSnapshot taskSnapshot = await storageUploadTask.onComplete;
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Profile photo updated successfully!"),
       ));
