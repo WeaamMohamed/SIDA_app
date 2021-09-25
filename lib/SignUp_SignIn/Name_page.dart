@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +13,8 @@ import 'password_page.dart';
 import 'package:sida_app/firebase_db.dart';
 class NamePage extends StatefulWidget {
 
-  final String userID;
-  NamePage(  this.userID,{Key key}):super(key: key);
+  final String phoneNumber;
+  NamePage(  this.phoneNumber,{Key key}):super(key: key);
   @override
   _NamePageState createState() => _NamePageState();
 }
@@ -134,7 +135,8 @@ class _NamePageState extends State<NamePage> {
           final form= formKey.currentState;
           if(form.validate())
           {
-            ref.child(widget.userID).update({'Name': controller.text });
+            ref.child(FirebaseAuth.instance.currentUser.uid).set({'Phone': widget.phoneNumber , 'Name' : controller.text });
+            
             Navigator.push(context, MaterialPageRoute(
                builder: (BuildContext context) => HomeScreen()));
             CacheHelper.saveData(key: IS_SIGNED_IN_SHARED_PREF, data: true);

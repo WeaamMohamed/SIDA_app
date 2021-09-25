@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'models/users.dart';
 final database =FirebaseDatabase.instance;
@@ -7,6 +8,8 @@ final ref = database.reference().child('Users');
 final driversRef = database.reference().child('Drivers');
 DatabaseReference rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests");
 
+
+FirebaseStorage storage = FirebaseStorage(storageBucket: 'gs://sida-51cb9.appspot.com');
 User currentUser;
 Users currentUserInfo;
 

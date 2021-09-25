@@ -46,5 +46,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>io.flutter.embedded_view_preview</key>
+    	<true/>
+    	<key>NSPhotoLibraryUsageDescription</key>
+        	<string>To choose an avatar</string>
+        	<key>NSCameraUsageDescription</key>
+        	<string>To take an avatar photo</string>
 </dict>
 </plist>

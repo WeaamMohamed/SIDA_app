@@ -146,7 +146,7 @@ class _MyAppState extends State<MyApp> {
 
     if ( FirebaseAuth.instance.currentUser!= null) {
       // already signed in
-      return EditProfileScreen(FirebaseAuth.instance.currentUser.uid);
+      return EditProfileScreen();
     } else {
       return PhoneNumberPage();
     }
