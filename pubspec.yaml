@@ -40,6 +40,8 @@ dependencies:
   connectivity: ^3.0.6
   fluttertoast: ^8.0.7
   firebase_messaging: ^6.0.7
+  image_picker: ^0.6.7+17
+  firebase_storage: ^4.0.0
 
 
 

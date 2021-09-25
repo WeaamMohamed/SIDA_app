@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:sida_app/SignUp_SignIn/mobile_phone_page.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:flutter/services.dart';
 import 'package:sida_app/shared/components/constants.dart';
 import 'package:sida_app/shared/network/local/cache_helper.dart';
+
+import '../firebase_db.dart';
 
 class SettingsScreen extends StatefulWidget {
 
@@ -15,6 +18,11 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
 
   final double horizontalPadding = 15;
+  String name='';
+  String number='';
+  String _url;
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -36,9 +44,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               //  crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage(
+                  backgroundImage:
+                  _url == null
+                      ?     AssetImage(
                     "assets/images/profile_pic.jpg",
-                  ),
+                  ):
+                  NetworkImage(_url),
+
                   minRadius: 40,
                   maxRadius: 40,
                 ),
@@ -50,14 +62,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         //TODO: change this to name from firebase
-                        Text("Weaam Mohamed", style: TextStyle(
+                        Text(name, style: TextStyle(
                           fontSize: 16,
                           color: Colors.white,
                         ),),
                         SizedBox(height: 10,),
 
                         //TODO: change this to name from firebase
-                        Text("+20 106 940 5183", style: TextStyle(
+                        Text(number, style: TextStyle(
                           fontSize: 16,
                           color: Colors.white,
                         ),),
@@ -136,14 +148,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   void initState() {
+    getData();
+    loadImage();
 
-    // TODO: implement initState
     //to hide app bar and status bar
     // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Colors.white.withOpacity(0.0),
           statusBarIconBrightness: Brightness.dark,
         ));
+
     super.initState();
   }
 
@@ -198,4 +212,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     ],
   );
+
+  void loadImage() async {
+    String myUrl='';
+    try {
+      await ref.child( currentUser.uid).child('ProfilePhoto').once().then((DataSnapshot snapshot) async {
+
+        setState(() {
+          myUrl = snapshot.value['URL'];
+        });
+      });
+    }
+    catch(e)
+    { print("you got error: $e");
+    _url=null;
+    return;
+    }
+
+    setState(() {
+      _url=myUrl;
+      print(_url);
+      // imageFile = File(path);
+    });
+  }
+
+  void getData() async
+  {
+    //TODO:GET BALANCE,PROFIT....
+    try {
+      await ref.child( currentUser.uid).once().then((DataSnapshot snapshot) async {
+        setState(() {
+          name = snapshot.value['Name'] ;
+          number = snapshot.value['Phone'] ;
+        });
+      });
+    }
+    catch(e)
+    { print("you got error: $e");}
+
+  }
 }

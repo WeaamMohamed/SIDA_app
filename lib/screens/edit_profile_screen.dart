@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/shared/styles/colors.dart';
 import 'package:sida_app/firebase_db.dart';
+import 'package:path/path.dart' as Path;
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 
 class EditProfileScreen extends StatefulWidget {
-  final String userID;
-  EditProfileScreen(  this.userID,{Key key}):super(key: key);
+
 
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
@@ -23,12 +26,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   var formKey = GlobalKey<FormState>();
   String UserName;
   String UserNumber;
+  File imageFile;
+  String _url;
+  final ImagePicker picker = ImagePicker();
 
-
-
+  @override
   void initState(){
     super.initState();
     retrieve_name();
+    loadImage();
   }
   void retrieve_name ()async
   {
@@ -113,9 +119,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             children: [
                               Center(
                                 child: CircleAvatar(
-                                  backgroundImage: AssetImage(
+                                  backgroundImage:
+                                  _url == null
+                                      ?   AssetImage(
                                     "assets/images/profile_pic.jpg",
-                                  ),
+                                  ):
+                                  NetworkImage(_url),
                                   minRadius: 43,
                                   maxRadius: 43,
                                 ),
@@ -140,7 +149,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   ),
 
                                   padding: EdgeInsets.all(8),
-                                  child: Icon(Icons.edit, color: Colors.black,),
+                                  child:  IconButton(icon: Icon(Icons.edit, color: Colors.black,), onPressed: ()
+                                  {
+                                    showModalBottomSheet<void>(
+                                      context: context,
+                                      builder:((builder)=> bottomsheet()),
+                                    );
+                                  }),
                                 ),
                               )
                             ],
@@ -219,8 +234,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               codeAutoRetrievalTimeout: null);
 
                         //  FirebaseAuth.instance.currentUser.updatePhoneNumber(phoneCredential)
-                          ref.child(widget.userID).update({'Name': nameController.text });
-                          ref.child(widget.userID).update({'Phone': phoneController.text });
+                          ref.child( currentUser.uid).update({'Name': nameController.text });
+                          ref.child(currentUser.uid).update({'Phone': phoneController.text });
                           print("updated.");
                         }
 
@@ -230,6 +245,153 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ) ,);
 
+  }
+
+  Widget bottomsheet()
+  {
+    return Container(
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.symmetric(horizontal: 20
+          ,vertical: 20),
+      child: Column(
+        children: <Widget>[
+          Text('Choose Profile Picture',
+            style: TextStyle(
+                fontSize: 20
+            ),
+          ),
+          SizedBox( height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              FlatButton.icon(
+                icon: Icon( Icons.camera,color: Colors.black,),
+                onPressed: (){
+                  takephoto(ImageSource.camera);
+                  Navigator.pop(context);
+
+                },
+                label: Text('Camera',style: TextStyle(color:Colors.black)),
+              ),
+              FlatButton.icon(
+                icon: Icon( Icons.image,color: Colors.black),
+                onPressed: (){
+                  takephoto(ImageSource.gallery);
+                  Navigator.pop(context);
+                },
+                label: Text('Gallery',style: TextStyle(color:Colors.black)),
+              ),
+              FlatButton.icon(
+                icon: Icon( Icons.delete,color: Colors.black),
+                onPressed: (){
+                  deletePhoto();
+                  Navigator.pop(context);
+                },
+                label: Text('Remove',style: TextStyle(color:Colors.black),),
+              )
+
+            ],
+
+          )
+        ],
+      ),
+    );
+  }
+  void takephoto ( ImageSource source) async {
+
+    var PickedFile = await ImagePicker.pickImage(source: source);
+
+    setState(() {
+      imageFile = PickedFile;
+    });
+    uploadImage(context);
+  }
+
+  void uploadImage(context) async {
+
+    try {
+      ///TODO:Delete the old photo
+      StorageReference refr = storage.ref().child('UsersImages').child(currentUser.uid).child(Path.basename(imageFile.path));
+      print("##################################");
+      print(imageFile);
+      print(imageFile.path);
+      ref.child(currentUser.uid).child('ProfilePhoto').update({"Path": imageFile.path});
+
+      StorageUploadTask storageUploadTask = refr.putFile(imageFile);
+      StorageTaskSnapshot taskSnapshot = await storageUploadTask.onComplete;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Profile photo updated successfully!"),
+      ));
+      String url = await taskSnapshot.ref.getDownloadURL();
+      print('url $url');
+      setState(() {
+        _url = url;
+      });
+      ref.child(currentUser.uid).child('ProfilePhoto').update({"URL": _url});
+
+
+    } catch (ex) {
+
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text(ex.message),
+      ));
+    }
+  }
+  void loadImage() async {
+    String myUrl='';
+    try {
+      await ref.child( currentUser.uid).child('ProfilePhoto').once().then((DataSnapshot snapshot) async {
+
+        setState(() {
+          myUrl = snapshot.value['URL'];
+        });
+      });
+    }
+    catch(e)
+    { print("you got error: $e");
+    _url=null;
+    return;
+    }
+
+    setState(() {
+      _url=myUrl;
+      print(_url);
+      // imageFile = File(path);
+    });
+  }
+  void deletePhoto() async
+  {
+    String myPath='';
+    if ( _url != null)
+    {
+      try {
+        await ref.child( currentUser.uid).child('ProfilePhoto').once().then((DataSnapshot snapshot) async {
+          setState(() {
+            myPath = snapshot.value['Path'];
+            print("=____________++++++++++++++++++++++");
+            print(myPath);
+          });
+        });
+      }
+      catch(e)
+      { print("you got error: $e");}
+      StorageReference refr = storage.ref().child('UsersImages').child(currentUser.uid).child(Path.basename(myPath));
+      refr.delete();
+      driversRef.child( currentUser.uid).child('ProfilePhoto').remove();
+      setState(() {
+        _url = null;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Profile photo is removed"),
+      ));
+    }
+    else
+    {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("No photo to remove!"),
+      ));
+    }
   }
 }
 

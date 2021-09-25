@@ -1,9 +1,30 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sida_app/screens/edit_profile_screen.dart';
 import 'package:sida_app/screens/settings_screen.dart';
 import 'package:sida_app/shared/styles/colors.dart';
 
-class HomeDrawer extends StatelessWidget {
+import '../firebase_db.dart';
+
+class HomeDrawer extends StatefulWidget {
+
+  @override
+  State<HomeDrawer> createState() => _HomeDrawerState();
+}
+
+class _HomeDrawerState extends State<HomeDrawer> {
+
+ String name='';
+  String _url;
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+    loadImage();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -31,9 +52,13 @@ class HomeDrawer extends StatelessWidget {
             //  crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               CircleAvatar(
-                backgroundImage: AssetImage(
+                      backgroundImage:
+                      _url == null
+                          ?     AssetImage(
                   "assets/images/profile_pic.jpg",
-                ),
+                ):
+                      NetworkImage(_url),
+
                 minRadius: 43,
                 maxRadius: 43,
               ),
@@ -48,7 +73,7 @@ class HomeDrawer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        "Weaam Mohamed",
+                       name,
                         style: TextStyle(
                           fontSize: 20,
                         ),
@@ -110,6 +135,45 @@ class HomeDrawer extends StatelessWidget {
       ],
     ));
   }
+
+  void loadImage() async {
+    String myUrl='';
+    try {
+      await ref.child( currentUser.uid).child('ProfilePhoto').once().then((DataSnapshot snapshot) async {
+
+        setState(() {
+          myUrl = snapshot.value['URL'];
+        });
+      });
+    }
+    catch(e)
+    { print("you got error: $e");
+    _url=null;
+    return;
+    }
+
+    setState(() {
+      _url=myUrl;
+      print(_url);
+      // imageFile = File(path);
+    });
+  }
+
+ void getData() async
+ {
+   //TODO:GET BALANCE,PROFIT....
+   try {
+     await ref.child( currentUser.uid).once().then((DataSnapshot snapshot) async {
+       setState(() {
+         name = snapshot.value['Name'] ;
+       });
+     });
+   }
+   catch(e)
+   { print("you got error: $e");}
+
+ }
+
 }
 
 Widget _buildDrawerItem({
