@@ -773,6 +773,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             driversRef.child(driver.key).child("newRide").onDisconnect();
             driverRequestTimeOut = 40;
             timer.cancel();
+            Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.DRIVER_ARRIVING);
           }
         });
 
