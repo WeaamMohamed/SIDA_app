@@ -823,6 +823,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       "longitude": dropOff.longitude.toString(),
     };
 
+    print('weaam : durationText: ${directionDetails.durationText}');
+    print('weaam : durationValue: ${directionDetails.durationValue}');
+    print('weaam : distanceText: ${directionDetails.distanceText}');
+    print('weaam : distanceValue: ${directionDetails.distanceValue}');
+
+
     Map rideInfoMap =
     {
       "created_at": DateTime.now().toString(),
@@ -839,8 +845,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     //todo;
       "fare": HelperMethods.estimateFares(directionDetails).toString(),
       //between driver and rider:
-      "tripDistance": directionDetails.distanceText,
-      "tripTime": directionDetails.durationText,
+      "tripDistance": directionDetails.distanceValue,
+      "tripTime": directionDetails.durationValue,
     };
 
     //FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).set(rideInfoMap);
