@@ -102,6 +102,10 @@ class MapProvider extends ChangeNotifier
     _directionDetails = await RequestHelper.getPlaceDirectionsDetails(pickUpLatLang, dropOffLatLang);
     print("this is your encoded points" + _directionDetails.encodedPoints);
 
+    print('weaam map_provider from getDirectionDetails distanceValue is the distance in meters' + _directionDetails.distanceValue.toString());
+    print('weaam map_provider from getDirectionDetails durationValue is duration in seconds' + _directionDetails.durationValue.toString());
+    print('weaam map_provider from getDirectionDetails ' + _directionDetails.durationValue.toString());
+
 
 
     PolylinePoints polylinePoints = PolylinePoints();
@@ -158,12 +162,14 @@ class MapProvider extends ChangeNotifier
 
   }
 
-  DirectionDetails get directionDetails => _directionDetails;
+  DirectionDetails get getCurrentDirectionDetails => _directionDetails;
 
   set directionDetails(DirectionDetails value) {
     _directionDetails = value;
     notifyListeners();
   }
+
+
 
   Set<Polyline> get polylineSet => _polylineSet;
 

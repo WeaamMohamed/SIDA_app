@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/helpers/geofirehelper.dart';
+import 'package:sida_app/models/direction_details.dart';
 import 'package:sida_app/models/nearby_available_drivers.dart';
 import 'package:sida_app/screens/driver_arriving.dart';
 import 'package:sida_app/screens/finding_a_ride.dart';
@@ -771,6 +772,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         driversRef.child(driver.key).child("newRide").onValue.listen((event) {
           if(event.snapshot.value.toString() == "accepted")
           {
+
             driversRef.child(driver.key).child("newRide").onDisconnect();
             driverRequestTimeOut = 40;
             timer.cancel();
@@ -807,6 +809,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     var pickUp = Provider.of<MapProvider>(context, listen: false).userPickUpLocation;
     var dropOff = Provider.of<MapProvider>(context, listen: false).userDropOffLocation;
+    DirectionDetails directionDetails = Provider.of<MapProvider>(context, listen: false).getCurrentDirectionDetails;
 
     Map pickUpLocMap =
     {
@@ -833,6 +836,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       "payment_method": "cash",
       "driver_id": "waiting",
       "ride_type": carType,
+    //todo;
+      "fare": HelperMethods.estimateFares(directionDetails).toString(),
+      //between driver and rider:
+      "tripDistance": directionDetails.distanceText,
+      "tripTime": directionDetails.durationText,
     };
 
     //FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).set(rideInfoMap);
@@ -849,7 +857,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       {
         //todo: this is not string;
         setState(() {
-          carDetailsDriver = event.snapshot.value["carDetails"].toString();
+          carDetailsDriver = event.snapshot.value["carDetails"]['carModel'].toString();
+
+          print('weaam :  event.snapshot.value["carDetails"]["carModel"].toString()' +
+          event.snapshot.value["carDetails"]['carModel'].toString());
+
+          print('weaam : not used event.snapshot.value["carDetails"]["carColor"].toString()' +
+              event.snapshot.value["carDetails"]['carColor'].toString());
         });
       }
       if(event.snapshot.value["FirstName"] != null)
