@@ -69,7 +69,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         SizedBox(height: 10,),
 
                         //TODO: change this to name from firebase
-                        Text(number, style: TextStyle(
+                        Text(
+                          number??'default number', style: TextStyle(
                           fontSize: 16,
                           color: Colors.white,
                         ),),

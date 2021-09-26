@@ -10,6 +10,7 @@ class GeoFireHelper
   {
     int index = nearbyAvailableDriversList.indexWhere((element) => element.key == key);
 
+    //todo: condition??
     if(nearbyAvailableDriversList.length > 0){
       nearbyAvailableDriversList.removeAt(index);
     }

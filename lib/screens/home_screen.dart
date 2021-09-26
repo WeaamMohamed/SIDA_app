@@ -8,10 +8,8 @@ import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_webservice/directions.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/helpers/geofirehelper.dart';
-import 'package:sida_app/models/direction_details.dart';
 import 'package:sida_app/models/nearby_available_drivers.dart';
 import 'package:sida_app/screens/driver_arriving.dart';
 import 'package:sida_app/screens/finding_a_ride.dart';
@@ -270,14 +268,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.FINDING_RIDE) ;
                         print(HomeStatus.FINDING_RIDE);
 
-                        HelperMethods.createRideRequest(context: context, carType: _carType,
-                        );
+                        HelperMethods.createRideRequest(context: context, carType: _carType,);
+
+                        ///
 
                         setState(() {
+                          availableDriversList = [];
                         availableDriversList = GeoFireHelper.nearbyAvailableDriversList;
 
                         searchNearestDriver();
-                        print('availableDriversList length' + availableDriversList.length.toString());
+                        print('availableDriversList length ' + availableDriversList.length.toString());
+                        print('availableDriversList length ' + availableDriversList[0].toString());
                        // _homeStatus = HomeStatus.FINDING_RIDE;
                       // print("selectANdConfirm");
 
@@ -288,7 +289,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
                   ),
                 ): Container(),
-
 
                 (Provider.of<DataProvider>(context).homeStatus == HomeStatus.FINDING_RIDE)?
                // (_homeStatus== HomeStatus.FINDING_RIDE)?
@@ -308,6 +308,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       setState(() {
 
                       });
+
                       cancelRideRequest();
                       //Provider.of<DataProvider>(context).updateHomeStatus(HomeStatus.INITIAL);
                       // setState(() {
@@ -610,7 +611,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
 
       //TODO: memory leak
-     // setState(() {});
+      setState(() {});
     });
   }
 
@@ -618,9 +619,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   {
 
     //TODO: memory leak
-   // setState(() {
+    setState(() {
       _Markers.clear();
-   // });
+    });
 
     Set<Marker> tMarkers = Set<Marker>();
 
@@ -636,9 +637,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       );
       tMarkers.add(thisMarker);
     }
-   // setState(() {
+    setState(() {
       _Markers = tMarkers;
-    //});
+    });
   }
 
  void createIconMarker()
@@ -655,8 +656,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
    void cancelRideRequest(){
 
+
+     print('weaam : cancelRideRequest()');
      Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.INITIAL);
-     FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).remove();
+     FirebaseDatabase.instance.reference().child("rideRequests").remove();
      resetApp();
 
 
@@ -679,6 +682,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     var driver = availableDriversList[0];
 
+    print('weaam : driver key' + driver.key);
     driversRef.child(driver.key).child("carDetails").child("ride_type").once().then((DataSnapshot snap) async
     {
       if(await snap.value != null)
@@ -688,7 +692,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         {
 
          notifyDriver(driver);
-          availableDriversList.removeAt(0);
+         setState(() {
+           availableDriversList.removeAt(0);
+         });
+
         }
         else
         {
@@ -717,13 +724,21 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void notifyDriver(NearbyAvailableDrivers driver)
   {
-    print('weaam : notifyDriver()');
+//jk
+
+  print('weaam notifyDriver() .. home');
+
+  //this nto working whyyyyyyyyyyyy
+
+  // here is the error
     driversRef.child(driver.key).child("newRide").set(rideRequestRef.key);
+    print('weaam : rideRequestRef.key: ' + rideRequestRef.key);
 
     driversRef.child(driver.key).child("token").once().then((DataSnapshot snap){
       if(snap.value != null)
       {
         String token = snap.value.toString();
+
         HelperMethods.sendNotificationToDriver(token, context, rideRequestRef.key);
       }
       else
@@ -748,6 +763,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         }
 
         driverRequestTimeOut = driverRequestTimeOut - 1;
+        defaultToast(message: 'time : $driverRequestTimeOut', state: ToastState.SUCCESSFUL);
         print("time out: " + driverRequestTimeOut.toString());
 
         //trip accepted
@@ -769,7 +785,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           timer.cancel();
 
           print('weaam: time out searching for new driver');
-          defaultToast(message: ' time out searching for new driver',state: ToastState.WARNING,);
+          defaultToast(
+            message: ' time out searching for new driver',state: ToastState.WARNING,
+          );
+
+          ///kkk
 
           searchNearestDriver();
         }

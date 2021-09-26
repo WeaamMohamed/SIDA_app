@@ -137,7 +137,7 @@ class HelperMethods{
     return totalFare.truncate();
   }
 
-  static DatabaseReference rideRequestRef;
+  //static DatabaseReference rideRequestRef;
 
 
   //todo;
@@ -145,6 +145,7 @@ class HelperMethods{
   //saveRideRequest
   static void createRideRequest({context, String carType}){
 
+    rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests").push();
   //  rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).push();
 
     var pickUp = Provider.of<MapProvider>(context, listen: false).userPickUpLocation;
@@ -177,9 +178,9 @@ class HelperMethods{
        "ride_type": carType,
     };
 
-    FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).set(rideInfoMap);
+    //FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).set(rideInfoMap);
 
-    // rideRequestRef.set(rideInfoMap);
+     rideRequestRef.set(rideInfoMap);
 
 
   }
@@ -198,6 +199,8 @@ class HelperMethods{
 
   static sendNotificationToDriver(String token, context, String ride_request_id) async
   {
+
+    print('weaam : sendNotificationToDriver()');
     var destionation = Provider.of<MapProvider>(context, listen: false).userDropOffLocation;
     Map<String, String> headerMap =
     {
