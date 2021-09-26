@@ -68,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   List<NearbyAvailableDrivers> availableDriversList;
   String _carType;
   HomeStatus _homeStatus;
+  StreamSubscription<Event> rideStreamSubscription;
 
   @override
   Widget build(BuildContext context) {
@@ -268,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.FINDING_RIDE) ;
                         print(HomeStatus.FINDING_RIDE);
 
-                        HelperMethods.createRideRequest(context: context, carType: _carType,);
+                        createRideRequest(context: context, carType: _carType,);
 
                         ///
 
@@ -797,4 +798,138 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       });
     });
   }
+
+
+   void createRideRequest({context, String carType}){
+
+    rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests").push();
+    //  rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).push();
+
+    var pickUp = Provider.of<MapProvider>(context, listen: false).userPickUpLocation;
+    var dropOff = Provider.of<MapProvider>(context, listen: false).userDropOffLocation;
+
+    Map pickUpLocMap =
+    {
+      "latitude": pickUp.latitude.toString(),
+      "longitude": pickUp.longitude.toString(),
+    };
+
+    Map dropOffLocMap =
+    {
+      "latitude": dropOff.latitude.toString(),
+      "longitude": dropOff.longitude.toString(),
+    };
+
+    Map rideInfoMap =
+    {
+      "created_at": DateTime.now().toString(),
+      //TODO:
+      "rider_name": currentUserInfo.name ?? 'error',
+      "rider_phone": currentUserInfo.Phonenumber ?? 'not available',
+      "pickup_address": pickUp.placeName,
+      "dropoff_address": dropOff.placeName,
+      "pickup_location": pickUpLocMap,
+      "dropoff_location": dropOffLocMap,
+      "payment_method": "cash",
+      "driver_id": "waiting",
+      "ride_type": carType,
+    };
+
+    //FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).set(rideInfoMap);
+
+    rideRequestRef.set(rideInfoMap);
+
+    rideStreamSubscription = rideRequestRef.onValue.listen((event) async{
+      if(event.snapshot.value == null)
+      {
+        return;
+      }
+
+      if(event.snapshot.value["carDetails"] != null)
+      {
+        //todo: this is not string;
+        setState(() {
+          carDetailsDriver = event.snapshot.value["carDetails"].toString();
+        });
+      }
+      if(event.snapshot.value["FirstName"] != null)
+      {
+        setState(() {
+          driverName = event.snapshot.value["FirstName"].toString();
+        });
+      }
+      if(event.snapshot.value["Phone"] != null)
+      {
+        setState(() {
+          driverphone = event.snapshot.value["Phone"].toString();
+        });
+      }
+
+      //todo: driver location???
+
+      // if(event.snapshot.value["driver_location"] != null)
+      // {
+      //   double driverLat = double.parse(event.snapshot.value["driver_location"]["latitude"].toString());
+      //   double driverLng = double.parse(event.snapshot.value["driver_location"]["longitude"].toString());
+      //   LatLng driverCurrentLocation = LatLng(driverLat, driverLng);
+      //
+      //   if(statusRide == "accepted")
+      //   {
+      //     updateRideTimeToPickUpLoc(driverCurrentLocation);
+      //   }
+      //   else if(statusRide == "onride")
+      //   {
+      //     updateRideTimeToDropOffLoc(driverCurrentLocation);
+      //   }
+      //   else if(statusRide == "arrived")
+      //   {
+      //     setState(() {
+      //       rideStatus = "Driver has Arrived.";
+      //     });
+      //   }
+      // }
+      //
+      // if(event.snapshot.value["status"] != null)
+      // {
+      //   statusRide = event.snapshot.value["status"].toString();
+      // }
+      // if(statusRide == "accepted")
+      // {
+      //   displayDriverDetailsContainer();
+      //   Geofire.stopListener();
+      //   deleteGeofileMarkers();
+      // }
+      // if(statusRide == "ended")
+      // {
+      //   if(event.snapshot.value["fares"] != null)
+      //   {
+      //     int fare = int.parse(event.snapshot.value["fares"].toString());
+      //     var res = await showDialog(
+      //       context: context,
+      //       barrierDismissible: false,
+      //       builder: (BuildContext context)=> CollectFareDialog(paymentMethod: "cash", fareAmount: fare,),
+      //     );
+      //
+      //     String driverId="";
+      //     if(res == "close")
+      //     {
+      //       if(event.snapshot.value["driver_id"] != null)
+      //       {
+      //         driverId = event.snapshot.value["driver_id"].toString();
+      //       }
+      //
+      //       Navigator.of(context).push(MaterialPageRoute(builder: (context) => RatingScreen(driverId: driverId)));
+      //
+      //       rideRequestRef.onDisconnect();
+      //       rideRequestRef = null;
+      //       rideStreamSubscription.cancel();
+      //       rideStreamSubscription = null;
+      //       resetApp();
+      //     }
+      //   }
+      // }
+    });
+
+  }
+
 }

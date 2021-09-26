@@ -143,47 +143,51 @@ class HelperMethods{
   //todo;
 
   //saveRideRequest
-  static void createRideRequest({context, String carType}){
-
-    rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests").push();
-  //  rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).push();
-
-    var pickUp = Provider.of<MapProvider>(context, listen: false).userPickUpLocation;
-    var dropOff = Provider.of<MapProvider>(context, listen: false).userDropOffLocation;
-
-    Map pickUpLocMap =
-    {
-      "latitude": pickUp.latitude.toString(),
-      "longitude": pickUp.longitude.toString(),
-    };
-
-    Map dropOffLocMap =
-    {
-      "latitude": dropOff.latitude.toString(),
-      "longitude": dropOff.longitude.toString(),
-    };
-
-    Map rideInfoMap =
-    {
-      "created_at": DateTime.now().toString(),
-      //TODO:
-      "rider_name": currentUserInfo.name ?? 'error',
-     "rider_phone": currentUserInfo.Phonenumber ?? 'not available',
-      "pickup_address": pickUp.placeName,
-      "dropoff_address": dropOff.placeName,
-      "pickup_location": pickUpLocMap,
-      "dropoff_location": dropOffLocMap,
-      "payment_method": "cash",
-      "driver_id": "waiting",
-       "ride_type": carType,
-    };
-
-    //FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).set(rideInfoMap);
-
-     rideRequestRef.set(rideInfoMap);
-
-
-  }
+  // static void createRideRequest({context, String carType}){
+  //
+  //   rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests").push();
+  // //  rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).push();
+  //
+  //   var pickUp = Provider.of<MapProvider>(context, listen: false).userPickUpLocation;
+  //   var dropOff = Provider.of<MapProvider>(context, listen: false).userDropOffLocation;
+  //
+  //   Map pickUpLocMap =
+  //   {
+  //     "latitude": pickUp.latitude.toString(),
+  //     "longitude": pickUp.longitude.toString(),
+  //   };
+  //
+  //   Map dropOffLocMap =
+  //   {
+  //     "latitude": dropOff.latitude.toString(),
+  //     "longitude": dropOff.longitude.toString(),
+  //   };
+  //
+  //   Map rideInfoMap =
+  //   {
+  //     "created_at": DateTime.now().toString(),
+  //     //TODO:
+  //     "rider_name": currentUserInfo.name ?? 'error',
+  //    "rider_phone": currentUserInfo.Phonenumber ?? 'not available',
+  //     "pickup_address": pickUp.placeName,
+  //     "dropoff_address": dropOff.placeName,
+  //     "pickup_location": pickUpLocMap,
+  //     "dropoff_location": dropOffLocMap,
+  //     "payment_method": "cash",
+  //     "driver_id": "waiting",
+  //      "ride_type": carType,
+  //   };
+  //
+  //   //FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).set(rideInfoMap);
+  //
+  //    rideRequestRef.set(rideInfoMap);
+  //
+  //   rideStreamSubscription = rideRequestRef.onValue.listen((event) async{
+  //
+  //   }
+  //
+  //
+  // }
 
 
 

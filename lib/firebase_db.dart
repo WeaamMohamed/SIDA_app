@@ -8,6 +8,11 @@ final ref = database.reference().child('Users');
 final driversRef = database.reference().child('Drivers');
 DatabaseReference rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests");
 
+//todo; use this variables to update ui
+String statusRide ='driver is coming';
+String carDetailsDriver ='';
+String driverName ='';
+String driverphone ='';
 
 FirebaseStorage storage = FirebaseStorage(storageBucket: 'gs://sida-51cb9.appspot.com');
 User currentUser;
