@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 _buildMenuButton(),
 
                 (Provider.of<DataProvider>(context).homeStatus == HomeStatus.INITIAL)?
-                Positioned(
+               Positioned(
                   bottom: 0,
                   left: 0,
                   right: 0,
@@ -203,6 +203,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
                   ),
                 ): Container(),
+
               // (_homeStatus == HomeStatus.INITIAL)?
               //   Consumer<DataProvider>(
               //     builder: (context, myModel, child){
@@ -280,13 +281,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         ///
 
                         setState(() {
-                          availableDriversList = [];
+                          availableDriversList =[];
                         availableDriversList = GeoFireHelper.nearbyAvailableDriversList;
 
                           print('availableDriversList length ' + availableDriversList.length.toString());
 
                           searchNearestDriver();
-                        print('availableDriversList length ' + availableDriversList[0].key.toString());
+                          for(int i = 0; i< availableDriversList.length; i++)
+                           print('availableDriversList ' + availableDriversList[i].key.toString());
                        // _homeStatus = HomeStatus.FINDING_RIDE;
                       // print("selectANdConfirm");
 
@@ -334,7 +336,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
 
                 //TODO: driver arriving
-               (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVING)?
+             (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVING)?
                // (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVING)?
                   Positioned(
                     left: 0,
@@ -344,15 +346,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       //  height: MediaQuery.of(context).size.height / 4,
                       margin: EdgeInsets.symmetric(
                         horizontal: mainHorizontalMargin,
-                        vertical: mqSize.height * 0.03,
+                       // vertical: mqSize.height * 0.02,
+                        vertical: 10,
                       ),
-                      child: DriverArriving(),
+                      child: DriverArriving(arrivalTime: rideStatus,
+                        driverName: driverName,
+                      onCancel: (){
+                        cancelRideRequest();
+
+                        //todo: cancel on arriving
+
+                      },),
 
                     ),
                   ): Container(),
 
 
-                //TODO: driver arriving
+                //TODO: driver arrived
                 (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVED)?
                 // (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVING)?
                 Positioned(
@@ -365,7 +375,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       horizontal: mainHorizontalMargin,
                       vertical: mqSize.height * 0.03,
                     ),
+                    //todo; edit UI
                     child: DriverArrived(),
+
 
                   ),
                 ): Container(),
@@ -790,7 +802,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         }
 
         driverRequestTimeOut = driverRequestTimeOut - 1;
-        defaultToast(message: 'time : $driverRequestTimeOut', state: ToastState.SUCCESSFUL);
+      ////  defaultToast(message: 'time : $driverRequestTimeOut', state: ToastState.SUCCESSFUL);
         print("time out: " + driverRequestTimeOut.toString());
 
         //trip accepted
@@ -801,7 +813,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             driversRef.child(driver.key).child("newRide").onDisconnect();
             driverRequestTimeOut = 40;
             timer.cancel();
-            Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.DRIVER_ARRIVING);
           }
         });
 
@@ -887,15 +898,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       if(event.snapshot.value["carDetails"] != null)
       {
         //todo: this is not string;
-        setState(() {
-          carDetailsDriver = event.snapshot.value["carDetails"]['carModel'].toString();
-
-          print('weaam :  event.snapshot.value["carDetails"]["carModel"].toString()' +
-          event.snapshot.value["carDetails"]['carModel'].toString());
-
-          print('weaam : not used event.snapshot.value["carDetails"]["carColor"].toString()' +
-              event.snapshot.value["carDetails"]['carColor'].toString());
-        });
+        // setState(() {
+        // ///todo  carDetailsDriver = event.snapshot.value["carDetails"]['carModel'].toString();
+        //
+        //   //error here
+        //   // print('weaam :  event.snapshot.value["carDetails"]["carModel"].toString()' +
+        //   // event.snapshot.value["carDetails"]['carModel'].toString());
+        //   // print('weaam : not used event.snapshot.value["carDetails"]["carColor"].toString()' +
+        //   //     event.snapshot.value["carDetails"]['carColor'].toString());
+        // });
       }
       if(event.snapshot.value["FirstName"] != null)
       {
@@ -917,17 +928,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         double driverLng = double.parse(event.snapshot.value["driverLocation"]["longitude"].toString());
         LatLng driverCurrentLocation = LatLng(driverLat, driverLng);
 
+        //to do status ride does not change before accepted
         if(statusRide == "accepted")
         {
+
           updateRideTimeToPickUpLoc(driverCurrentLocation);
         }
       //todo: onride?
-        else if(statusRide == "onride")
+        else if(statusRide == "onRide")
         {
+          print('weaam : statusRide : onRide ');
           updateRideTimeToDropOffLoc(driverCurrentLocation);
         }
         else if(statusRide == "arrived")
         {
+          print('weaam : statusRide : arrived ');
+
+          Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.DRIVER_ARRIVED);
           setState(() {
             rideStatus = "Driver has Arrived.";
           });
@@ -937,9 +954,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       if(event.snapshot.value["status"] != null)
       {
         statusRide = event.snapshot.value["status"].toString();
+        print('weaam : statusRide : ' +  event.snapshot.value["status"].toString());
+
+
       }
       if(statusRide == "accepted")
       {
+        print('weaam : statusRide : ' +statusRide);
+
         Provider.of<DataProvider>(context, listen: false).updateHomeStatus(
             HomeStatus.DRIVER_ARRIVING);
 
@@ -949,8 +971,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
       if(statusRide == "ended")
       {
+
+        print('weaam : statusRide : ' + statusRide);
+
         if(event.snapshot.value["fares"] != null)
         {
+          print('weaam : fares : ' + event.snapshot.value["fares"]);
+
           int fare = int.parse(event.snapshot.value["fares"].toString());
           var res = await showDialog(
             context: context,
@@ -959,6 +986,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           );
 
           String driverId="";
+          //todo; after rating
           if(res == "close")
           {
             if(event.snapshot.value["driver_id"] != null)
@@ -1000,7 +1028,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
       Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.DRIVER_ARRIVED);
       setState(() {
-        rideStatus = "Going to Destination - " + details.durationText;
+
+        print('weaam : arrivalTime ${details.durationText}');
+        rideStatus =  details.durationText +' min';
       });
 
       setState(() {
