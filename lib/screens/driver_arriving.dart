@@ -1,5 +1,6 @@
 import 'dart:ui';
-
+import 'package:sida_app/firebase_db.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -187,7 +188,11 @@ class _DriverArrivingState extends State<DriverArriving> {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                    onTap: ( ){},
+                    onTap: ( ){
+                      print(driverphone);
+                        launch(( 'tel://${driverphone}'));
+
+                    },
                     child: Center(
                       child:  Row(
                         children: [

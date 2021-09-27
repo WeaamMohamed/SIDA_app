@@ -512,11 +512,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     mapProvider.circleSet.clear();
     mapProvider.pLineCoordinates.clear();
 
-    // statusRide = "";
-    // driverName = "";
-    // driverphone = "";
-    // carDetailsDriver = "";
-    // rideStatus = "Driver is Coming";
+     statusRide = "";
+     driverName = "";
+     driverphone = "";
+     carDetailsDriver = "";
+     rideStatus = "Driver is Coming";
     // driverDetailsContainerHeight = 0.0;
     locatePosition();
   }
@@ -838,7 +838,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
 
-   void createRideRequest({context, String carType}){
+   void createRideRequest({context, String carType})
+   {
 
     rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests").push();
     //  rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).push();
