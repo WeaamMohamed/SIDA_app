@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sida_app/screens/complete_trip.dart';
 import 'package:sida_app/screens/edit_profile_screen.dart';
 import 'package:sida_app/screens/settings_screen.dart';
 import 'package:sida_app/shared/styles/colors.dart';
@@ -128,7 +129,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SettingsScreen(),
+                  builder: (context) => CompleteTrip( driverId: "FANyhIgsIoNsMJN8g0gTv5cqc6Z2"),
                 ),
               );
             }),
@@ -165,7 +166,10 @@ class _HomeDrawerState extends State<HomeDrawer> {
    try {
      await ref.child( currentUser.uid).once().then((DataSnapshot snapshot) async {
        setState(() {
+         print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
          name = snapshot.value['Name'] ;
+         print(name);
+         print( currentUser.uid);
        });
      });
    }

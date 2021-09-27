@@ -30,6 +30,8 @@ import '../helpers/helpermethods.dart';
 import '../helpers/requesthelper.dart';
 
 import 'package:sida_app/shared/data_handler/data_provider.dart';
+
+import 'complete_trip.dart';
 //TODO: convert to stateles
 class HomeScreen extends StatefulWidget {
 
@@ -999,9 +1001,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               driverId = event.snapshot.value["driver_id"].toString();
             }
 
-            //todo: open rating screen
-           // Navigator.of(context).push(MaterialPageRoute(builder: (context) => RatingScreen(driverId: driverId)));
 
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => CompleteTrip(driverId: driverId)));
             rideRequestRef.onDisconnect();
             rideRequestRef = null;
             rideStreamSubscription.cancel();

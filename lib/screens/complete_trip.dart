@@ -1,12 +1,17 @@
 import 'dart:ui';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:rate_my_app/rate_my_app.dart';
+import '../firebase_db.dart';
 import 'promotion_page.dart';
 
 class CompleteTrip extends StatefulWidget {
+  final String driverId;
+
+  CompleteTrip({this.driverId});
   @override
   _CompleteTripState createState() => _CompleteTripState();
 }
@@ -88,18 +93,20 @@ class _CompleteTripState extends State<CompleteTrip> {
                           RatingBar.builder(
 
                             itemCount: 5,
-                            initialRating: 0,
+                            initialRating: starCounter,
                             itemSize: 70,
                             // direction: Axis.horizontal,
-                            allowHalfRating: true,
+                            allowHalfRating: false,
                             itemBuilder: (context, _) => Icon(
                               Icons.star_rounded,
                               color: Colors.black,
                               size: 30,
                             ),
                             onRatingUpdate: (rating)async {
-                             // dynamic rater= await  Ratepro(CUSTID, rating,product.id  );
                               print(rating);
+                              starCounter=rating;
+
+
                             },
                           ),
                           SizedBox(height: 0.08* screenHeight),
@@ -323,9 +330,23 @@ class _CompleteTripState extends State<CompleteTrip> {
                             height: 0.09*screenHeight,
                             child: TextButton(
                                 onPressed: ( ){
-                              /// Submit!!!!!!
-                                  Navigator.push(context, MaterialPageRoute(
-                                      builder: (BuildContext context) => PromotionPage()));
+                                  DatabaseReference driverRatingRef = FirebaseDatabase.instance.reference().child("Drivers")
+                                      .child(widget.driverId).child('ratings');
+                                  driverRatingRef.once().then((DataSnapshot snap)
+                                  {
+                                  if(snap.value != null)
+                                  {
+                                  double oldRatings = double.parse(snap.value.toString());
+                                  double addRatings = oldRatings + starCounter;
+                                  double averageRatings = addRatings/2;
+                                  driverRatingRef.set(averageRatings.toString());
+                                  }
+                                  else
+                                  {
+                                  driverRatingRef.set(starCounter.toString());
+                                  }
+                                 });
+                                  Navigator.pop(context);
                                 },
                                 style: ButtonStyle(
                                   backgroundColor:   MaterialStateProperty.all<Color>(Colors.black),
