@@ -118,23 +118,44 @@ class HelperMethods{
   }
 
 
-  static int estimateFares(DirectionDetails directionDetails)
+  static int calculateFares(DirectionDetails directionDetails ,String carType,String distance,String time)
   {
-    // per km = 3 ?? EGP,
-    // per minute = 1 ?? EGP,
-    // base fare = ?? EGP,
 
-    double baseFare = 10;
+    double timeTraveledFare=0.0;
+    double distancTraveledFare=0.0;
+    double totalFareAmount;
+    print("+____________________________");
+    print(time);
+    print(distance);
+    print( directionDetails.durationValue );
+    double tripTime= double.parse(time);
+    double tripDistance= double.parse(distance);
+    if (  carType == "Any SIDA")
+      {
+         if( directionDetails.durationValue > tripTime )
+           {
+             timeTraveledFare = ((directionDetails.durationValue - tripTime) / 60) * 0.36;
+           }
 
-    //distanceValue is the distance in meters
-    double distanceFare = (directionDetails.distanceValue / 1000) * 3.0;
+         distancTraveledFare = (tripDistance/ 1000) * 2.61;
+         totalFareAmount = timeTraveledFare + distancTraveledFare;
+        if(totalFareAmount < 11)
+          totalFareAmount=11;
+      }
+    else if (  carType == "SIDA Plus")
+      {
+        if( directionDetails.durationValue > tripTime )
+        {
+          timeTraveledFare = ((directionDetails.durationValue - tripTime) / 60) * 0.4;
+        }
+        distancTraveledFare = (tripDistance/ 1000) * 2.80;
+        totalFareAmount = timeTraveledFare + distancTraveledFare;
+        if(totalFareAmount < 12)
+          totalFareAmount=12;
+      }
+      double result = (totalFareAmount.truncate()) * 1.0;
+      return result.truncate();
 
-    //durationValue is duration in seconds
-    double timeFare = (directionDetails.durationValue / 60) * 1.0;
-
-    double totalFare = baseFare + distanceFare + timeFare;
-
-    return totalFare.truncate();
   }
 
   //static DatabaseReference rideRequestRef;

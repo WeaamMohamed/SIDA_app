@@ -843,7 +843,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       "driver_id": "waiting",
       "ride_type": carType,
     //todo;
-      "fare": HelperMethods.estimateFares(directionDetails).toString(),
+      //"fare": HelperMethods.calculateFares(directionDetails).toString(),
       //between driver and rider:
       "tripDistance": directionDetails.distanceValue,
       "tripTime": directionDetails.durationValue,
