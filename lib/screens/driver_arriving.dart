@@ -1,14 +1,24 @@
 import 'dart:ui';
-
+import 'package:sida_app/firebase_db.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
+import 'package:sida_app/shared/data_handler/data_provider.dart';
+import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'any_sida.dart';
 
 import 'finding_a_ride.dart';
 
 class DriverArriving extends StatefulWidget {
+  final String arrivalTime;
+  final Function onCancel;
+  final String driverName;
+  DriverArriving({this.arrivalTime, this.onCancel, this.driverName});
   @override
   _DriverArrivingState createState() => _DriverArrivingState();
 }
@@ -24,7 +34,7 @@ class _DriverArrivingState extends State<DriverArriving> {
     final screenWidth= MediaQuery.of(context).size.width;
     Size mqSize = MediaQuery.of(context).size;
 
-    final double sizedBoxHeight =  mqSize.height * 0.016;
+    final double sizedBoxHeight =  10;
 
     return Column(
       children: [
@@ -34,7 +44,7 @@ class _DriverArrivingState extends State<DriverArriving> {
             Container(
               height: screenHeight * 0.08,
               //   margin: EdgeInsets.all(15),
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all( 10),
               // padding: EdgeInsets.symmetric(horizontal: 10),
               // width: 0.35*screenWidth,
               // height: 0.1* screenHeight,
@@ -50,7 +60,8 @@ class _DriverArrivingState extends State<DriverArriving> {
                  // SizedBox(width: 0.01 * screenWidth),
                   SvgPicture.asset("assets/images/dollar.svg",width: 35,height: 35),
                  SizedBox(width: 8),
-                  Text('22.20\nEGP',
+                  //todo; add fare
+                  Text('\nEGP',
                       style: TextStyle(
                           color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold)),
                 ],
@@ -77,7 +88,7 @@ class _DriverArrivingState extends State<DriverArriving> {
                       ),
                       child:Align(
                         alignment: Alignment.center,
-                        child: Text('5\nMIN',
+                        child: Text('${widget.arrivalTime}\nMIN',
                             style: TextStyle(
                                 color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold)),
                       )),
@@ -103,7 +114,15 @@ class _DriverArrivingState extends State<DriverArriving> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
             //  SizedBox(height: 0.17* screenHeight),
-              Container(),
+              Container(
+                child: Row(
+                  children: [
+                    CircleAvatar(backgroundColor: Colors.grey,),
+                    Text(widget.driverName,),
+
+                  ],
+                ),
+              ),
              // SizedBox(height: 1.5,width:screenWidth*0.9-40, child: Container( color: Colors.grey,),),
 
               Divider(color: Colors.grey, thickness: 1,),
@@ -114,7 +133,9 @@ class _DriverArrivingState extends State<DriverArriving> {
                   SvgPicture.asset('assets/images/PickupFlag.svg',width:25,height:25),
                   SizedBox(width: 15),
                   Flexible(
-                      child: Text('El-Tahrir Square, Qasr El Nil, Cairo Governorate',
+                      child: Text(
+                       /// 'El-Tahrir Square, Qasr El Nil, Cairo Governorate',
+                        Provider.of<MapProvider>(context).userPickUpLocation.placeName,
                           style: TextStyle(
                               color: Colors.black, fontSize: 16.0,),)
                   )
@@ -131,7 +152,9 @@ class _DriverArrivingState extends State<DriverArriving> {
                   SvgPicture.asset('assets/images/TargetFlag.svg',width: 25,height: 25,),
                   SizedBox(width: 15),
                   Flexible(
-                    child: Text('Cairo - Al Wosta, Qasr Ad Dobarah, Qasr El Nile Cairo Governorate',
+                    child: Text(
+                        Provider.of<MapProvider>(context).userDropOffLocation.placeName,
+                        ///'Cairo - Al Wosta, Qasr Ad Dobarah, Qasr El Nile Cairo Governorate',
                         style: TextStyle(
                             color: Colors.black, fontSize: 16.0 ,fontWeight: FontWeight.bold)),
                   )
@@ -165,7 +188,11 @@ class _DriverArrivingState extends State<DriverArriving> {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                    onTap: ( ){},
+                    onTap: ( ){
+                      print(driverphone);
+                        launch(( 'tel://${driverphone}'));
+
+                    },
                     child: Center(
                       child:  Row(
                         children: [
@@ -229,8 +256,12 @@ class _DriverArrivingState extends State<DriverArriving> {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               child: IconButton(onPressed: ( ){
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (BuildContext context) => FindingRide()));
+
+                widget.onCancel();
+                //
+                // Navigator.push(context, MaterialPageRoute(
+                //     builder: (BuildContext context) => FindingRide())
+               // );
               },
                   icon:Icon( Icons.close_sharp ,color: Colors.white,size: 40,)),
             )

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/helpers/helpermethods.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
+import 'package:sida_app/shared/data_handler/map_provider.dart';
 
 class SelectAndConfirmRide extends StatefulWidget {
   final Function onTap;
@@ -44,18 +45,20 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
                 Row(
                   children: [
                     Text(
-                      "28",
+                      //"28",
+                      Provider.of<MapProvider>(context).getCurrentDirectionDetails == null? ' duration':
+                          Provider.of<MapProvider>(context).getCurrentDirectionDetails.durationText,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
-                      "min",
-                      style: TextStyle(
-                        fontSize: 11,
-                      ),
-                    ),
+                    // Text(
+                    //   "min",
+                    //   style: TextStyle(
+                    //     fontSize: 11,
+                    //   ),
+                    // ),
                   ],
                 ),
               ]),
@@ -66,42 +69,42 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
               ),
             ),
 
-            Container(
-              height: mqSize.height * 0.07,
-              width: mqSize.width * 0.44,
-              decoration: BoxDecoration(
-                borderRadius: customBorderRadius,
-                color: Colors.white,
-              ),
-              child: Row(
-
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5, right: 5,),
-                    child: Column(
-
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-
-                        Text(
-                          "FOR OTHER",
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text("(Book ride for a friend)", style: TextStyle(
-                          fontSize: 13,
-                        ),),
-                      ],
-                    ),
-                  ),
-                  Icon(Icons.arrow_forward_ios,
-                    color: Color(0xff5C6C7C),),
-                ],
-              ),
-            )
+            // Container(
+            //   height: mqSize.height * 0.07,
+            //   width: mqSize.width * 0.44,
+            //   decoration: BoxDecoration(
+            //     borderRadius: customBorderRadius,
+            //     color: Colors.white,
+            //   ),
+            //   child: Row(
+            //
+            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //     children: [
+            //       Padding(
+            //         padding: const EdgeInsets.only(left: 5, right: 5,),
+            //         child: Column(
+            //
+            //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //           children: [
+            //
+            //             Text(
+            //               "FOR OTHER",
+            //               style: TextStyle(
+            //                 fontSize: 13,
+            //                 fontWeight: FontWeight.bold,
+            //               ),
+            //             ),
+            //             Text("(Book ride for a friend)", style: TextStyle(
+            //               fontSize: 13,
+            //             ),),
+            //           ],
+            //         ),
+            //       ),
+            //       Icon(Icons.arrow_forward_ios,
+            //         color: Color(0xff5C6C7C),),
+            //     ],
+            //   ),
+            // )
           ],
         ),
         SizedBox(
@@ -134,6 +137,7 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
                       title: "Any SIDA",
                       imagePath: selectCarType ==CarTypes.ANY_SIDA?
                       "assets/images/ic_standard_active.png": "assets/images/ic_standard_passive.png" ,
+                      //todo; change price
                       price: 22.4,
                       onTap: (){
 
@@ -150,7 +154,8 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
                       mqSize: mqSize,
                       title: "SIDA Plus",
                       imagePath: selectCarType ==CarTypes.SIDA_PLUS?
-                      "assets/images/ic_comfort_active.png": "assets/images/ic_comfort_passive.png" ,
+                      "assets/images/ic_comfort_active.png": "assets/images/ic_comfort_passive.png",
+                      //todo; change price
                       price: 22.4,
                       onTap: (){
                         setState(() {

@@ -9,6 +9,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
+import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'any_sida.dart';
 
 
@@ -128,7 +129,9 @@ class _FindingRideState extends State<FindingRide> {
                     SvgPicture.asset("assets/images/Pickup_Flag.svg",width:25,height:25),
                     SizedBox(width: 0.03 * screenWidth),
                     Flexible(
-                        child: Text('El-Tahrir Square, Qasr El Nil, Cairo Governorate',
+                        child: Text(
+                          Provider.of<MapProvider>(context).userPickUpLocation.placeName,
+                          ///  'El-Tahrir Square, Qasr El Nil, Cairo Governorate',
                             style: TextStyle(
                                 color: Colors.black, fontSize: 16.0 ))
                     )
@@ -147,7 +150,10 @@ class _FindingRideState extends State<FindingRide> {
                     SvgPicture.asset('assets/images/Target_Flag.svg',width: 25,height: 25,),
                     SizedBox(width: 0.03 * screenWidth),
                     Flexible(
-                      child: Text('Cairo - Al Wosta, Qasr Ad Dobarah, Qasr El Nile Cairo Governorate',
+                      child: Text(
+                          ///'Cairo - Al Wosta, Qasr Ad Dobarah, Qasr El Nile Cairo Governorate',
+                          Provider.of<MapProvider>(context).userDropOffLocation.placeName,
+
                           style: TextStyle(
                               color: Colors.black, fontSize: 16.0 ,fontWeight: FontWeight.bold)),
                     )

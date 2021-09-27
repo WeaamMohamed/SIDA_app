@@ -8,6 +8,7 @@ class GeoFireHelper
   static void removeDriverFromList(String key)
 
   {
+
     int index = nearbyAvailableDriversList.indexWhere((element) => element.key == key);
 
     //todo: condition??
