@@ -9,7 +9,8 @@ final driversRef = database.reference().child('Drivers');
 DatabaseReference rideRequestRef = FirebaseDatabase.instance.reference().child("rideRequests");
 
 //todo; use this variables to update ui
-String statusRide ='driver is coming';
+String statusRide ='';
+String rideStatus ='driver is coming';
 String carDetailsDriver ='';
 String driverName ='';
 String driverphone ='';

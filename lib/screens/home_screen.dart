@@ -12,13 +12,16 @@ import 'package:provider/provider.dart';
 import 'package:sida_app/helpers/geofirehelper.dart';
 import 'package:sida_app/models/direction_details.dart';
 import 'package:sida_app/models/nearby_available_drivers.dart';
+import 'package:sida_app/screens/driver_arrived_page.dart';
 import 'package:sida_app/screens/driver_arriving.dart';
 import 'package:sida_app/screens/finding_a_ride.dart';
 import 'package:sida_app/screens/where_to_screen.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'package:sida_app/shared/utils.dart';
+import 'package:sida_app/widgets/CollectFareDialog.dart';
 import 'package:sida_app/widgets/home_drawer.dart';
+import 'package:sida_app/widgets/ratingScreen.dart';
 import 'package:sida_app/widgets/select_and_confirm_ride.dart';
 import 'package:sida_app/helpers/helpermethods.dart';
 import 'package:sida_app/helpers/requesthelper.dart';
@@ -60,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     zoom: 14.4746,
   );
 
-  Position _userCurrentPosition;
+  Position userCurrentPosition;
 
  // Completer<GoogleMapController> _controllerGoogleMap = Completer();
 
@@ -70,6 +73,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   String _carType;
   HomeStatus _homeStatus;
   StreamSubscription<Event> rideStreamSubscription;
+
+  bool isRequestingPositionDetails = false;
 
   @override
   Widget build(BuildContext context) {
@@ -278,9 +283,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           availableDriversList = [];
                         availableDriversList = GeoFireHelper.nearbyAvailableDriversList;
 
-                        searchNearestDriver();
-                        print('availableDriversList length ' + availableDriversList.length.toString());
-                        print('availableDriversList length ' + availableDriversList[0].toString());
+                          print('availableDriversList length ' + availableDriversList.length.toString());
+
+                          searchNearestDriver();
+                        print('availableDriversList length ' + availableDriversList[0].key.toString());
                        // _homeStatus = HomeStatus.FINDING_RIDE;
                       // print("selectANdConfirm");
 
@@ -346,6 +352,24 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ): Container(),
 
 
+                //TODO: driver arriving
+                (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVED)?
+                // (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVING)?
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    //  height: MediaQuery.of(context).size.height / 4,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: mainHorizontalMargin,
+                      vertical: mqSize.height * 0.03,
+                    ),
+                    child: DriverArrived(),
+
+                  ),
+                ): Container(),
+
 
 
               ],
@@ -387,7 +411,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Future<void> locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);
-    _userCurrentPosition = position;
+    userCurrentPosition = position;
 
     LatLng userLatLangPosition = LatLng(
       position.latitude,
@@ -684,6 +708,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     var driver = availableDriversList[0];
 
+
     print('weaam : driver key' + driver.key);
     driversRef.child(driver.key).child("carDetails").child("ride_type").once().then((DataSnapshot snap) async
     {
@@ -843,10 +868,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       "driver_id": "waiting",
       "ride_type": carType,
     //todo;
-      "fare": HelperMethods.estimateFares(directionDetails).toString(),
+     "fare": HelperMethods.estimateFares(directionDetails).toString(),
       //between driver and rider:
-      "tripDistance": directionDetails.distanceValue,
-      "tripTime": directionDetails.durationValue,
+      "tripDistance": directionDetails.distanceValue.toString(),
+      "tripTime": directionDetails.durationValue.toString(),
     };
 
     //FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).set(rideInfoMap);
@@ -885,71 +910,140 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         });
       }
 
-      //todo: driver location???
 
-      // if(event.snapshot.value["driver_location"] != null)
-      // {
-      //   double driverLat = double.parse(event.snapshot.value["driver_location"]["latitude"].toString());
-      //   double driverLng = double.parse(event.snapshot.value["driver_location"]["longitude"].toString());
-      //   LatLng driverCurrentLocation = LatLng(driverLat, driverLng);
-      //
-      //   if(statusRide == "accepted")
-      //   {
-      //     updateRideTimeToPickUpLoc(driverCurrentLocation);
-      //   }
-      //   else if(statusRide == "onride")
-      //   {
-      //     updateRideTimeToDropOffLoc(driverCurrentLocation);
-      //   }
-      //   else if(statusRide == "arrived")
-      //   {
-      //     setState(() {
-      //       rideStatus = "Driver has Arrived.";
-      //     });
-      //   }
-      // }
-      //
-      // if(event.snapshot.value["status"] != null)
-      // {
-      //   statusRide = event.snapshot.value["status"].toString();
-      // }
-      // if(statusRide == "accepted")
-      // {
-      //   displayDriverDetailsContainer();
-      //   Geofire.stopListener();
-      //   deleteGeofileMarkers();
-      // }
-      // if(statusRide == "ended")
-      // {
-      //   if(event.snapshot.value["fares"] != null)
-      //   {
-      //     int fare = int.parse(event.snapshot.value["fares"].toString());
-      //     var res = await showDialog(
-      //       context: context,
-      //       barrierDismissible: false,
-      //       builder: (BuildContext context)=> CollectFareDialog(paymentMethod: "cash", fareAmount: fare,),
-      //     );
-      //
-      //     String driverId="";
-      //     if(res == "close")
-      //     {
-      //       if(event.snapshot.value["driver_id"] != null)
-      //       {
-      //         driverId = event.snapshot.value["driver_id"].toString();
-      //       }
-      //
-      //       Navigator.of(context).push(MaterialPageRoute(builder: (context) => RatingScreen(driverId: driverId)));
-      //
-      //       rideRequestRef.onDisconnect();
-      //       rideRequestRef = null;
-      //       rideStreamSubscription.cancel();
-      //       rideStreamSubscription = null;
-      //       resetApp();
-      //     }
-      //   }
-      // }
+      if(event.snapshot.value["driverLocation"] != null)
+      {
+        double driverLat = double.parse(event.snapshot.value["driverLocation"]["latitude"].toString());
+        double driverLng = double.parse(event.snapshot.value["driverLocation"]["longitude"].toString());
+        LatLng driverCurrentLocation = LatLng(driverLat, driverLng);
+
+        if(statusRide == "accepted")
+        {
+          updateRideTimeToPickUpLoc(driverCurrentLocation);
+        }
+      //todo: onride?
+        else if(statusRide == "onride")
+        {
+          updateRideTimeToDropOffLoc(driverCurrentLocation);
+        }
+        else if(statusRide == "arrived")
+        {
+          setState(() {
+            rideStatus = "Driver has Arrived.";
+          });
+        }
+      }
+
+      if(event.snapshot.value["status"] != null)
+      {
+        statusRide = event.snapshot.value["status"].toString();
+      }
+      if(statusRide == "accepted")
+      {
+        Provider.of<DataProvider>(context, listen: false).updateHomeStatus(
+            HomeStatus.DRIVER_ARRIVING);
+
+       // displayDriverDetailsContainer();
+        Geofire.stopListener();
+        deleteGeofileMarkers();
+      }
+      if(statusRide == "ended")
+      {
+        if(event.snapshot.value["fares"] != null)
+        {
+          int fare = int.parse(event.snapshot.value["fares"].toString());
+          var res = await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context)=> CollectFareDialog(paymentMethod: "cash", fareAmount: fare,),
+          );
+
+          String driverId="";
+          if(res == "close")
+          {
+            if(event.snapshot.value["driver_id"] != null)
+            {
+              driverId = event.snapshot.value["driver_id"].toString();
+            }
+
+            //todo: open rating screen
+           // Navigator.of(context).push(MaterialPageRoute(builder: (context) => RatingScreen(driverId: driverId)));
+
+            rideRequestRef.onDisconnect();
+            rideRequestRef = null;
+            rideStreamSubscription.cancel();
+            rideStreamSubscription = null;
+            resetApp();
+          }
+        }
+      }
     });
 
   }
+
+  void updateRideTimeToDropOffLoc(LatLng driverCurrentLocation) async
+  {
+    if(isRequestingPositionDetails == false)
+    {
+      setState(() {
+        isRequestingPositionDetails = true;
+
+      });
+
+      var dropOff = Provider.of<MapProvider>(context, listen: false).userDropOffLocation;
+      var dropOffUserLatLng = LatLng(dropOff.latitude, dropOff.longitude);
+
+      var details = await HelperMethods.obtainPlaceDirectionDetails(driverCurrentLocation, dropOffUserLatLng);
+      if(details == null)
+      {
+        return;
+      }
+      Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.DRIVER_ARRIVED);
+      setState(() {
+        rideStatus = "Going to Destination - " + details.durationText;
+      });
+
+      setState(() {
+        isRequestingPositionDetails = false;
+
+      });
+    }
+  }
+
+  void deleteGeofileMarkers()
+  {
+    //todo;
+    setState(() {
+    ///  markersSet.removeWhere((element) => element.markerId.value.contains("driver"));
+    });
+  }
+
+  void updateRideTimeToPickUpLoc(LatLng driverCurrentLocation) async
+  {
+    if(isRequestingPositionDetails == false)
+    {
+
+      setState(() {
+        isRequestingPositionDetails = true;
+
+      });
+
+      var positionUserLatLng = LatLng(userCurrentPosition.latitude, userCurrentPosition.longitude);
+      var details = await HelperMethods.obtainPlaceDirectionDetails(driverCurrentLocation, positionUserLatLng);
+      if(details == null)
+      {
+        return;
+      }
+      setState(() {
+        rideStatus = "Driver is Coming - " + details.durationText;
+        isRequestingPositionDetails = false;
+
+      });
+
+
+    }
+  }
+
+
 
 }
