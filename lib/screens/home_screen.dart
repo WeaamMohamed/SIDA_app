@@ -883,6 +883,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       //between driver and rider:
       "tripDistance": directionDetails.distanceValue.toString(),
       "tripTime": directionDetails.durationValue.toString(),
+
+      "distanceText": directionDetails.distanceText,
+      "durationText": directionDetails.durationText,
+
     };
 
     //FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).set(rideInfoMap);
