@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sida_app/screens/edit_profile_screen.dart';
 import 'package:sida_app/screens/home_screen.dart';
 import 'package:sida_app/shared/components/constants.dart';
+import 'package:sida_app/shared/data_handler/trip_provider.dart';
 import 'SignUp_SignIn/mobile_phone_page.dart';
 import 'google_maps_picker/src/components/animated_pin.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -92,6 +93,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         Provider<DataProvider>(create: (_) => DataProvider()),
         Provider<MapProvider>(create: (_) => MapProvider()),
+        Provider<TripProvider>(create: (_) => TripProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
+import 'package:sida_app/helpers/helpermethods.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
+import 'package:sida_app/shared/data_handler/trip_provider.dart';
 import 'any_sida.dart';
 
 
@@ -66,7 +68,7 @@ class _FindingRideState extends State<FindingRide> {
                       //SizedBox(width: 0.01 * screenWidth),
                       SvgPicture.asset("assets/images/dollar.svg",width: 40,height: 40, color: Colors.black,),
                       SizedBox(width: 8),
-                      Text('22.20\nEGP',
+                      Text('${ Provider.of<TripProvider>(context).fare}\nEGP',
                           style: TextStyle(
                               color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold)),
                    //   SizedBox(width: 0.02 * screenWidth),

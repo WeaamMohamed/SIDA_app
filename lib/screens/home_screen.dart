@@ -18,6 +18,7 @@ import 'package:sida_app/screens/finding_a_ride.dart';
 import 'package:sida_app/screens/where_to_screen.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
+import 'package:sida_app/shared/data_handler/trip_provider.dart';
 import 'package:sida_app/shared/utils.dart';
 import 'package:sida_app/widgets/CollectFareDialog.dart';
 import 'package:sida_app/widgets/home_drawer.dart';
@@ -351,7 +352,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                        // vertical: mqSize.height * 0.02,
                         vertical: 10,
                       ),
-                      child: DriverArriving(arrivalTime: rideStatus,
+                      child: DriverArriving(
+                        timeText: 'Arrival Time',
+                        arrivalTime: rideStatus,
                         driverName: driverName,
                       onCancel: (){
                         cancelRideRequest();
@@ -366,7 +369,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
                 //TODO: driver arrived
                 (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVED)?
-                // (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVING)?
+
                 Positioned(
                   left: 0,
                   right: 0,
@@ -375,14 +378,41 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     //  height: MediaQuery.of(context).size.height / 4,
                     margin: EdgeInsets.symmetric(
                       horizontal: mainHorizontalMargin,
-                      vertical: mqSize.height * 0.03,
+                      // vertical: mqSize.height * 0.02,
+                      vertical: 10,
                     ),
-                    //todo; edit UI
-                    child: DriverArrived(),
+                    child: DriverArriving(
+                      timeText: 'Waiting',
+                     // carType:
+                      arrivalTime: rideStatus,
+                      driverName: driverName,
+                      onCancel: (){
+                        cancelRideRequest();
 
+                        //todo: cancel on arriving
+
+                      },),
 
                   ),
-                ): Container(),
+                ): Container()
+
+                // (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVING)?
+                // Positioned(
+                //   left: 0,
+                //   right: 0,
+                //   bottom: 0,
+                //   child: Container(
+                //     //  height: MediaQuery.of(context).size.height / 4,
+                //     margin: EdgeInsets.symmetric(
+                //       horizontal: mainHorizontalMargin,
+                //       vertical: mqSize.height * 0.03,
+                //     ),
+                //     //todo; edit UI
+                //     child: DriverArrived(),
+                //
+                //
+                //   ),
+                // ): Container(),
 
 
 
@@ -850,6 +880,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     var dropOff = Provider.of<MapProvider>(context, listen: false).userDropOffLocation;
     DirectionDetails directionDetails = Provider.of<MapProvider>(context, listen: false).getCurrentDirectionDetails;
 
+    int fare =  HelperMethods.calculateFares(directionDetails: directionDetails,
+        carType: carType, time:directionDetails.durationValue.toString(),
+        distance: directionDetails.distanceValue.toString());
+
+    Provider.of<TripProvider>(context, listen: false).updateFare(fare);
+
+
     Map pickUpLocMap =
     {
       "latitude": pickUp.latitude.toString(),
@@ -882,7 +919,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       "driver_id": "waiting",
       "ride_type": carType,
     //todo;
-      //"fare": HelperMethods.calculateFares(directionDetails).toString(),
+      "fare": fare.toString(),
       //between driver and rider:
       "tripDistance": directionDetails.distanceValue.toString(),
       "tripTime": directionDetails.durationValue.toString(),
@@ -896,6 +933,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     rideRequestRef.set(rideInfoMap);
 
+    //todo: do not take all data in stream
     rideStreamSubscription = rideRequestRef.onValue.listen((event) async{
       if(event.snapshot.value == null)
       {
@@ -905,26 +943,26 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       if(event.snapshot.value["carDetails"] != null)
       {
         //todo: this is not string;
-        // setState(() {
-        // ///todo  carDetailsDriver = event.snapshot.value["carDetails"]['carModel'].toString();
-        //
-        //   //error here
-        //   // print('weaam :  event.snapshot.value["carDetails"]["carModel"].toString()' +
-        //   // event.snapshot.value["carDetails"]['carModel'].toString());
-        //   // print('weaam : not used event.snapshot.value["carDetails"]["carColor"].toString()' +
-        //   //     event.snapshot.value["carDetails"]['carColor'].toString());
-        // });
-      }
-      if(event.snapshot.value["FirstName"] != null)
-      {
         setState(() {
-          driverName = event.snapshot.value["FirstName"].toString();
+
+          //error here
+           carDetailsDriver = event.snapshot.value["carDetails"];
+           print('weaam :  event.snapshot.value["carDetails"] = $carDetailsDriver');
+
+          // print('weaam : not used event.snapshot.value["carDetails"]["carColor"].toString()' +
+          //     event.snapshot.value["carDetails"]['carColor'].toString());
         });
       }
-      if(event.snapshot.value["Phone"] != null)
+      if(event.snapshot.value["driverName"] != null)
       {
         setState(() {
-          driverphone = event.snapshot.value["Phone"].toString();
+          driverName = event.snapshot.value["driverName"].toString();
+        });
+      }
+      if(event.snapshot.value["driverPhone"] != null)
+      {
+        setState(() {
+          driverphone = event.snapshot.value["driverPhone"].toString();
         });
       }
 
@@ -955,6 +993,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           setState(() {
             rideStatus = "Driver has Arrived.";
           });
+          //todo: customize this
+          defaultToast(message: "Your driver has arrived", state: ToastState.SUCCESSFUL);
         }
       }
 
@@ -1013,6 +1053,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
     });
 
+    print('weaam: driver first name $driverName phone $driverphone');
+
   }
 
   void updateRideTimeToDropOffLoc(LatLng driverCurrentLocation) async
@@ -1035,7 +1077,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.DRIVER_ARRIVED);
       setState(() {
 
-        print('weaam : arrivalTime ${details.durationText}');
+        print('weaam : rideStatus ${details.durationText}');
         rideStatus =  details.durationText +' min';
       });
 
@@ -1071,6 +1113,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         return;
       }
       setState(() {
+        //todo: send this to ui .. it updates depending on driver position and speed;
         rideStatus = "Driver is Coming - " + details.durationText;
         isRequestingPositionDetails = false;
 

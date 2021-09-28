@@ -119,7 +119,11 @@ class HelperMethods{
   }
 
 
-  static int calculateFares(DirectionDetails directionDetails ,String carType,String distance,String time)
+  static int calculateFares(
+      {DirectionDetails directionDetails,
+      String carType,
+      String distance,
+      String time})
   {
 
     double timeTraveledFare=0.0;

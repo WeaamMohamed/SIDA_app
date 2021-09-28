@@ -155,7 +155,8 @@ class MapProvider extends ChangeNotifier
       latLngBounds = LatLngBounds(southwest: pickUpLatLang, northeast: dropOffLatLang);
     }
 
-    _newGoogleMapController.animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 80));
+    //todo:
+    _newGoogleMapController.animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 200));
 
     notifyListeners();
 
