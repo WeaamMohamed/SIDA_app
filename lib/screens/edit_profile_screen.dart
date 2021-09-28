@@ -3,7 +3,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sida_app/shared/components/components.dart';
-import 'package:sida_app/shared/styles/colors.dart';
 import 'package:sida_app/firebase_db.dart';
 import 'package:path/path.dart' as Path;
 import 'package:firebase_storage/firebase_storage.dart';
@@ -12,8 +11,6 @@ import 'dart:io';
 
 
 class EditProfileScreen extends StatefulWidget {
-
-
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
@@ -36,7 +33,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     retrieve_name();
     loadImage();
   }
-  void retrieve_name ()async
+  void retrieve_name() async
   {
     try {
       await ref.child(FirebaseAuth.instance.currentUser.uid).once().then((DataSnapshot snapshot) async {
@@ -164,6 +161,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                         customTextFormField(
                           hint: UserName,
+                          //hint: currentUserInfo.name,
                           label: "Name",
                           textController: nameController,
                           validator:  (value) {
@@ -192,7 +190,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         // ),
                         customTextFormField(
                           hint: UserNumber,
-                          label: "Phone Number",
+                          label: "Phone Number (Registered)",
                           textController: phoneController,
                           validator: (value) {
                             if (value.isEmpty) {
@@ -213,29 +211,29 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       onTap: (){
                         if(formKey.currentState.validate())
                         {
-                          ///TODO: Important: this is a security sensitive operation that
-                          ///requires the user to have recently signed in. If this requirement isn't met,
-                          ///ask the user to authenticate again and later call reauthenticate(AuthCredential).
-                          FirebaseAuth.instance.verifyPhoneNumber(
-                              phoneNumber: UserNumber,
-                              timeout: const Duration(minutes: 2),
-                              verificationCompleted: (credential) async {
-                                 FirebaseAuth.instance.currentUser.updatePhoneNumber(credential);
-                                // either this occurs or the user needs to manually enter the SMS code
-                              },
-                              verificationFailed: null,
-                              codeSent: (verificationId, [forceResendingToken]) async {
-                                String smsCode;
-                                // get the SMS code from the user somehow (probably using a text field)
-                                final AuthCredential credential =
-                                PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
-                                FirebaseAuth.instance.currentUser.updatePhoneNumber(credential);
-                              },
-                              codeAutoRetrievalTimeout: null);
+                          // ///TODO: Important: this is a security sensitive operation that
+                          // ///requires the user to have recently signed in. If this requirement isn't met,
+                          // ///ask the user to authenticate again and later call reauthenticate(AuthCredential).
+                          // FirebaseAuth.instance.verifyPhoneNumber(
+                          //     phoneNumber: UserNumber,
+                          //     timeout: const Duration(minutes: 2),
+                          //     verificationCompleted: (credential) async {
+                          //        FirebaseAuth.instance.currentUser.updatePhoneNumber(credential);
+                          //       // either this occurs or the user needs to manually enter the SMS code
+                          //     },
+                          //     verificationFailed: null,
+                          //     codeSent: (verificationId, [forceResendingToken]) async {
+                          //       String smsCode;
+                          //       // get the SMS code from the user somehow (probably using a text field)
+                          //       final AuthCredential credential =
+                          //       PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
+                          //       FirebaseAuth.instance.currentUser.updatePhoneNumber(credential);
+                          //     },
+                          //     codeAutoRetrievalTimeout: null);
 
                         //  FirebaseAuth.instance.currentUser.updatePhoneNumber(phoneCredential)
-                          ref.child( currentUser.uid).update({'Name': nameController.text });
-                          ref.child(currentUser.uid).update({'Phone': phoneController.text });
+                          ref.child(currentUser.uid).update({'Name': nameController.text });
+                          // ref.child(currentUser.uid).update({'Phone': phoneController.text });
                           print("updated.");
                         }
 
