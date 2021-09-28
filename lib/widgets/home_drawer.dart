@@ -51,6 +51,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
 
             //  crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              InkWell( child:
               CircleAvatar(
                       backgroundImage:
                       _url == null
@@ -61,6 +62,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
 
                 minRadius: 43,
                 maxRadius: 43,
+              ),
+              onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfileScreen(),),),
               ),
               Expanded(
                 child: Container(
@@ -80,25 +83,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       ),
                       SizedBox(
                         height: 10,
-                      ),
-                      Row(
-                        // mainAxisAlignment: MainAxisAlignment.s,
-                        children: [
-                          Text(
-                            "4.3",
-                            style: TextStyle(
-                              color: Colors.black.withOpacity(0.5),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          Icon(
-                            Icons.star,
-                            size: 18,
-                            color: Colors.black.withOpacity(0.5),
-                          ),
-                        ],
                       ),
                     ],
                   ),
