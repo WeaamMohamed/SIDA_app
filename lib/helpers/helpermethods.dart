@@ -119,46 +119,23 @@ class HelperMethods{
   }
 
 
-  static int calculateFares(
-      {DirectionDetails directionDetails,
-      String carType,
-      String distance,
-      String time})
+  static int calculateFares(DirectionDetails directionDetails, String carType)
   {
-
-    double timeTraveledFare=0.0;
     double distancTraveledFare=0.0;
-    double totalFareAmount;
-    print("+____________________________");
-    print(time);
-    print(distance);
-    print( directionDetails.durationValue );
-    double tripTime= double.parse(time);
-    double tripDistance= double.parse(distance);
     if (  carType == "Any SIDA")
       {
-         if( directionDetails.durationValue > tripTime )
-           {
-             timeTraveledFare = ((directionDetails.durationValue - tripTime) / 60) * 0.36;
-           }
+         distancTraveledFare = (directionDetails.distanceValue/ 1000) * 2.61;
 
-         distancTraveledFare = (tripDistance/ 1000) * 2.61;
-         totalFareAmount = timeTraveledFare + distancTraveledFare;
-        if(totalFareAmount < 11)
-          totalFareAmount=11;
+        if(distancTraveledFare < 11)
+          distancTraveledFare=11;
       }
     else if (  carType == "SIDA Plus")
       {
-        if( directionDetails.durationValue > tripTime )
-        {
-          timeTraveledFare = ((directionDetails.durationValue - tripTime) / 60) * 0.4;
-        }
-        distancTraveledFare = (tripDistance/ 1000) * 2.80;
-        totalFareAmount = timeTraveledFare + distancTraveledFare;
-        if(totalFareAmount < 12)
-          totalFareAmount=12;
+        distancTraveledFare = (directionDetails.distanceValue/ 1000) * 2.80;
+         if(distancTraveledFare < 12)
+          distancTraveledFare=12;
       }
-      double result = (totalFareAmount.truncate()) * 1.0;
+      double result = (distancTraveledFare.truncate()) * 1.0;
       return result.truncate();
 
   }
@@ -201,7 +178,8 @@ class HelperMethods{
   //     "dropoff_location": dropOffLocMap,
   //     "payment_method": "cash",
   //     "driver_id": "waiting",
-  //      "ride_type": carType,
+  ///TODO: MARIM => THIS LINE BELOW SHOULD BE ADDED IN SEC 11 WHICH IS DONE PLEASE USE THE SAME SPELLING
+  //      "ride_type": carRideType,
   //   };
   //
   //   //FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).set(rideInfoMap);

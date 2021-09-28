@@ -11,8 +11,9 @@ import 'promotion_page.dart';
 
 class CompleteTrip extends StatefulWidget {
   final String driverId;
+  final String rideId;
 
-  CompleteTrip({this.driverId});
+  CompleteTrip({this.driverId, this.rideId});
   @override
   _CompleteTripState createState() => _CompleteTripState();
 }
@@ -22,10 +23,14 @@ class _CompleteTripState extends State<CompleteTrip> {
   @override
   List<bool> Ispressed = [true,false,false,false,false];
   List<Color> buttons_colors = [Colors.black,HexColor('#FAF2C6').withOpacity(0.35),HexColor('#FAF2C6').withOpacity(0.35),HexColor('#FAF2C6').withOpacity(0.35),HexColor('#FAF2C6').withOpacity(0.35)];
-  String _url='';
+  String url_profile='';
+  String url_car='';
   String name='';
   String carDetails='';
-  String ratings='';
+  String ratings=starCounter.toString();
+  String tips='No tip';
+  TextEditingController commentController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -42,55 +47,67 @@ class _CompleteTripState extends State<CompleteTrip> {
     {
       return Row(
         children: [
-          Column(
-            children: [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundColor: Colors.black,
+          //SizedBox(width: screenWidth*0.1,),
+          Container(
+            width: screenWidth*0.25,
+            height: screenHeight*0.1,
+            decoration: BoxDecoration(
+              border: Border.all(color:Colors.black,  ),
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              image: DecorationImage(
+                image: url_car == null
+                    ?     AssetImage(
+                  "assets/images/defaultCar.png",
+                ):
+                NetworkImage(url_car),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: new   Stack(
+              children: [
+                Align(
+                  alignment:Alignment.centerLeft,
                   child: CircleAvatar(
-
-                    backgroundImage:  _url == null
-                        ?     AssetImage(
-                      "assets/images/profile_pic.jpg",
-                    ):
-                    NetworkImage(_url),
-                    radius: 38,
-                    child: new Stack(children: <Widget>[
-                      SizedBox(height: screenHeight*0.001,),
-                            new  Container(
-                            decoration:BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                color:Colors.black,
-                ),
-                width: 0.2*screenWidth,
-                height: 0.05* screenHeight,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text( ratings, style: TextStyle(color:Colors.white,fontSize: 18,)),
-                                    SizedBox(width: 0.02*screenWidth,),
-                                    Icon(Icons.star,color: Colors.amber,size: 25,)
-
-                                  ],
-                                ),
-                              ),
-                ),
-      ],
-      ),
+                    radius: 40,
+                    backgroundColor: Colors.black,
+                    child: CircleAvatar(
+                      backgroundImage:  url_profile == null
+                          ?     AssetImage(
+                        "assets/images/profile_pic.jpg",
+                      ):
+                      NetworkImage(url_profile),
+                      radius: 35,
+                    ),
                   ),
-
                 ),
-              SizedBox(width: 0.1*screenWidth,),
 
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    decoration:BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color:Colors.black,
+                    ),
+                    width: 0.18*screenWidth,
+                    height: 0.04* screenHeight,
+                    child:  Padding(
+                      padding: const EdgeInsets.only(left:8.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text( ratings, style: TextStyle(color:Colors.white,fontSize: 16,)),
+                          SizedBox(width: 0.02*screenWidth,),
+                          Icon(Icons.star,color: Colors.amber,size: 20,)
 
-
-
-              ///TODO:CAR IMAGE SHOULD BE .SVG ?!!!!!!!!
-              SizedBox(width: 0.1*screenWidth,),
-            ],
-          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+           ),
+          SizedBox(width:screenWidth*0.02),
           Column(
             children: [
               Text(name, style: TextStyle(color:Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
@@ -132,6 +149,7 @@ class _CompleteTripState extends State<CompleteTrip> {
                     ],
                   ),
                   SizedBox(height: 0.05 * screenHeight),
+                  ///1-first container
                   Container(
                     decoration:BoxDecoration(
                       border: Border.all(color:HexColor('#FAF2C6').withOpacity(0.35) ),
@@ -141,7 +159,10 @@ class _CompleteTripState extends State<CompleteTrip> {
 
                     width: 0.93*screenWidth,
                     height: 0.15* screenHeight,
-                    child: DriverCircleAvatar(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: DriverCircleAvatar(),
+                    ),
                   ),
                   SizedBox(height: 0.05 * screenHeight),
                   Container(
@@ -200,7 +221,7 @@ class _CompleteTripState extends State<CompleteTrip> {
                                 child: TextButton(
                                     onPressed: ( ){
                                       setState(() {
-
+                                        tips='No tip';
                                         buttons_colors[0]= Colors.black;
                                         Ispressed[0]=true;
                                         for(int i=1; i< 5; i++)
@@ -237,6 +258,7 @@ class _CompleteTripState extends State<CompleteTrip> {
                                 child: TextButton(
                                     onPressed: ( ){
                                       setState(() {
+                                        tips='5 EGP';
                                         Ispressed[1]=true;
                                         buttons_colors[1]= Colors.black;
                                         for(int i=0; i< 5; i++)
@@ -274,6 +296,7 @@ class _CompleteTripState extends State<CompleteTrip> {
                                 child: TextButton(
                                     onPressed: ( ){
                                       setState(() {
+                                        tips='10 EGP';
                                         buttons_colors[2]= Colors.black;
                                         Ispressed[2]=true;
                                         for(int i=0; i< 5; i++)
@@ -311,6 +334,8 @@ class _CompleteTripState extends State<CompleteTrip> {
                                 child: TextButton(
                                     onPressed: ( ){
                                       setState(() {
+                                        tips='15 EGP';
+
                                         buttons_colors[3]= Colors.black;
                                         Ispressed[3]=true;
                                         for(int i=0; i< 5; i++)
@@ -348,6 +373,8 @@ class _CompleteTripState extends State<CompleteTrip> {
                                 child: TextButton(
                                     onPressed: ( ){
                                       setState(() {
+                                        tips='20 EGP';
+
                                         buttons_colors[4]= Colors.black;
                                         Ispressed[4]=true;
                                         for(int i=0; i< 5; i++)
@@ -386,6 +413,7 @@ class _CompleteTripState extends State<CompleteTrip> {
                           width: 0.8*screenWidth,
                           height: 0.09*screenHeight,
                           child: TextField(
+                            controller: commentController,
                               decoration: InputDecoration(
                                 labelText:  " Write a comment ...",
                                 labelStyle: TextStyle(color: Colors.white),
@@ -412,6 +440,7 @@ class _CompleteTripState extends State<CompleteTrip> {
                                 {
                                   if(snap.value != null)
                                   {
+
                                     double oldRatings = double.parse(snap.value.toString());
                                     double addRatings = oldRatings + starCounter;
                                     double averageRatings = addRatings/2;
@@ -422,6 +451,11 @@ class _CompleteTripState extends State<CompleteTrip> {
                                     driverRatingRef.set(starCounter.toString());
                                   }
                                 });
+                                print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+                                print(widget.rideId);
+                                DatabaseReference RideRatingRef = FirebaseDatabase.instance.reference().child("rideRequests")
+                                    .child(widget.rideId).child('Ratings');
+                                RideRatingRef.set({ 'rating': starCounter,'comment':commentController.text,'tips': tips });
                                 Navigator.pop(context);
                               },
                               style: ButtonStyle(
@@ -466,15 +500,22 @@ class _CompleteTripState extends State<CompleteTrip> {
     }
     catch(e)
     { print("you got error: $e");
-    _url=null;
+    url_profile=null;
     return;
     }
-
     setState(() {
-      _url=myUrl;
-      print(_url);
-      // imageFile = File(path);
+      url_profile=myUrl;
     });
+    try {
+      await driversRef.child( widget.driverId).child('Photos').child('CarPhoto').once().then((DataSnapshot snapshot) async {
+        setState(() {
+          url_car = snapshot.value['URL'];
+        });
+      });
+    }
+    catch(e)
+    { print("you got error: $e");
+    }
   }
 
   void getDriverData() async
@@ -484,6 +525,7 @@ class _CompleteTripState extends State<CompleteTrip> {
         setState(() {
           print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
           name = snapshot.value['FirstName']+' '+ snapshot.value['LastName'] ;
+          if ( snapshot.value['ratings'] != null)
           ratings=snapshot.value['ratings'];
           print(name);
         });

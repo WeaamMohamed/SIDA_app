@@ -761,16 +761,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         String availableCarType = snap.value.toString();
         if(availableCarType == _carType)
         {
-
          notifyDriver(driver);
          setState(() {
            availableDriversList.removeAt(0);
          });
-
         }
         else
         {
-
           defaultToast(message: _carType +" drivers not available. Try again.", state: ToastState.ERROR);
           print('weaam : $_carType +" drivers not available. Try again.');
           cancelRideRequest();
@@ -880,9 +877,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     var dropOff = Provider.of<MapProvider>(context, listen: false).userDropOffLocation;
     DirectionDetails directionDetails = Provider.of<MapProvider>(context, listen: false).getCurrentDirectionDetails;
 
-    int fare =  HelperMethods.calculateFares(directionDetails: directionDetails,
-        carType: carType, time:directionDetails.durationValue.toString(),
-        distance: directionDetails.distanceValue.toString());
+    int fare =  HelperMethods.calculateFares( directionDetails, carType);
 
     Provider.of<TripProvider>(context, listen: false).updateFare(fare);
 
@@ -1041,8 +1036,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               driverId = event.snapshot.value["driver_id"].toString();
             }
 
-
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => CompleteTrip(driverId: driverId)));
+///TODO: CHANGE TO ACTUAL RIDE ID
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => CompleteTrip(driverId: driverId,rideId: "-Mkemv3Nt9MIqdLRBZaw",)));
             rideRequestRef.onDisconnect();
             rideRequestRef = null;
             rideStreamSubscription.cancel();

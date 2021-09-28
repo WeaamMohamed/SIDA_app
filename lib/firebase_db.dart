@@ -14,7 +14,7 @@ String rideStatus ='driver is coming';
 String carDetailsDriver ='';
 String driverName ='';
 String driverphone ='';
-
+String carRideType='';
 FirebaseStorage storage = FirebaseStorage(storageBucket: 'gs://sida-51cb9.appspot.com');
 User currentUser;
 Users currentUserInfo;
