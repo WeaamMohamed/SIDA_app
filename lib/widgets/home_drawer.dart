@@ -113,7 +113,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CompleteTrip( driverId: "FANyhIgsIoNsMJN8g0gTv5cqc6Z2"),
+                  builder: (context) =>EditProfileScreen()
+                      ///CompleteTrip( driverId: "FANyhIgsIoNsMJN8g0gTv5cqc6Z2",rideId: "-Mkemv3Nt9MIqdLRBZaw",),
                 ),
               );
             }),

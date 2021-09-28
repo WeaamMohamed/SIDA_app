@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/helpers/helpermethods.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
-
+import 'package:rounded_modal/rounded_modal.dart';
 class SelectAndConfirmRide extends StatefulWidget {
   final Function onTap;
   SelectAndConfirmRide({this.onTap});
@@ -15,15 +16,15 @@ class SelectAndConfirmRide extends StatefulWidget {
 
 class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
   CarTypes selectCarType = CarTypes.ANY_SIDA;
-
   final double mainHorizontalMargin = 15.0;
 
 
   @override
   Widget build(BuildContext context) {
     Size mqSize = MediaQuery.of(context).size;
-
     final double sizedBoxHeight =  mqSize.height * 0.016;
+    final screenHeight= MediaQuery.of(context).size.height;
+    final screenWidth= MediaQuery.of(context).size.width;
 
 
     return Column(
@@ -133,6 +134,8 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
 
                   children: [
                     _buildCarTypesCard(
+                      screenHeight: screenHeight,
+                      screenWidth: screenWidth,
                       mqSize: mqSize,
                       title: "Any SIDA",
                       imagePath: selectCarType ==CarTypes.ANY_SIDA?
@@ -151,6 +154,8 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
 
                     ),
                     _buildCarTypesCard(
+                      screenHeight: screenHeight,
+                      screenWidth: screenWidth,
                       mqSize: mqSize,
                       title: "SIDA Plus",
                       imagePath: selectCarType ==CarTypes.SIDA_PLUS?
@@ -257,6 +262,8 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
   );
 
   Widget _buildCarTypesCard({
+    final screenHeight,
+    final screenWidth,
     Size mqSize,
     String imagePath,
     String title,
@@ -287,8 +294,8 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
 
 
         padding: EdgeInsets.only(
-          left: 10,
-          right: 10,
+          left: 5,
+          right: 5,
 
         ),
         child: InkWell(
@@ -310,7 +317,37 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
                     width: 48,
                   ),
 
-                  isSelected? Icon(Icons.remove_circle_outline): Icon(Icons.remove_circle_outline,
+                  isSelected? IconButton(icon : Icon(Icons.info_outline), onPressed: ()
+                  {
+                    showModalBottomSheet<dynamic>(
+                        isScrollControlled: true,
+
+                        context: context,
+                        builder: (BuildContext bc) {
+                          return Wrap(
+                              children: <Widget>[
+                                Container(
+                                  width: screenWidth,
+                                  height: screenHeight*0.9,
+                                  child: Container(
+                              width: screenWidth,
+                              height: screenHeight*0.9,
+                                    decoration: new BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: new BorderRadius.only(
+                                            topLeft: const Radius.circular(200.0),
+                                            topRight: const Radius.circular(200.0))
+                                    ),
+                                    child: selectCarType == CarTypes.ANY_SIDA? bottomsheetAnySIDA(context,screenHeight, screenWidth )
+                                    : bottomsheetSIDAPlus(context,screenHeight, screenWidth ),
+                                  ),
+                                )
+                              ]
+                          );
+                        }
+                    );
+
+                  },): Icon(Icons.info_outline,
                     color: Colors.transparent,),
 
                 ],
@@ -433,5 +470,237 @@ Widget _buildBottomCard({
 
     ),
   ),
-
 );
+Widget bottomsheetAnySIDA(context ,screenHeight,screenWidth)
+{
+  return Column(
+              children: [
+                SizedBox(height: 0.08* screenHeight),
+                Image.asset('assets/images/anySIDA.jpg'),
+                SizedBox(height: 0.01* screenHeight),
+                Text('AnySIDA',
+                    style: TextStyle(
+                        color: Colors.black, fontSize: 35 ,fontWeight: FontWeight.bold)),
+                SizedBox(height: 0.02* screenHeight),
+                Flexible(
+                  child: Text('For frequent comfortable city trips',
+                      style: TextStyle(
+                          color: Colors.black, fontSize: 15)),
+                ),
+                SizedBox(height: 0.04* screenHeight),
+                SizedBox(height: 1.5,width:screenWidth*0.9-40, child: Container( color: HexColor('#E5E5E5'),),),
+                SizedBox(height: 0.03* screenHeight),
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(width: 0.05* screenWidth),
+                          SvgPicture.asset('assets/images/like.svg',width: 30,height: 30,),
+                          SizedBox(width: 0.07 * screenWidth),
+                          Flexible(
+                            child: Text('Drivers are selected to be friendly,\nrespectful and polite.',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16.0)),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 0.04* screenHeight),
+                      SizedBox(height: 1.5,width:screenWidth*0.9-40, child: Container( color: HexColor('#E5E5E5'),),),
+                      SizedBox(height: 0.03* screenHeight),
+                      Row(
+                        children: [
+                          SizedBox(width: 0.05* screenWidth),
+                          SvgPicture.asset('assets/images/steering-wheel.svg',width: 30,height: 30,),
+                          SizedBox(width: 0.07 * screenWidth),
+                          Flexible(
+                            child: Text('Quality standards have been raised.',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16.0)),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 0.04* screenHeight),
+                      SizedBox(height: 1.5,width:screenWidth*0.9-40, child: Container( color: HexColor('#E5E5E5'),),),
+                      SizedBox(height: 0.02* screenHeight),
+                      Row(
+                        children: [
+                          SizedBox(width: 0.05* screenWidth),
+                          SvgPicture.asset('assets/images/comfortable.svg',width: 30,height: 30,),
+                          SizedBox(width: 0.07 * screenWidth),
+                          Flexible(
+                            child: Text('Additional control over the cleanlin-\ness of the cabin, air conditioner and\nenvironment to provide comfortable\ntrip.',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16.0)),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 0.006* screenHeight),
+                      Center(
+                        child: Row(
+                          children: [
+                            SizedBox(width: 0.35* screenWidth),
+                            IconButton(onPressed: ( ) {}, icon: Icon(Icons.circle, color: Colors.black,size: 15,)),
+                            SizedBox(width: 0.02* screenWidth),
+                            IconButton(onPressed: ( ) {
+
+                            }, icon: Icon(Icons.circle, color: Colors.grey,size: 15,)),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 0.02* screenHeight),
+                      SizedBox(
+                        width: 0.88*screenWidth,
+                        height: 0.07*screenHeight,
+                        child: TextButton(
+                            onPressed: ( ){
+                              Navigator.pop(context);
+                             },
+                            style: ButtonStyle(
+                                backgroundColor:   MaterialStateProperty.all<Color>(Colors.black),
+                                padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+                                overlayColor: MaterialStateProperty.all<Color>(Colors.amber),
+                                foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        side: BorderSide()
+                                    )
+                                )
+                            ),
+                            child:   Align(
+                              alignment: Alignment.center,
+                              child: Text('Close',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18,fontWeight: FontWeight.bold)),
+                            )
+                        ),
+                      ),
+
+                    ],
+                  ),
+                )
+              ],
+            );
+
+}
+Widget bottomsheetSIDAPlus (context ,screenHeight,screenWidth)
+{
+  return Column(
+              children: [
+              SizedBox(height: 0.1* screenHeight),
+                  Image.asset('assets/images/SIDAplus.jpg'),
+                  SizedBox(height: 0.01* screenHeight),
+                  Text('SIDA Plus',
+            style: TextStyle(
+                  color: Colors.black, fontSize: 35 ,fontWeight: FontWeight.bold)),
+                  SizedBox(height: 0.02* screenHeight),
+                  Flexible(
+                  child: Text('Modern and comfortable cars for business\nor any celebration',
+                  style: TextStyle(
+            color: Colors.black, fontSize: 15)),
+            ),
+                SizedBox(height: 0.04* screenHeight),
+                SizedBox(height: 1.5,width:screenWidth*0.9-40, child: Container( color: HexColor('#E5E5E5'),),),
+                SizedBox(height: 0.03* screenHeight),
+                SingleChildScrollView(
+            child: Column(
+            children: [
+            /// 1- like
+            Row(
+            children: [
+                SizedBox(width: 0.05* screenWidth),
+                SvgPicture.asset('assets/images/like.svg',width: 30,height: 30,),
+                SizedBox(width: 0.07 * screenWidth),
+                Flexible(
+            child: Text('Only carefully selected drivers with\ngood ratings from passengers.',
+            style: TextStyle(
+            color: Colors.black, fontSize: 16.0)),
+            )
+            ],
+            ),
+                SizedBox(height: 0.04* screenHeight),
+                SizedBox(height: 1.5,width:screenWidth*0.9-40, child: Container( color: HexColor('#E5E5E5'),),),
+                SizedBox(height: 0.03* screenHeight),
+            /// 2- quality
+            Row(
+            children: [
+                SizedBox(width: 0.05* screenWidth),
+                SvgPicture.asset('assets/images/steering-wheel.svg',width: 30,height: 30,),
+                SizedBox(width: 0.07 * screenWidth),
+                Flexible(
+                child: Text('Impeccable interior cleanliness.',
+                style: TextStyle(
+                color: Colors.black, fontSize: 16.0)),
+                )
+                ],
+                ),
+                SizedBox(height: 0.04* screenHeight),
+                SizedBox(height: 1.5,width:screenWidth*0.9-40, child: Container( color: HexColor('#E5E5E5'),),),
+                SizedBox(height: 0.02* screenHeight),
+                /// 3-
+                Row(
+                children: [
+                SizedBox(width: 0.05* screenWidth),
+                Image.asset('assets/images/shield.jpg',width: 30,height: 30,),
+                SizedBox(width: 0.07 * screenWidth),
+                Flexible(
+                child: Text('High security vehicles.',
+                style: TextStyle(
+                color: Colors.black, fontSize: 16.0)),
+                )
+                ],
+                ),
+                SizedBox(height: 0.01* screenHeight),
+                Center(
+                child: Row(
+                children: [
+                SizedBox(width: 0.35* screenWidth),
+                IconButton(onPressed: ( ) {
+
+                }, icon: Icon(Icons.circle, color: Colors.grey,size: 15,)),
+                SizedBox(width: 0.02* screenWidth),
+                IconButton(onPressed: ( ) {
+                /// plus SIDA
+                }, icon: Icon(Icons.circle, color: Colors.black,size: 15,)),
+                ],
+                ),
+                ),
+                SizedBox(height: 0.03* screenHeight),
+                SizedBox(
+                width: 0.88*screenWidth,
+                height: 0.07*screenHeight,
+                child: TextButton(
+                onPressed: ( ){
+                  Navigator.pop(context);
+                    },
+                    style: ButtonStyle(
+                backgroundColor:   MaterialStateProperty.all<Color>(Colors.black),
+                padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+                overlayColor: MaterialStateProperty.all<Color>(Colors.amber),
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                side: BorderSide()
+                )
+                )
+                ),
+                child:   Align(
+                alignment: Alignment.center,
+                child: Text('Close',
+                style: TextStyle(
+                color: Colors.white, fontSize: 18 ,fontWeight: FontWeight.bold)),
+                )
+                ),
+                ),
+
+            ],
+            ),
+            )
+            ],
+
+            );
+}
+
+
