@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:sida_app/firebase_db.dart';
+import 'package:sida_app/shared/data_handler/trip_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -18,7 +19,8 @@ class DriverArriving extends StatefulWidget {
   final String arrivalTime;
   final Function onCancel;
   final String driverName;
-  DriverArriving({this.arrivalTime, this.onCancel, this.driverName});
+  final String timeText;
+  DriverArriving({this.arrivalTime, this.onCancel, this.driverName, this.timeText});
   @override
   _DriverArrivingState createState() => _DriverArrivingState();
 }
@@ -61,7 +63,7 @@ class _DriverArrivingState extends State<DriverArriving> {
                   SvgPicture.asset("assets/images/dollar.svg",width: 35,height: 35),
                  SizedBox(width: 8),
                   //todo; add fare
-                  Text('\nEGP',
+                  Text('${ Provider.of<TripProvider>(context).fare}\nEGP',
                       style: TextStyle(
                           color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold)),
                 ],
@@ -93,7 +95,7 @@ class _DriverArrivingState extends State<DriverArriving> {
                                 color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold)),
                       )),
                   SizedBox(width: 0.03 * screenWidth),
-                  Text('Arrival Time',
+                  Text(widget.timeText,
                       style: TextStyle(
                           color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold)),
                 ],
@@ -117,8 +119,18 @@ class _DriverArrivingState extends State<DriverArriving> {
               Container(
                 child: Row(
                   children: [
-                    CircleAvatar(backgroundColor: Colors.grey,),
-                    Text(widget.driverName,),
+                    CircleAvatar(backgroundImage: AssetImage(
+                      'assets/images/profile_pic.jpg'
+                    ),
+                    radius: 35,),
+                    SizedBox(width: 30,),
+                    Column(
+                      children: [
+                        Text( widget.driverName,style: TextStyle(color: Colors.black),),
+                        Text(carDetailsDriver,style: TextStyle(color: Colors.black),),
+                        Text(driverphone,style: TextStyle(color: Colors.black),),
+                      ],
+                    ),
 
                   ],
                 ),
