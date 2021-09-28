@@ -36,7 +36,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void retrieve_name() async
   {
     try {
-      await ref.once().then((DataSnapshot snapshot) async {
+      await ref.child(FirebaseAuth.instance.currentUser.uid).once().then((DataSnapshot snapshot) async {
         setState(() {
           UserName = snapshot.value['Name'];
           UserNumber=snapshot.value['Phone'];
@@ -211,29 +211,29 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       onTap: (){
                         if(formKey.currentState.validate())
                         {
-                          ///TODO: Important: this is a security sensitive operation that
-                          ///requires the user to have recently signed in. If this requirement isn't met,
-                          ///ask the user to authenticate again and later call reauthenticate(AuthCredential).
-                          FirebaseAuth.instance.verifyPhoneNumber(
-                              phoneNumber: UserNumber,
-                              timeout: const Duration(minutes: 2),
-                              verificationCompleted: (credential) async {
-                                 FirebaseAuth.instance.currentUser.updatePhoneNumber(credential);
-                                // either this occurs or the user needs to manually enter the SMS code
-                              },
-                              verificationFailed: null,
-                              codeSent: (verificationId, [forceResendingToken]) async {
-                                String smsCode;
-                                // get the SMS code from the user somehow (probably using a text field)
-                                final AuthCredential credential =
-                                PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
-                                FirebaseAuth.instance.currentUser.updatePhoneNumber(credential);
-                              },
-                              codeAutoRetrievalTimeout: null);
+                          // ///TODO: Important: this is a security sensitive operation that
+                          // ///requires the user to have recently signed in. If this requirement isn't met,
+                          // ///ask the user to authenticate again and later call reauthenticate(AuthCredential).
+                          // FirebaseAuth.instance.verifyPhoneNumber(
+                          //     phoneNumber: UserNumber,
+                          //     timeout: const Duration(minutes: 2),
+                          //     verificationCompleted: (credential) async {
+                          //        FirebaseAuth.instance.currentUser.updatePhoneNumber(credential);
+                          //       // either this occurs or the user needs to manually enter the SMS code
+                          //     },
+                          //     verificationFailed: null,
+                          //     codeSent: (verificationId, [forceResendingToken]) async {
+                          //       String smsCode;
+                          //       // get the SMS code from the user somehow (probably using a text field)
+                          //       final AuthCredential credential =
+                          //       PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
+                          //       FirebaseAuth.instance.currentUser.updatePhoneNumber(credential);
+                          //     },
+                          //     codeAutoRetrievalTimeout: null);
 
                         //  FirebaseAuth.instance.currentUser.updatePhoneNumber(phoneCredential)
-                          ref.child( currentUser.uid).update({'Name': nameController.text });
-                          ref.child(currentUser.uid).update({'Phone': phoneController.text });
+                          ref.child(currentUser.uid).update({'Name': nameController.text });
+                          // ref.child(currentUser.uid).update({'Phone': phoneController.text });
                           print("updated.");
                         }
 
