@@ -132,6 +132,7 @@ class _MyAppState extends State<MyApp> {
             return Locale('ar', 'EG');
           //TODO: use enum for language (AR, EN, DEFAULT)
           // else
+          
           //   return supportedLocales.first;
         },
         //home: SettingsScreen(),
