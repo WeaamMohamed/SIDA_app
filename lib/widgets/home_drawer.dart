@@ -92,43 +92,29 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   ),
                 ),
               ),
+              //TODO: Weaam Re-position this button >>
               Container(padding: EdgeInsets.all(10),
-        child: AnimatedToggle(
-          values: ['EN','AR'],
-          onToggleCallback: (index) {
+                child: AnimatedToggle(
+                  values: ['EN','AR'],
+                  onToggleCallback: (index) {
 
-            print("home index " + index.toString());
-         //   Provider.of<DataProvider>(context, listen: false).toggleLanguage();
-            if(index)
-            {
-              MyApp.setLocale(context, Locale('en', 'US'));
-             // saveData(true);
-            }
-            else
-            {
-              MyApp.setLocale(context, Locale('ar', 'EG'));
-           //   saveData(false);
-            }
+                  print("home index " + index.toString());
 
-
-
-            // if(initialPosition==true)
-            // {
-            //   MyApp.setLocale(context, Locale('en', 'US'));
-            //   saveData(true);
-            // }
-            //
-            // if(initialPosition==false)
-            // {
-            //   MyApp.setLocale(context, Locale('ar', 'EG'));
-            //   saveData(false);
-            // }
-          },
-        ),
-      ),
+                  if(index)
+                  {
+                    MyApp.setLocale(context, Locale('en', 'US'));
+                  }
+                  else
+                  {
+                    MyApp.setLocale(context, Locale('ar', 'EG'));
+                  }
+                },
+              ),
+            ),
             ],
           ),
         ),
+              //TODO: To there <<
         _buildDrawerItem(
             title: translate(context,'My Trips'),
             imagePath: "assets/images/svg_icon.svg",
