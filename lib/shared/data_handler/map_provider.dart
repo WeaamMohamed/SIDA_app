@@ -156,7 +156,7 @@ class MapProvider extends ChangeNotifier
     }
 
     //todo:
-    _newGoogleMapController.animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 200));
+    _newGoogleMapController.animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 50));
 
     notifyListeners();
 

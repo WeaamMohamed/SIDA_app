@@ -19,6 +19,7 @@ import 'package:sida_app/screens/where_to_screen.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'package:sida_app/shared/data_handler/trip_provider.dart';
+import 'package:sida_app/shared/styles/colors.dart';
 import 'package:sida_app/shared/utils.dart';
 import 'package:sida_app/widgets/CollectFareDialog.dart';
 import 'package:sida_app/widgets/home_drawer.dart';
@@ -207,60 +208,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
                 ): Container(),
 
-              // (_homeStatus == HomeStatus.INITIAL)?
-              //   Consumer<DataProvider>(
-              //     builder: (context, myModel, child){
-              //       return (myModel.homeStatus == HomeStatus.INITIAL)?
-              //         Positioned(
-              //         bottom: 0,
-              //         left: 0,
-              //         right: 0,
-              //         child: Container(
-              //           //  height: MediaQuery.of(context).size.height / 4,
-              //             margin: EdgeInsets.symmetric(
-              //               horizontal: 15,
-              //               vertical: 20,
-              //               // vertical: mqSize.height * 0.06,
-              //             ),
-              //             child:
-              //             Column(
-              //               mainAxisAlignment: MainAxisAlignment.center,
-              //               children: [
-              //                 customHomeButton(
-              //                   context: context,
-              //                   //TODO: add your pick up location
-              //                   title:
-              //                   mapProvider.userPickUpLocation != null?
-              //                   mapProvider.userPickUpLocation.placeName:
-              //                   "Loading Pickup address...",
-              //
-              //                   // "El-Tahrir Square, Qasr El N aaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaa",
-              //                   withIcon: true,
-              //                   //    onTap: () {},
-              //                 ),
-              //                 SizedBox(
-              //                   height: 20,
-              //                 ),
-              //                 customHomeButton(
-              //                     context: context,
-              //                     title: "Set pickup location",
-              //                     onTap: () {
-              //
-              //                       Navigator.of(context).push(
-              //                         MaterialPageRoute(builder: (context) => WhereToScreen(),),
-              //                       );
-              //
-              //
-              //                     }),
-              //               ],
-              //             )
-              //
-              //         ),
-              //       ): Container();
-              //     }
-              //     ),
-                    ///: Container(),
-
 
                 (Provider.of<DataProvider>(context).homeStatus == HomeStatus.SELECT_AND_CONFIRM_RIDE )?
                // (_homeStatus == HomeStatus.SELECT_AND_CONFIRM_RIDE )?
@@ -367,6 +314,43 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ): Container(),
 
 
+
+                (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVED)?
+                // (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVING)?
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 100,
+                  child: Container(
+                    //  height: MediaQuery.of(context).size.height / 4,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: mainHorizontalMargin + 20,
+                      // vertical: mqSize.height * 0.02,
+                      vertical: 10,
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: mainHorizontalMargin,
+                      // vertical: mqSize.height * 0.02,
+                      vertical: 15,
+                    ),
+                    decoration: BoxDecoration(
+                      
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: LinearGradient(
+                          colors: [customAmberColor1.withOpacity(0.8), customAmberColor2],
+                      ),
+                    ),
+
+                    child: Center(
+                      child: Text('Your driver has arrived',
+                      style: TextStyle(fontSize: 16,),),
+                    ),
+
+                  ),
+                ): Container(),
+
+
+
                 //TODO: driver arrived
                 (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVED)?
 
@@ -384,7 +368,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     child: DriverArriving(
                       timeText: 'Waiting',
                      // carType:
-                      arrivalTime: rideStatus,
+                     // arrivalTime: rideStatus,
+                      arrivalTime: waitingTime.toString(),
                       driverName: driverName,
                       onCancel: (){
                         cancelRideRequest();
@@ -394,7 +379,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       },),
 
                   ),
-                ): Container()
+                ): Container(),
 
                 // (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_ARRIVING)?
                 // Positioned(
@@ -414,6 +399,40 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 //   ),
                 // ): Container(),
 
+
+                  (Provider.of<DataProvider>(context).homeStatus == HomeStatus.START_TRIP)?
+                  Positioned(
+                    bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: mainHorizontalMargin,
+                      // vertical: mqSize.height * 0.02,
+                      vertical: 10,
+                    ),
+                    color: Colors.white,
+                    width: double.infinity,
+                    height: 200,
+                    child: Center(child: Text('Trip started : UI NOT DESIGNED')),
+                  )): Container(),
+
+                (Provider.of<DataProvider>(context).homeStatus == HomeStatus.DRIVER_RATING)?
+                Positioned(
+                  bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: mainHorizontalMargin,
+                    // vertical: mqSize.height * 0.02,
+                    vertical: 10,
+                  ),
+                  color: Colors.white,
+                  width: double.infinity,
+                  height: 200,
+                  child: Center(child: Text('SHOW RATING SCREEN ')),
+                )): Container(),
 
 
               ],
@@ -681,17 +700,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
 
       //TODO: memory leak
-      setState(() {});
-    });
+    ///   setState(() {});
+     });
   }
 
   void updateAvailableDriversOnMap()
   {
 
     //TODO: memory leak
-    setState(() {
+   /// setState(() {
       _Markers.clear();
-    });
+   /// });
 
     Set<Marker> tMarkers = Set<Marker>();
 
@@ -707,9 +726,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       );
       tMarkers.add(thisMarker);
     }
-    setState(() {
+   /// setState(() {
       _Markers = tMarkers;
-    });
+    ///});
   }
 
  void createIconMarker()
@@ -877,6 +896,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     var dropOff = Provider.of<MapProvider>(context, listen: false).userDropOffLocation;
     DirectionDetails directionDetails = Provider.of<MapProvider>(context, listen: false).getCurrentDirectionDetails;
 
+
     int fare =  HelperMethods.calculateFares( directionDetails, carType);
 
     Provider.of<TripProvider>(context, listen: false).updateFare(fare);
@@ -912,7 +932,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       "dropoff_location": dropOffLocMap,
       "payment_method": "cash",
       "driver_id": "waiting",
-      "ride_type": carRideType,
+      "rider_id": currentUserInfo.id,
+      "ride_type": _carType,
     //todo;
       "fare": fare.toString(),
       //between driver and rider:
@@ -921,9 +942,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
       "distanceText": directionDetails.distanceText,
       "durationText": directionDetails.durationText,
+     /// "waitingTime": '0',
 
-    };
+          };
 
+    print('weaam : rideInfoMap' + rideInfoMap.toString());
     //FirebaseDatabase.instance.reference().child("rideRequests").child(FirebaseAuth.instance.currentUser.uid).set(rideInfoMap);
 
     rideRequestRef.set(rideInfoMap);
@@ -961,6 +984,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         });
       }
 
+      ///
+      if(event.snapshot.value["waitingTime"] != null)
+      {
+        setState(() {
+          waitingTime = event.snapshot.value["waitingTime"];
+        });
+      }
+
+
+
 
       if(event.snapshot.value["driverLocation"] != null)
       {
@@ -977,19 +1010,22 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       //todo: onride?
         else if(statusRide == "onRide")
         {
+
           print('weaam : statusRide : onRide ');
+
           updateRideTimeToDropOffLoc(driverCurrentLocation);
         }
         else if(statusRide == "arrived")
         {
           print('weaam : statusRide : arrived ');
 
-          Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.DRIVER_ARRIVED);
+
+          // Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.DRIVER_ARRIVED);
           setState(() {
             rideStatus = "Driver has Arrived.";
           });
           //todo: customize this
-          defaultToast(message: "Your driver has arrived", state: ToastState.SUCCESSFUL);
+         /// defaultToast(message: "Your driver has arrived", state: ToastState.SUCCESSFUL);
         }
       }
 
@@ -997,11 +1033,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       {
         statusRide = event.snapshot.value["status"].toString();
         print('weaam : statusRide : ' +  event.snapshot.value["status"].toString());
-
-
       }
+
       if(statusRide == "accepted")
       {
+
         print('weaam : statusRide : ' +statusRide);
 
         Provider.of<DataProvider>(context, listen: false).updateHomeStatus(
@@ -1011,26 +1047,35 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         Geofire.stopListener();
         deleteGeofileMarkers();
       }
-      if(statusRide == "ended")
-      {
 
-        print('weaam : statusRide : ' + statusRide);
+      if(statusRide == "ended")
+
+      {
+        print('weaam : statusRide : ' +statusRide);
+
+        Provider.of<DataProvider>(context, listen: false).updateHomeStatus(
+            HomeStatus.DRIVER_RATING);
 
         if(event.snapshot.value["fares"] != null)
         {
           print('weaam : fares : ' + event.snapshot.value["fares"]);
 
-          int fare = int.parse(event.snapshot.value["fares"].toString());
-          var res = await showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context)=> CollectFareDialog(paymentMethod: "cash", fareAmount: fare,),
-          );
+
+          // Provider.of<DataProvider>(context, listen: false).updateHomeStatus(
+          //     HomeStatus.DRIVER_RATING);
+          // Provider
+          // int fare = int.parse(event.snapshot.value["fares"].toString());
+          // var res = await showDialog(
+          //   context: context,
+          //   barrierDismissible: false,
+          //   builder: (BuildContext context)=> CollectFareDialog(paymentMethod: "cash", fareAmount: fare,),
+          // );
 
           String driverId="";
-          //todo; after rating
-          if(res == "close")
-          {
+         // todo; after rating
+          //todo: replcae this
+          // if(res == "close")
+          // {
             if(event.snapshot.value["driver_id"] != null)
             {
               driverId = event.snapshot.value["driver_id"].toString();
@@ -1043,12 +1088,32 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             rideStreamSubscription.cancel();
             rideStreamSubscription = null;
             resetApp();
-          }
+          //}
         }
       }
+      ///
+      if(statusRide == "onRide")
+      {
+
+        print('weaam : statusRide : ' +statusRide);
+
+        Provider.of<DataProvider>(context, listen: false).updateHomeStatus(
+            HomeStatus.START_TRIP);
+
+
+      }
+      if(statusRide == "arrived")
+      {
+        print('weaam : statusRide : ' +statusRide);
+        Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.DRIVER_ARRIVED);
+
+      }
+
+
+
     });
 
-    print('weaam: driver first name $driverName phone $driverphone');
+
 
   }
 
@@ -1069,7 +1134,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       {
         return;
       }
-      Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.DRIVER_ARRIVED);
+     /// Provider.of<DataProvider>(context, listen: false).updateHomeStatus(HomeStatus.DRIVER_ARRIVED);
       setState(() {
 
         print('weaam : rideStatus ${details.durationText}');

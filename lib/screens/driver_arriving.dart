@@ -90,7 +90,7 @@ class _DriverArrivingState extends State<DriverArriving> {
                       ),
                       child:Align(
                         alignment: Alignment.center,
-                        child: Text('${widget.arrivalTime}\nMIN',
+                        child: Text(' ${widget.arrivalTime}\nMIN',
                             style: TextStyle(
                                 color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold)),
                       )),

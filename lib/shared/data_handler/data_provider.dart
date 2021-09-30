@@ -7,6 +7,8 @@ enum HomeStatus {
   FINDING_RIDE,
   DRIVER_ARRIVING,
   DRIVER_ARRIVED,
+  START_TRIP,
+  DRIVER_RATING,
 }
 
 class DataProvider extends ChangeNotifier{
