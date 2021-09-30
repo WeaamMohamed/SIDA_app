@@ -912,7 +912,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       "dropoff_location": dropOffLocMap,
       "payment_method": "cash",
       "driver_id": "waiting",
-      "ride_type": carType,
+      "ride_type": carRideType,
     //todo;
       "fare": fare.toString(),
       //between driver and rider:
