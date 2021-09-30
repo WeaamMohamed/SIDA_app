@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/helpers/geofirehelper.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/models/direction_details.dart';
 import 'package:sida_app/models/nearby_available_drivers.dart';
 import 'package:sida_app/screens/driver_arrived_page.dart';
@@ -193,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           ),
                           customHomeButton(
                               context: context,
-                              title: "Set pickup location",
+                              title: translate(context,'Set pickup location'),
                               onTap: () {
 
                                 Navigator.of(context).push(
@@ -300,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         vertical: 10,
                       ),
                       child: DriverArriving(
-                        timeText: 'Arrival Time',
+                        timeText: translate(context,'Arrival Time'),
                         arrivalTime: rideStatus,
                         driverName: driverName,
                       onCancel: (){
@@ -342,7 +343,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     ),
 
                     child: Center(
-                      child: Text('Your driver has arrived',
+                      child: Text(translate(context,'Your driver has arrived'),
                       style: TextStyle(fontSize: 16,),),
                     ),
 
@@ -1025,7 +1026,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             rideStatus = "Driver has Arrived.";
           });
           //todo: customize this
-         /// defaultToast(message: "Your driver has arrived", state: ToastState.SUCCESSFUL);
+         /// defaultToast(message: translate(context,'Your driver has arrived'), state: ToastState.SUCCESSFUL);
         }
       }
 

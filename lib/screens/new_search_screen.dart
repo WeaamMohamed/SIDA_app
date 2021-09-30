@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/models/address.dart';
 import 'package:sida_app/models/place_predictions_auto_complete.dart';
 import 'package:sida_app/shared/components/constants.dart';
@@ -81,7 +82,7 @@ class _NewSearchScreenState extends State<NewSearchScreen> {
                   },
                   controller: dropOffTextEditingController,
                   decoration: InputDecoration(
-                    hintText: "Where to?",
+                    hintText: translate(context,'Where to?'),
                     fillColor: Colors.grey[200],
                     filled: true,
                     border: InputBorder.none,

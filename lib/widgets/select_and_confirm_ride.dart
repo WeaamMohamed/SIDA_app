@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/helpers/helpermethods.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
@@ -201,26 +202,26 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     _buildBottomCard(
-                      title: "Cash",
+                      title: translate(context,'Cash'),
                       image: "assets/images/dollar.svg",
                       onTap: (){},
                     ),
                     _divider(),
                     _buildBottomCard(
-                      title: "Voucher",
+                      title: translate(context,'Voucher'),
                       image: "assets/images/gift_card.svg",
                       onTap: (){},
                     ),
 
                     _divider(),
                     _buildBottomCard(
-                      title: "Features",
+                      title: translate(context,'Features'),
                       image: "assets/images/Group_124.svg",
                       onTap: (){},
                     ),
                     _divider(),
                     _buildBottomCard(
-                      title: "Note to Driver",
+                      title: translate(context,'Note to Driver'),
                       image: "assets/images/document.svg",
                       onTap: (){},
                     ),
@@ -235,7 +236,7 @@ class _SelectAndConfirmRideState extends State<SelectAndConfirmRide> {
         SizedBox(
           height: sizedBoxHeight,
         ),
-        customHomeButton(context: context, title: "Book Now",
+        customHomeButton(context: context, title: translate(context,'Book Now'),
           onTap:  () {
 
          // widget.onTap();
@@ -483,7 +484,7 @@ Widget bottomsheetAnySIDA(context ,screenHeight,screenWidth)
                         color: Colors.black, fontSize: 35 ,fontWeight: FontWeight.bold)),
                 SizedBox(height: 0.02* screenHeight),
                 Flexible(
-                  child: Text('For frequent comfortable city trips',
+                  child: Text(translate(context,'For frequent comfortable city trips'),
                       style: TextStyle(
                           color: Colors.black, fontSize: 15)),
                 ),
@@ -514,7 +515,7 @@ Widget bottomsheetAnySIDA(context ,screenHeight,screenWidth)
                           SvgPicture.asset('assets/images/steering-wheel.svg',width: 30,height: 30,),
                           SizedBox(width: 0.07 * screenWidth),
                           Flexible(
-                            child: Text('Quality standards have been raised.',
+                            child: Text(translate(context,'Quality standards have been raised.'),
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 16.0)),
                           )
@@ -570,7 +571,7 @@ Widget bottomsheetAnySIDA(context ,screenHeight,screenWidth)
                             ),
                             child:   Align(
                               alignment: Alignment.center,
-                              child: Text('Close',
+                              child: Text(translate(context,'Close'),
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 18,fontWeight: FontWeight.bold)),
                             )
@@ -629,7 +630,7 @@ Widget bottomsheetSIDAPlus (context ,screenHeight,screenWidth)
                 SvgPicture.asset('assets/images/steering-wheel.svg',width: 30,height: 30,),
                 SizedBox(width: 0.07 * screenWidth),
                 Flexible(
-                child: Text('Impeccable interior cleanliness.',
+                child: Text(translate(context,'Impeccable interior cleanliness.'),
                 style: TextStyle(
                 color: Colors.black, fontSize: 16.0)),
                 )
@@ -645,7 +646,7 @@ Widget bottomsheetSIDAPlus (context ,screenHeight,screenWidth)
                 Image.asset('assets/images/shield.jpg',width: 30,height: 30,),
                 SizedBox(width: 0.07 * screenWidth),
                 Flexible(
-                child: Text('High security vehicles.',
+                child: Text(translate(context,'High security vehicles.'),
                 style: TextStyle(
                 color: Colors.black, fontSize: 16.0)),
                 )
@@ -688,7 +689,7 @@ Widget bottomsheetSIDAPlus (context ,screenHeight,screenWidth)
                 ),
                 child:   Align(
                 alignment: Alignment.center,
-                child: Text('Close',
+                child: Text(translate(context,'Close'),
                 style: TextStyle(
                 color: Colors.white, fontSize: 18 ,fontWeight: FontWeight.bold)),
                 )

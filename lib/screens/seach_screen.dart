@@ -79,7 +79,7 @@
 //                   },
 //                   controller: dropOffTextEditingController,
 //                   decoration: InputDecoration(
-//                     hintText: "Where to?",
+//                     hintText: translate(context,'Where to?'),
 //                     fillColor: Colors.grey[200],
 //                     filled: true,
 //                     border: InputBorder.none,

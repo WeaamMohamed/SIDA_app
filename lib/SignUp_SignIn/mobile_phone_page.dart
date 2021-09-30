@@ -10,6 +10,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/screens/edit_profile_screen.dart';
 import 'package:sida_app/shared/components/constants.dart';
 import 'package:sida_app/shared/network/local/cache_helper.dart';
@@ -176,7 +177,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                                   style: TextStyle(color: Colors.white, fontSize: 18),
                                   controller: phoneController,
                                   decoration: InputDecoration(
-                                    hintText: 'phone number',
+                                    hintText: '01001234567',
                                     hintStyle:TextStyle(color: Colors.white) ,
 
                                   ),
@@ -190,12 +191,12 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                                     });
                                   },
                                   validator: (val) {
-                                    if(val.isEmpty){return "Please fill in your Phone Number";}
+                                    if(val.isEmpty){return 'Please fill in your phone number';}
                                     final number = num.tryParse(val);
                                     if (number == null) {
-                                      return "Invalid phone number!";
+                                      return 'This is an invalid phone number.';
                                     }
-                                    if(val.length != 11  ){return "Phone number must be 11 digits!";}
+                                    if(val.length != 11  ){return 'Phone number must be 11 digits!';}
                                     return null;
                                   },
                                 ),
@@ -313,7 +314,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
               color: HexColor("#FFBB00"),
               onPressed: is_disabled ? null :
                currentState == MobileVerificationState.SHOW_MOBILE_FORM_STATE ? onpressed_phone:onpressed_code,
-            child:   Text(' Next', style: TextStyle( color: Colors.white, fontSize: 20.0 )),),
+            child:   Text('Next', style: TextStyle( color: Colors.white, fontSize: 20.0 )),),
     ),
     );
   }

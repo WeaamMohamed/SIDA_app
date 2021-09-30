@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:sida_app/SignUp_SignIn/mobile_phone_page.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:flutter/services.dart';
 import 'package:sida_app/shared/components/constants.dart';
@@ -28,7 +29,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: customWhiteAppBar(context: context, title: "Settings"),
+      appBar: customWhiteAppBar(context: context, title: translate(context,'Settings'),),
       body: Column(
        // mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,17 +88,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: horizontalPadding,
                 vertical: 25),
-            child: Text("Favourite Places", style: TextStyle(
+            child: Text(translate(context,'Favourite Places'), style: TextStyle(
               color: Color(0xffA9ACB6),
               fontSize: 16,
             ),),
           ),
          // SizedBox(height: 10,),
-          _customRow(text: "Add home", icon: Icons.home,
+          _customRow(text: translate(context,'Add home'), icon: Icons.home,
               onTap: (){
             //TODO: Add Home,
               }),
-          _customRow(text: "Add work", icon: Icons.work,
+          _customRow(text: translate(context,'Add work'), icon: Icons.work,
           onTap: (){
             //TODO: Add work
           }),
@@ -205,7 +206,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding + 4),
         margin: EdgeInsets.symmetric(vertical: 20),
-          child: Text("Sign out", style: TextStyle(fontSize: 15),)),
+          child: Text(translate(context,'Sign out'), style: TextStyle(fontSize: 15),)),
     ),
       Divider(
         color: Color(0xffC2C9D9),

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'any_sida.dart';
 
 class PlusSIDA extends StatefulWidget {
@@ -80,7 +81,7 @@ class _PlusSIDAState extends State<PlusSIDA> {
                               SvgPicture.asset('assets/steering-wheel.svg',width: 30,height: 30,),
                               SizedBox(width: 0.07 * screenWidth),
                               Flexible(
-                                child: Text('Impeccable interior cleanliness.',
+                                child: Text(translate(context,'Impeccable interior cleanliness.'),
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 16.0)),
                               )
@@ -96,7 +97,7 @@ class _PlusSIDAState extends State<PlusSIDA> {
                               Image.asset('assets/shield.jpg',width: 30,height: 30,),
                               SizedBox(width: 0.07 * screenWidth),
                               Flexible(
-                                child: Text('High security vehicles.',
+                                child: Text(translate(context,'High security vehicles.'),
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 16.0)),
                               )
@@ -138,7 +139,7 @@ class _PlusSIDAState extends State<PlusSIDA> {
                                 ),
                                 child:   Align(
                                   alignment: Alignment.center,
-                                  child: Text('Close',
+                                  child: Text(translate(context,'Close'),
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 18, fontFamily: 'spoqa_han_sans',fontWeight: FontWeight.bold)),
                                 )

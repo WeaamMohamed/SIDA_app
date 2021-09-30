@@ -1,12 +1,15 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sida_app/models/animated_toggle_button.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/screens/complete_trip.dart';
 import 'package:sida_app/screens/edit_profile_screen.dart';
 import 'package:sida_app/screens/settings_screen.dart';
 import 'package:sida_app/shared/styles/colors.dart';
 
 import '../firebase_db.dart';
+import '../main.dart';
 
 class HomeDrawer extends StatefulWidget {
 
@@ -88,25 +91,59 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     ],
                   ),
                 ),
-              )
+              ),
+              Container(padding: EdgeInsets.all(10),
+        child: AnimatedToggle(
+          values: ['EN','AR'],
+          onToggleCallback: (index) {
+
+            print("home index " + index.toString());
+         //   Provider.of<DataProvider>(context, listen: false).toggleLanguage();
+            if(index)
+            {
+              MyApp.setLocale(context, Locale('en', 'US'));
+             // saveData(true);
+            }
+            else
+            {
+              MyApp.setLocale(context, Locale('ar', 'EG'));
+           //   saveData(false);
+            }
+
+
+
+            // if(initialPosition==true)
+            // {
+            //   MyApp.setLocale(context, Locale('en', 'US'));
+            //   saveData(true);
+            // }
+            //
+            // if(initialPosition==false)
+            // {
+            //   MyApp.setLocale(context, Locale('ar', 'EG'));
+            //   saveData(false);
+            // }
+          },
+        ),
+      ),
             ],
           ),
         ),
         _buildDrawerItem(
-            title: "My Trips",
+            title: translate(context,'My Trips'),
             imagePath: "assets/images/svg_icon.svg",
             onTap: () {}),
         _buildDrawerItem(
-            title: "Promotions",
+            title: translate(context,'Promotions'),
             imagePath: "assets/images/promotion.svg",
             onTap: () {}),
         _buildDrawerItem(
-          title: "Help Center",
+          title: translate(context,'Help Center'),
           imagePath: "assets/images/call-center-agent.svg",
           onTap: () {},
         ),
         _buildDrawerItem(
-            title: "Settings",
+            title: translate(context,'Settings'),
             imagePath: "assets/images/settings.svg",
             onTap: () {
               print("settings clicked");

@@ -7,6 +7,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:sida_app/localization/localization_method.dart';
 
 
 class TripDetails extends StatefulWidget {
@@ -78,7 +79,7 @@ class _TripDetailsState extends State<TripDetails> {
                         , child: Flexible(
                       child: Align(
                           alignment: Alignment.topLeft,
-                          child: Text('I lost an item', style: TextStyle(color: Colors.black, fontSize: 20),)),
+                          child: Text(translate(context,'I lost an item'), style: TextStyle(color: Colors.black, fontSize: 20),)),
                     )),
                   ),
                   SizedBox(
@@ -89,7 +90,7 @@ class _TripDetailsState extends State<TripDetails> {
                         , child: Flexible(
                       child: Align(
                           alignment: Alignment.topLeft,
-                          child: Text('I want to send feedback about the driver', style: TextStyle(color: Colors.black, fontSize: 20),)),
+                          child: Text(translate(context,'I want to send feedback about the driver'), style: TextStyle(color: Colors.black, fontSize: 20),)),
                     )),
                   ),
                   SizedBox(
@@ -100,7 +101,7 @@ class _TripDetailsState extends State<TripDetails> {
                         , child: Flexible(
                       child: Align(
                           alignment: Alignment.topLeft,
-                          child: Text("My vehicle wasn't what I expected", style: TextStyle(color: Colors.black, fontSize: 20),)),
+                          child: Text(translate(context,'My vehicle was not what I expected'), style: TextStyle(color: Colors.black, fontSize: 20),)),
                     )),
                   ),
                   SizedBox(
@@ -111,7 +112,7 @@ class _TripDetailsState extends State<TripDetails> {
                         , child: Flexible(
                       child: Align(
                           alignment: Alignment.topLeft,
-                          child: Text('I had a different issue', style: TextStyle(color: Colors.black, fontSize: 20),)),
+                          child: Text(translate(context,'I had a different issue'), style: TextStyle(color: Colors.black, fontSize: 20),)),
                     )),
                   ),
                   SizedBox(height: screenHeight*0.1,)
@@ -134,7 +135,7 @@ class _TripDetailsState extends State<TripDetails> {
                 padding: const EdgeInsets.only(left: 30.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text( 'You rode with Destiny',
+                  child: Text(translate(context,'You rode with '),
                     style: TextStyle(color:HexColor('#8D90A1') , fontSize: 20),),
                 ),
               ),
@@ -149,7 +150,7 @@ class _TripDetailsState extends State<TripDetails> {
                       SizedBox(height: 0.02* screenHeight),
                       Padding(
                         padding: const EdgeInsets.only(left:8.0),
-                        child: Text( 'Kilometers',
+                        child: Text(translate(context,'Kilometres'),
                             style: TextStyle(color: HexColor('#8D90A1') , fontSize: 15)),
                       ),
                     ],),
@@ -162,7 +163,7 @@ class _TripDetailsState extends State<TripDetails> {
                       SizedBox(height: 0.03* screenHeight),
                       Padding(
                         padding: const EdgeInsets.only(left:8.0),
-                        child: Text( 'Trip time',
+                        child: Text(translate(context,'Trip time'),
                             style: TextStyle(color:HexColor('#8D90A1') , fontSize: 15)),
                       ),
                     ],),
@@ -175,7 +176,7 @@ class _TripDetailsState extends State<TripDetails> {
                       SizedBox(height: 0.02* screenHeight),
                       Padding(
                         padding: const EdgeInsets.only(left:8.0),
-                        child: Text( 'Car',
+                        child: Text(translate(context,'Car'),
                             style: TextStyle(color: HexColor('#8D90A1') , fontSize: 15)),
                       ),
                     ],),
@@ -187,7 +188,7 @@ class _TripDetailsState extends State<TripDetails> {
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text( 'Your fare',
+                  child: Text(translate(context,'Your Fare'),
                     style: TextStyle(color: Colors.black, fontSize: 20),),
                 ),
               ),
@@ -202,11 +203,11 @@ class _TripDetailsState extends State<TripDetails> {
                       alignment: Alignment.centerLeft,
                       child: Column(
                         children: [
-                          Text( 'Base fare', style: TextStyle(color: HexColor('#8D90A1') , fontSize: 17) ),
+                          Text(translate(context,'Base fare'), style: TextStyle(color: HexColor('#8D90A1') , fontSize: 17) ),
                           SizedBox(height: screenHeight*0.05,),
-                          Text( 'Distance', style: TextStyle(color: HexColor('#8D90A1') , fontSize: 17) ),
+                          Text(translate(context,'Distance'), style: TextStyle(color: HexColor('#8D90A1') , fontSize: 17) ),
                           SizedBox(height: screenHeight*0.05,),
-                          Text( 'Time', style: TextStyle(color: HexColor('#8D90A1') , fontSize: 17) )
+                          Text(translate(context,'Time'), style: TextStyle(color: HexColor('#8D90A1') , fontSize: 17) )
                         ],
                       ),
                     ),
@@ -240,9 +241,9 @@ class _TripDetailsState extends State<TripDetails> {
                       alignment: Alignment.centerLeft,
                       child: Column(
                         children: [
-                          Text( 'Normal Fare', style: TextStyle(color: Colors.black , fontSize: 17) ),
+                          Text(translate(context,'Normal Fare'), style: TextStyle(color: Colors.black , fontSize: 17) ),
                           SizedBox(height: screenHeight*0.05,),
-                          Text( 'Surge x1.4', style: TextStyle(color: HexColor('#8D90A1') , fontSize: 17) ),
+                          Text(translate(context,'Surge '), style: TextStyle(color: HexColor('#8D90A1') , fontSize: 17) ),
                         ],
                       ),
                     ),
@@ -274,11 +275,11 @@ class _TripDetailsState extends State<TripDetails> {
                       alignment: Alignment.centerLeft,
                       child: Column(
                         children: [
-                          Text( 'Subtotal', style: TextStyle(color: HexColor('#8D90A1') , fontSize: 17) ),
+                          Text(translate(context,'Subtotal'), style: TextStyle(color: HexColor('#8D90A1') , fontSize: 17) ),
                           SizedBox(height: screenHeight*0.05,),
-                          Text( 'Waiting Time', style: TextStyle(color: HexColor('#8D90A1') , fontSize: 17) ),
+                          Text(translate(context,'Wait Time'), style: TextStyle(color: HexColor('#8D90A1') , fontSize: 17) ),
                           SizedBox(height: screenHeight*0.05,),
-                          Text( 'Rounding', style: TextStyle(color: HexColor('#8D90A1') , fontSize: 17) )
+                          Text(translate(context,'Rounding'), style: TextStyle(color: HexColor('#8D90A1') , fontSize: 17) )
                         ],
                       ),
                     ),
@@ -345,7 +346,7 @@ class _TripDetailsState extends State<TripDetails> {
                         SizedBox(width: 0.2 * screenWidth),
                         Align(
                           alignment: Alignment.center,
-                          child: Text('Trip Details',
+                          child: Text(translate(context,'Trip Details'),
                               style: TextStyle(
                                   color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold)),
                         ),
@@ -377,7 +378,7 @@ class _TripDetailsState extends State<TripDetails> {
                             style: TextStyle(
                                 color: Colors.grey, fontSize: 18.0 )),
                         SizedBox(width: 0.4* screenWidth),
-                        Text('CASH',
+                        Text(translate(context,'CASH'),
                             style: TextStyle(
                                 color: Colors.grey, fontSize: 18.0 )),
 
@@ -418,7 +419,7 @@ class _TripDetailsState extends State<TripDetails> {
                         SizedBox(width: 0.12* screenWidth),
 
                         SizedBox(width: 0.07* screenWidth),
-                        Text('You rated Destiny',
+                        Text(translate(context,'You rated '),
                             style: TextStyle(
                                 color: Colors.black, fontSize: 22.0 )),
                         SizedBox(width: 0.04* screenWidth),
@@ -470,7 +471,7 @@ class _TripDetailsState extends State<TripDetails> {
                                     ReceiptColor_Text=HexColor('#FFBB00').withOpacity(0.85);
                                   });
                                 },
-                                child: Text('Help' , style:TextStyle(color:HelpColor_Text,fontSize: 18))
+                                child: Text(translate(context,'Help'), style:TextStyle(color:HelpColor_Text,fontSize: 18))
 
                             ),
                           ),
@@ -498,7 +499,7 @@ class _TripDetailsState extends State<TripDetails> {
                                     HelpColor_Text=HexColor('#FFBB00').withOpacity(0.85);
                                   });
                                 },
-                                child: Text(' Receipt' , style:TextStyle(color:ReceiptColor_Text, fontSize: 18))
+                                child: Text(translate(context,'Receipt'), style:TextStyle(color:ReceiptColor_Text, fontSize: 18))
 
                             ),
                           )

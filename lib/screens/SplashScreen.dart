@@ -69,10 +69,10 @@ class SplashScreen extends StatelessWidget {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: translate(context,'splash_first'),
+                                      text: 'Start your quality ride with',
                                     ),
                                     TextSpan(
-                                      text: translate(context,'splash_second'),
+                                      text: ' SIDA!',
                                       style: TextStyle(
                                         color: const Color(0xffffbb00),
                                       ),
@@ -163,7 +163,7 @@ class SplashScreen extends StatelessWidget {
                                             Pin(size: 130.0, start: 9.5),
                                             Pin(size: 21.0, start: 0.0),
                                             child: Text(
-                                              translate(context,'splash_third'),
+                                              'Phone number',
                                               style: TextStyle(
                                                 fontFamily:
                                                     'Spoqa Han Sans Neo',

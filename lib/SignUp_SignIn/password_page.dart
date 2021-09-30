@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'Name_page.dart';
 import 'mobile_phone_page.dart';
 import 'package:flutter/services.dart';
@@ -163,7 +164,7 @@ class _passWordState extends State<passWord> {
                 builder: (BuildContext context) => NamePage(widget.user_phoneNumber)));
           }
         },
-        child:   Text(' Next',
+        child:   Text('Next',
             style: TextStyle(
                 color: Colors.white, fontSize: 20.0 )),),
     ),

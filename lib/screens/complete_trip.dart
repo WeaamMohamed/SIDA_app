@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:rate_my_app/rate_my_app.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import '../firebase_db.dart';
 import 'promotion_page.dart';
 
@@ -142,7 +143,7 @@ class _CompleteTripState extends State<CompleteTrip> {
                       SizedBox(width: 0.2 * screenWidth),
                       Align(
                         alignment: Alignment.center,
-                        child: Text(' Complete Trip',
+                        child: Text(translate(context,'Complete Trip'),
                             style: TextStyle(
                                 color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold)),
                       ),
@@ -176,11 +177,11 @@ class _CompleteTripState extends State<CompleteTrip> {
                     child: Column(
                       children: [
                         SizedBox(height: 0.05*0.9* screenHeight),
-                        Text('How was your trip?',
+                        Text(translate(context,'How was your trip?'),
                             style: TextStyle(
                                 color: Colors.black, fontSize: 24.0, fontWeight: FontWeight.bold)),
                         SizedBox(height: 0.05*0.9* screenHeight),
-                        Text('Help us improve our services and your',
+                        Text(translate(context,'Help us improve our services and your experience by rating this trip'),
                             style: TextStyle(
                                 color: Colors.black, fontSize: 18.0 )),
                         Text('experience by rating this trip',
@@ -207,7 +208,7 @@ class _CompleteTripState extends State<CompleteTrip> {
                           },
                         ),
                         SizedBox(height: 0.08* screenHeight),
-                        Text('Did you added tip?',
+                        Text(translate(context,'Did you added tip?'),
                             style: TextStyle(
                                 color: Colors.black, fontSize: 25.0 )),
                         SizedBox(height: 0.05*screenHeight),
@@ -245,7 +246,7 @@ class _CompleteTripState extends State<CompleteTrip> {
 
                                         )
                                     ),
-                                    child:   Text('No tip',
+                                    child:   Text(translate(context,'No Tip'),
                                         style: Ispressed[0] ? TextStyle(
                                             color:Colors.white, fontSize: 17.0 ):TextStyle(
                                             color: Colors.black, fontSize: 17.0 ) )
@@ -415,7 +416,7 @@ class _CompleteTripState extends State<CompleteTrip> {
                           child: TextField(
                             controller: commentController,
                               decoration: InputDecoration(
-                                labelText:  " Write a comment ...",
+                                labelText:  translate(context,'Write a comment'),
                                 labelStyle: TextStyle(color: Colors.white),
                                 filled: true,
                                 fillColor: Colors.black.withOpacity(0.4),
@@ -470,7 +471,7 @@ class _CompleteTripState extends State<CompleteTrip> {
                                       )
                                   )
                               ),
-                              child:   Text('Submit',
+                              child:   Text(translate(context,'Submit'),
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20.0, fontFamily: 'spoqa_han_sans',fontWeight: FontWeight.bold))
                           ),

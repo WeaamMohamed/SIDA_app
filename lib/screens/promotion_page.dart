@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'driver_arrived_page.dart';
 class PromotionPage extends StatefulWidget {
   @override
@@ -73,7 +74,7 @@ class _PromotionPageState extends State<PromotionPage> {
                        child: Row(
                          children: [
                            SizedBox(width: 0.07 * screenWidth),
-                           Text('SIDA Trips Coin',
+                           Text(translate(context,'SIDA Trips Coin'),
                            textDirection: TextDirection.ltr,
                            style: TextStyle(
                                color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold)),
@@ -100,7 +101,7 @@ class _PromotionPageState extends State<PromotionPage> {
                  ),
                ),
                SizedBox(height: 0.02* screenHeight),
-               Text('*1.00 SIDA = 1 Free AnySIDA trip up to 35 EGP !',
+               Text(translate(context,'*1.00 SIDA = 1 Free AnySIDA trip up to 35 EGP !'),
                    style: TextStyle(
                        color: Colors.grey, fontSize: 16.0 )),
                SizedBox(height: 0.05* screenHeight),
@@ -108,14 +109,14 @@ class _PromotionPageState extends State<PromotionPage> {
                SizedBox(height: 0.02* screenHeight),
                Padding(
                  padding: const EdgeInsets.only(left:12.0),
-                 child: Text('*Make your every six trips to get 1 FREE trip up to 35 EGP !',
+                 child: Text(translate(context,'*Make your every six trips to get 1 FREE trip up to 35 EGP !'),
                      style: TextStyle(
                          color: Colors.grey, fontSize: 15.0 )),
                ),
                SizedBox(height: 0.07* screenHeight),
                Align(
                  alignment: Alignment.centerLeft,
-                 child: Text('   Quality & Saving Packs',
+                 child: Text(translate(context,'Quality & Saving Packs'),
                      style: TextStyle(
                          color: Colors.black, fontSize: 25.0 )),
                ),
@@ -139,7 +140,7 @@ class _PromotionPageState extends State<PromotionPage> {
                          crossAxisAlignment: CrossAxisAlignment.center,
                          children: [
                            SizedBox(width: 0.07 * screenWidth),
-                           Text('AnySIDA discount 20%',
+                           Text(translate(context,'AnySIDA discount 20%'),
                                style: TextStyle(
                                  color: Colors.white, fontSize: 20.0,fontWeight: FontWeight.bold )),
                            SizedBox(width: 0.03 * screenWidth),
@@ -165,7 +166,7 @@ class _PromotionPageState extends State<PromotionPage> {
                          SvgPicture.asset("assets/images/checked.svg",width: 25,height: 25),
                          SizedBox(width: 0.03 * screenWidth),
                          Flexible(
-                           child: Text('Designed especially for women who go to work-home everyday frequently',
+                           child: Text(translate(context,'Designed especially for women who go to work-home everyday frequently'),
                                style: TextStyle(
                                    color: Colors.white, fontSize: 18.0 )),
                          ),
@@ -179,7 +180,7 @@ class _PromotionPageState extends State<PromotionPage> {
                          SvgPicture.asset("assets/images/checked.svg",width: 25,height: 25),
                          SizedBox(width: 0.03 * screenWidth),
                          Flexible(
-                           child: Text('Save up to 500 (30 days)',
+                           child: Text(translate(context,'Save up to 500 (30 days)'),
                                style: TextStyle(
                                    color: Colors.white, fontSize: 18.0 )),
                          ),
@@ -207,7 +208,7 @@ class _PromotionPageState extends State<PromotionPage> {
                                    )
                                )
                            ),
-                           child:   Text('Buy this pack with 2500EGP',
+                           child:   Text(translate(context,'Buy this pack with 2500EGP'),
                                style: TextStyle(
                                    color: Colors.black, fontSize: 18.0, fontFamily: 'spoqa_han_sans',fontWeight: FontWeight.bold))
                        ),
@@ -233,7 +234,7 @@ class _PromotionPageState extends State<PromotionPage> {
                          crossAxisAlignment: CrossAxisAlignment.center,
                          children: [
                            SizedBox(width: 0.07 * screenWidth),
-                           Text('SIDA Kids School Service',
+                           Text(translate(context,'SIDA Kids School Service'),
                                style: TextStyle(
                                    color: Colors.white, fontSize: 20.0,fontWeight: FontWeight.bold )),
                           // Image.asset("assets/images/offer1.png",width: 90,height: 90)
@@ -259,7 +260,7 @@ class _PromotionPageState extends State<PromotionPage> {
                          SvgPicture.asset("assets/images/checked.svg",width: 25,height: 25),
                          SizedBox(width: 0.03 * screenWidth),
                          Flexible(
-                           child: Text('Full safety and quality service designed especially for families living at the same area who wanted to bring their children to/from school every day, at the morning',
+                           child: Text(translate(context,'Full safety and quality service designed esp-ecially for families living at the same area w-ho wanted to bring their children to/from s-chool every day, at the morning'),
                                style: TextStyle(
                                    color: Colors.white, fontSize: 18.0 )),
                          ),
@@ -285,7 +286,7 @@ class _PromotionPageState extends State<PromotionPage> {
                                    )
                                )
                            ),
-                           child:   Text('Buy this pack with 2000EGP',
+                           child:   Text(translate(context,'Buy this pack with 2000EGP'),
                                style: TextStyle(
                                    color: Colors.black, fontSize: 20.0, fontFamily: 'spoqa_han_sans',fontWeight: FontWeight.bold))
                        ),

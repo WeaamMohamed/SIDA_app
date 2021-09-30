@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/shared/components/components.dart';
 
 
@@ -99,7 +100,7 @@ class _EmailScreenState extends State<EmailScreen> {
                   ),
 
                   customBlackButton(
-                      title: "Next",
+                      title: 'Next',
                       onTap: () async{
 
 

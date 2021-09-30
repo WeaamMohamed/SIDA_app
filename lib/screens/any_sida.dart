@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'plus_sida.dart';
 
 class AnySIDA extends StatefulWidget {
@@ -47,7 +48,7 @@ class _AnySIDAState extends State<AnySIDA> {
                             color: Colors.black, fontSize: 35 ,fontWeight: FontWeight.bold)),
                     SizedBox(height: 0.02* screenHeight),
                     Flexible(
-                      child: Text('For frequent comfortable city trips',
+                      child: Text(translate(context,'For frequent comfortable city trips'),
                           style: TextStyle(
                               color: Colors.black, fontSize: 15)),
                     ),
@@ -78,7 +79,7 @@ class _AnySIDAState extends State<AnySIDA> {
                            SvgPicture.asset('assets/steering-wheel.svg',width: 30,height: 30,),
                            SizedBox(width: 0.07 * screenWidth),
                            Flexible(
-                             child: Text('Quality standards have been raised.',
+                             child: Text(translate(context,'Quality standards have been raised.'),
                                  style: TextStyle(
                                      color: Colors.black, fontSize: 16.0)),
                            )
@@ -135,7 +136,7 @@ class _AnySIDAState extends State<AnySIDA> {
                              ),
                              child:   Align(
                                alignment: Alignment.center,
-                               child: Text('Close',
+                               child: Text(translate(context,'Close'),
                                    style: TextStyle(
                                        color: Colors.white, fontSize: 18, fontFamily: 'spoqa_han_sans',fontWeight: FontWeight.bold)),
                              )

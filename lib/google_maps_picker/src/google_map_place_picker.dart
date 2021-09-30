@@ -11,6 +11,7 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/google_maps_picker/providers/place_provider.dart';
 import 'package:sida_app/google_maps_picker/src/place_picker.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/shared/styles/colors.dart';
 import 'package:tuple/tuple.dart';
@@ -351,7 +352,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
             //             valueColor:AlwaysStoppedAnimation<Color>(Colors.black),
             //           ),
           },
-          child: Text("Set pickup location", style: TextStyle(
+          child: Text(translate(context,'Set pickup location'), style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
           ),
@@ -363,7 +364,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
           ),
           // Container(
           //   margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.2),
-          //   child: customBlackButton(title: "Set pickup location", onTap: (){
+          //   child: customBlackButton(title: translate(context,'Set pickup location'), onTap: (){
           //
           //     onPlacePicked(result);
           //

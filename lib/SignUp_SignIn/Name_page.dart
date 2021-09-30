@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/screens/home_screen.dart';
 import 'package:sida_app/shared/components/constants.dart';
 import 'package:sida_app/shared/network/local/cache_helper.dart';
@@ -74,7 +75,7 @@ class _NamePageState extends State<NamePage> {
                 ),
                 SizedBox(height: 0.05 * screenHeight),
                 Center(
-                  child: Text('Enter your Name:',
+                  child: Text('Enter your name:',
                       style: TextStyle(
                           color: Colors.white, fontSize: 18.0, fontFamily: 'spoqa_han_sans')),
                 ),
@@ -142,7 +143,7 @@ class _NamePageState extends State<NamePage> {
             CacheHelper.saveData(key: IS_SIGNED_IN_SHARED_PREF, data: true);
           }
         },
-        child:   Text(' Next',
+        child:   Text('Confirm',
             style: TextStyle(
                 color: Colors.white, fontSize: 20.0 )),),
     ),

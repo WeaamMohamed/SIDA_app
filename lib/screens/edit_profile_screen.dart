@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/firebase_db.dart';
 import 'package:path/path.dart' as Path;
@@ -63,7 +64,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         centerTitle: true,
 
         title: Center(
-          child: Text("Edit Profile",
+          child: Text(translate(context,'Edit Profile'),
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -162,11 +163,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         customTextFormField(
                           hint: UserName,
                           //hint: currentUserInfo.name,
-                          label: "Name",
+                          label: translate(context,'Name'),
                           textController: nameController,
                           validator:  (value) {
                             if (value.isEmpty) {
-                              return 'name must not be empty.';
+                              return 'Name must not be empty.';
                             }
                             return null;
                           },
@@ -190,11 +191,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         // ),
                         customTextFormField(
                           hint: UserNumber,
-                          label: "Phone Number (Registered)",
+                          label: translate(context,'Phone Number (Registered)'),
                           textController: phoneController,
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'Phone number must not be empty.';
+                              return translate(context,'Phone number must not be empty.');
                             }
                             return null;
                           },
@@ -207,7 +208,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                   Spacer(),
                   customBlackButton(
-                      title: "Update",
+                      title: translate(context,'Update'),
                       onTap: (){
                         if(formKey.currentState.validate())
                         {

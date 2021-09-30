@@ -131,7 +131,7 @@
 //                     child: Row(
 //                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 //                       children: [
-//                         Text("Submit", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),),
+//                         Text(translate(context,'Submit'), style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),),
 //                       ],
 //                     ),
 //                   ),

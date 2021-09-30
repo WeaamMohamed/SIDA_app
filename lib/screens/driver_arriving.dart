@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:sida_app/firebase_db.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/shared/data_handler/trip_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -211,7 +212,7 @@ class _DriverArrivingState extends State<DriverArriving> {
                           SizedBox(width: 0.06* screenWidth),
                           Icon( Icons.call,color: Colors.black,size: 30,),
                           SizedBox(width: 0.03* screenWidth),
-                          Text('Call',
+                          Text(translate(context,'Call'),
                               style: TextStyle(
                                 color: Colors.black, fontSize: 22.0,)),
                         ],
@@ -250,7 +251,7 @@ class _DriverArrivingState extends State<DriverArriving> {
                           SizedBox(width: 0.06* screenWidth),
                           Icon( Icons.messenger,color: Colors.black,size: 30,),
                           SizedBox(width: 0.03* screenWidth),
-                          Text('Text',
+                          Text(translate(context,'Text'),
                               style: TextStyle(
                                 color: Colors.black, fontSize: 22.0,)),
                         ],

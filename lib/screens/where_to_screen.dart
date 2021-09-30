@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'package:sida_app/shared/styles/colors.dart';
 import 'package:sida_app/screens/seach_screen.dart';
@@ -171,7 +172,7 @@ class _WhereToScreenState extends State<WhereToScreen> {
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
-                                hintText: "Where to?",
+                                hintText: translate(context,'Where to?'),
                               ),
 
                             ),
@@ -195,16 +196,16 @@ class _WhereToScreenState extends State<WhereToScreen> {
 
                   _buildTopItem(
                     imageName: "plus",
-                    title: "Home",
+                    title: translate(context,'Home'),
 
                   ),
-                  _buildTopItem(imageName: "plus", title: "Work",
+                  _buildTopItem(imageName: "plus", title: translate(context,'Work'),
                     onTap: () {},
                   ),
-                  _buildTopItem(imageName: "star", title: "Favorites",
+                  _buildTopItem(imageName: "star", title: translate(context,'Favorites'),
                     onTap: () {},
                   ),
-                  _buildTopItem(imageName: "airport", title: "Airport",
+                  _buildTopItem(imageName: "airport", title: translate(context,'Airport'),
                     onTap: () {},
                   ),
 
@@ -226,12 +227,12 @@ class _WhereToScreenState extends State<WhereToScreen> {
               ),
               _buildCustomRow(
                 image: "alarm",
-                text: "I will show the driver",
+                text: translate(context,'I will show the driver'),
                 onTap: () {},
               ),
               _buildCustomRow(
                 image: "pick_address",
-                text: "Pick the address on the map",
+                text: translate(context,'Pick the address on the map'),
                 onTap: () {
 
                   Navigator.push(context, MaterialPageRoute(builder: (context)

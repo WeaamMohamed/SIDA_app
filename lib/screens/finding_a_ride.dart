@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/helpers/helpermethods.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/shared/components/components.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
@@ -102,9 +103,9 @@ class _FindingRideState extends State<FindingRide> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Finding a ride', style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),),
+                        Text(translate(context,'Finding a ride'), style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),),
                        // SizedBox(height: 0.01* screenHeight),
-                        Text('Locating your driver..', style: TextStyle(color: Colors.black, fontSize: 14,  ),),
+                        Text(translate(context,'Locating your driver...'), style: TextStyle(color: Colors.black, fontSize: 14,  ),),
                       ],
                     ),
                   )
@@ -167,7 +168,7 @@ class _FindingRideState extends State<FindingRide> {
          // SizedBox(height: 0.03* screenHeight),
           SizedBox(height: sizedBoxHeight,),
           //TODO: to cancel trip
-          customBlackButton(title: "Cancel", onTap: widget.onCancel),
+          customBlackButton(title: translate(context,'Cancel'), onTap: widget.onCancel),
 
         ],),
     );

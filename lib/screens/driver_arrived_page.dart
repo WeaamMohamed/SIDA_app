@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'driver_arriving.dart';
 import 'any_sida.dart';
 
@@ -47,7 +48,7 @@ class _DriverArrivedState extends State<DriverArrived> {
                     ),
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text('Your driver has arrived',
+                      child: Text(translate(context,'Your driver has arrived'),
                           style: TextStyle(
                               color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.bold)),
                     ),
@@ -103,7 +104,7 @@ class _DriverArrivedState extends State<DriverArrived> {
                                         color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold)),
                               )),
                           SizedBox(width: 0.03 * screenWidth),
-                          Text('Waiting Time',
+                          Text(translate(context,'Waiting Time'),
                               style: TextStyle(
                                   color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold)),
                         ],
@@ -186,7 +187,7 @@ class _DriverArrivedState extends State<DriverArrived> {
                                   SizedBox(width: 0.06* screenWidth),
                                   Icon( Icons.call,color: Colors.black,size: 30,),
                                   SizedBox(width: 0.03* screenWidth),
-                                  Text('Call',
+                                  Text(translate(context,'Call'),
                                       style: TextStyle(
                                         color: Colors.black, fontSize: 22.0,)),
                                 ],
@@ -225,7 +226,7 @@ class _DriverArrivedState extends State<DriverArrived> {
                                   SizedBox(width: 0.06* screenWidth),
                                   Icon( Icons.messenger,color: Colors.black,size: 30,),
                                   SizedBox(width: 0.03* screenWidth),
-                                  Text('Text',
+                                  Text(translate(context,'Text'),
                                       style: TextStyle(
                                         color: Colors.black, fontSize: 22.0,)),
                                 ],

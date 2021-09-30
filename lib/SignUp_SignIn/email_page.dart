@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sida_app/localization/localization_method.dart';
 import 'password_page.dart';
 
 class Email extends StatefulWidget {
@@ -111,7 +112,7 @@ class _EmailState extends State<Email> {
           }
                 },
 
-          child:   Text(' Next',
+          child:   Text('Next',
               style: TextStyle(
                   color: Colors.grey, fontSize: 20.0, fontFamily: 'spoqa_han_sans')),),
       ),
