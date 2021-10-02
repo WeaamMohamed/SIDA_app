@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sida_app/chat/chatHelper.dart';
 
 import 'message_model.dart';
 
@@ -89,6 +90,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     color: Colors.black87,
                     child: MaterialButton(
                       onPressed: () {
+
+                        ChatHelper.sendMessage(receiverId: 'ayYZ3QcUiBWVTmOPITTG8Fkw1i73',
+                        dateTime: DateTime.now().toString(), text: messageController.text);
+                        messageController.clear();
                         // SocialCubit.get(context).sendMessage(
                         //   receiverId: userModel.uId,
                         //   dateTime: DateTime.now().toString(),

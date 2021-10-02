@@ -21,11 +21,13 @@ class HelperMethods{
   static void getCurrentOnlineUserInfo() async
   {
 
+
     currentUser = FirebaseAuth.instance.currentUser;
-    String userId = FirebaseAuth.instance.currentUser.uid;
-    print("WEAAM" + FirebaseAuth.instance.currentUser.uid);
+    String userId = await FirebaseAuth.instance.currentUser.uid;
+    print("WEAAM uId" + FirebaseAuth.instance.currentUser.uid);
     DatabaseReference reference = FirebaseDatabase.instance.reference().child("Users").child(userId);
 
+    print('weaam : currentUser : ' + currentUser.toString());
     reference.once().then((DataSnapshot dataSnapShot)
     {
       if(dataSnapShot.value != null)
