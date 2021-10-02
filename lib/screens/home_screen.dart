@@ -11,6 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/helpers/geofirehelper.dart';
 import 'package:sida_app/localization/localization_method.dart';
+import 'package:sida_app/models/appData.dart';
 import 'package:sida_app/models/direction_details.dart';
 import 'package:sida_app/models/nearby_available_drivers.dart';
 import 'package:sida_app/screens/driver_arrived_page.dart';
@@ -110,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     //#FED444 - #FEBA3F
     return ChangeNotifierProvider.value(
+
       value: DataProvider(),
       child: Scaffold(
         key: scaffoldKey,
@@ -472,7 +474,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  Future<void> locatePosition() async {
+  Future<void> locatePosition() async
+  {
+    print("1--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+
+    HelperMethods.getHistoryInfo(context);
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);
     userCurrentPosition = position;
@@ -499,6 +505,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     print("this is your address: " + currentUserAddress);
 
     //  startGeofireListener(context: context);
+
+
   }
 
   Future<void> checkLocationServiceInDevice() async{

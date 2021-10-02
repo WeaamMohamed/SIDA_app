@@ -5,6 +5,7 @@ import 'package:sida_app/models/animated_toggle_button.dart';
 import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/screens/complete_trip.dart';
 import 'package:sida_app/screens/edit_profile_screen.dart';
+import 'package:sida_app/screens/my_trips.dart';
 import 'package:sida_app/screens/settings_screen.dart';
 import 'package:sida_app/shared/styles/colors.dart';
 
@@ -80,7 +81,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                       name,
+                        name,
                         style: TextStyle(
                           fontSize: 20,
                         ),
@@ -118,7 +119,16 @@ class _HomeDrawerState extends State<HomeDrawer> {
         _buildDrawerItem(
             title: translate(context,'My Trips'),
             imagePath: "assets/images/svg_icon.svg",
-            onTap: () {}),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>MyTrips()
+
+                ),
+              );
+
+            }),
         _buildDrawerItem(
             title: translate(context,'Promotions'),
             imagePath: "assets/images/promotion.svg",
@@ -172,7 +182,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
  {
    //TODO:GET BALANCE,PROFIT....
    try {
-     await ref.child( currentUser.uid).once().then((DataSnapshot snapshot) async {
+     await ref.child(  currentUserInfo.id).once().then((DataSnapshot snapshot) async {
        setState(() {
          print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
          name = snapshot.value['Name'] ;

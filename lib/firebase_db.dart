@@ -16,6 +16,7 @@ String driverName ='';
 String driverphone ='';
 String carRideType='';
 int waitingTime = 0;
+int tripCount=0;
 FirebaseStorage storage = FirebaseStorage(storageBucket: 'gs://sida-51cb9.appspot.com');
 User currentUser;
 Users currentUserInfo;
