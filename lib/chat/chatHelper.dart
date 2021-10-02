@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'message_model.dart';
 
@@ -7,7 +10,9 @@ import 'message_model.dart';
 class ChatHelper {
   //List<SocialUserModel> users = [];
   List users = [];
+  static StreamSubscription<Event> chatStreamSubscription;
 
+  static String senderId = 'FANyhIgsIoNsMJN8g0gTv5cqc6Z2';
    static final DatabaseReference _chatsRef =
   FirebaseDatabase.instance.reference().child('Users')
   .child('FANyhIgsIoNsMJN8g0gTv5cqc6Z2').child('chats');
@@ -33,7 +38,7 @@ class ChatHelper {
   }) {
 
 
-    String senderId = 'FANyhIgsIoNsMJN8g0gTv5cqc6Z2';
+
     MessageModel messageModel = MessageModel(
       text: text,
       senderId: senderId,
@@ -94,4 +99,74 @@ class ChatHelper {
     // });
 
   }
+
+  static List<MessageModel> chatMessages = [];
+
+  static void getMessages({
+    @required String receiverId,
+  }) {
+
+    // FirebaseDatabase.instance.reference().child('Users')
+    // //todo: receiver id ... then sender id ;
+    //     .child(senderId).child('chats').child(senderId).child('messages')
+    //     .orderByChild('dateTime')
+    // .once();
+
+    chatStreamSubscription = FirebaseDatabase.instance.reference().child('Users')
+    //todo: receiver id ... then sender id ;
+        .child(senderId).child('chats').child(receiverId).child('messages')
+        .orderByChild('dateTime')
+    .onValue.listen((event) {
+      chatMessages = [];
+
+      print('weaam snapshot : ${event.snapshot}');
+      print('weaam snapshot value: ${event.snapshot.value}');
+     /// print('weaam snapshot  : ${event.snapshot.value[event.snapshot.key]['dateTime']}');
+
+      var _results = event.snapshot.value;
+     List list =  _results.values.toList();
+
+      print('weaam : results list text: ' + list[0]['text'].toString());
+      print('weaam : results list text: ' + list[1]['text'].toString());
+      print('weaam : results list text: ' + list[2]['text'].toString());
+      print('weaam : results list text: ' + list[3]['text'].toString());
+      print('weaam : results list text: ' + list[4]['text'].toString());
+      print('weaam : results length: ' + list.length.toString());
+      /// print('weaam snapshot dateTime: ${event.snapshot.value['dateTime']}');
+
+      // event.docs.forEach((element) {
+      //   messages.add(MessageModel.fromJson(element.data()));
+      // });
+
+
+    });
+
+    print('weaam : cancel stream');
+
+    }
+
+    static void cancelStream(){
+      chatStreamSubscription.cancel();
+      chatStreamSubscription = null;
+    }
+
+  //   FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(userModel.uId)
+  //       .collection('chats')
+  //       .doc(receiverId)
+  //       .collection('messages')
+  //       .orderBy('dateTime')
+  //       .snapshots()
+  //       .listen((event) {
+  //     messages = [];
+  //
+  //     event.docs.forEach((element) {
+  //       messages.add(MessageModel.fromJson(element.data()));
+  //     });
+  //
+  //     emit(SocialGetMessagesSuccessState());
+  //   });
+  // }
+
 }
