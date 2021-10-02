@@ -933,15 +933,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     {
       "created_at": DateTime.now().toString(),
       //TODO:
-      "rider_name": currentUserInfo.name ?? 'error',
-      "rider_phone": currentUserInfo.Phonenumber ?? 'not available',
+      // "rider_name": currentUserInfo.name ?? 'error',
+      // "rider_phone": currentUserInfo.Phonenumber ?? 'not available',
+
+      "rider_name":  'default name',
+      "rider_phone": 'default phone',
       "pickup_address": pickUp.placeName,
       "dropoff_address": dropOff.placeName,
       "pickup_location": pickUpLocMap,
       "dropoff_location": dropOffLocMap,
       "payment_method": "cash",
       "driver_id": "waiting",
-      "rider_id": currentUserInfo.id,
+      "rider_id": "currentUserInfo.id",
       "ride_type": _carType,
     //todo;
       "fare": fare.toString(),

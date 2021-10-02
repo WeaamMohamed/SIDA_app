@@ -1,12 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sida_app/SignUp_SignIn/mobile_phone_page.dart';
 import 'package:sida_app/models/animated_toggle_button.dart';
 import 'package:sida_app/localization/localization_method.dart';
 import 'package:sida_app/screens/complete_trip.dart';
 import 'package:sida_app/screens/edit_profile_screen.dart';
 import 'package:sida_app/screens/my_trips.dart';
 import 'package:sida_app/screens/settings_screen.dart';
+import 'package:sida_app/shared/components/constants.dart';
+import 'package:sida_app/shared/network/local/cache_helper.dart';
 import 'package:sida_app/shared/styles/colors.dart';
 
 import '../firebase_db.dart';
@@ -148,6 +152,25 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 MaterialPageRoute(
                   builder: (context) =>EditProfileScreen()
                       ///CompleteTrip( driverId: "FANyhIgsIoNsMJN8g0gTv5cqc6Z2",rideId: "-Mkemv3Nt9MIqdLRBZaw",),
+                ),
+              );
+            }),
+
+
+        _buildDrawerItem(
+            ///title: translate(context,'Settings'),
+           title: 'log out',
+            imagePath: "assets/images/settins.svg",
+            onTap: () {
+              print("settings clicked");
+              FirebaseAuth.instance.signOut().then((value){
+                CacheHelper.saveData(key: IS_SIGNED_IN_SHARED_PREF, data: false);
+              });
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>PhoneNumberPage(),
+                  ///CompleteTrip( driverId: "FANyhIgsIoNsMJN8g0gTv5cqc6Z2",rideId: "-Mkemv3Nt9MIqdLRBZaw",),
                 ),
               );
             }),
