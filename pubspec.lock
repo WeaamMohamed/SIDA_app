@@ -330,7 +330,7 @@ packages:
     source: hosted
     version: "0.0.6"
   intl:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       name: intl
       url: "https://pub.dartlang.org"

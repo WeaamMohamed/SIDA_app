@@ -44,7 +44,10 @@ dependencies:
   firebase_storage: ^4.0.0
   url_launcher: ^5.7.10
   rounded_modal: ^1.0.1
-  ##cloud_firestore: ^0.14.4
+  intl: ^0.17.0
+
+
+
 
 dependency_overrides:
  intl: ^0.17.0

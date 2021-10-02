@@ -16,6 +16,7 @@ import 'package:sida_app/shared/network/local/cache_helper.dart';
 import 'google_maps_picker/src/models/pick_result.dart';
 import 'google_maps_picker/src/place_picker.dart';
 import 'localization/app_localization.dart';
+import 'models/appData.dart';
 import 'screens/settings_screen.dart';
 
 //DON'T DELETE THIS PART//: CAN'T DELETE ANYTHING BELOW UNTILL ANOTHER COMMENT >>
@@ -94,6 +95,8 @@ class _MyAppState extends State<MyApp> {
         Provider<DataProvider>(create: (_) => DataProvider()),
         Provider<MapProvider>(create: (_) => MapProvider()),
         Provider<TripProvider>(create: (_) => TripProvider()),
+        Provider<AppData>(create: (_) => AppData()),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

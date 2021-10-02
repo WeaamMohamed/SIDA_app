@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
-
+import 'package:sida_app/models/history.dart';
+import 'package:sida_app/models/appData.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sida_app/helpers/requesthelper.dart';
 import 'package:sida_app/models/address.dart';
+import 'package:sida_app/models/appData.dart';
 import 'package:sida_app/screens/home_screen.dart';
 import 'package:sida_app/shared/components/constants.dart';
 import 'package:sida_app/shared/data_handler/data_provider.dart';
@@ -16,6 +18,7 @@ import '../models/direction_details.dart';
 import 'package:sida_app/models/users.dart';
 import 'package:sida_app/shared/data_handler/map_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 class HelperMethods{
 
   static void getCurrentOnlineUserInfo() async
@@ -271,6 +274,73 @@ class HelperMethods{
     directionDetails.durationValue = res["routes"][0]["legs"][0]["duration"]["value"];
 
     return directionDetails;
+  }
+
+  static void getHistoryInfo (context)
+  {
+    ///get and display trip history
+    rideRequestRef.orderByChild("rider_name").once().then((DataSnapshot snapshot){
+
+      if(snapshot.value != null){
+
+        Map<dynamic, dynamic> values = snapshot.value;
+        tripCount = values.length;
+print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+print(tripCount);
+        // update trip count to data provider
+        Provider.of<AppData>(context, listen: false).updateTripsCounter(tripCount);
+
+        List<String> tripHistoryKeys = [];
+        values.forEach((key, value) {tripHistoryKeys.add(key);});
+
+        // update trip keys to data provider
+        Provider.of<AppData>(context, listen: false).updateTripKeys(tripHistoryKeys);
+
+        obtainTripRequestsHistoryData(context);
+        //getHistoryData(context);
+
+      }
+    });
+  }
+  static void obtainTripRequestsHistoryData(context)
+  {
+    var keys = Provider.of<AppData>(context, listen: false).tripHistoryKeys;
+
+    for(String key in keys)
+    {
+      rideRequestRef.child(key).once().then((DataSnapshot snapshot) {
+        if(snapshot.value != null)
+        {
+
+          ///TODO: MUST BE CHANGED TO RIDER ID AS NAMES MAY REPEATED!
+         rideRequestRef.child(key).child('rider_id').once().then((DataSnapshot snap)
+
+         // rideRequestRef.child(key).child("rider_name").once().then((DataSnapshot snap)
+          {
+          String ID = snap.value.toString();
+          /// get only the ride requests which belongs to the current user
+          /// TODO:MUST BE CHANGED TO CURRRENTUSER.ID.
+          if ( ID ==  "FANyhIgsIoNsMJN8g0gTv5cqc6Z2")
+            {
+              print("#########################################################");
+              print(ID);
+              var history = myHistory.fromSnapshot(snapshot,key);
+              Provider.of<AppData>(context, listen: false).updateTripHistoryData(history);
+            }
+          });
+
+        }
+
+      });
+    }
+  }
+  static String formatTripDate(String date)
+  {
+    ///note: to use .(history.created_at)
+    DateTime dateTime = DateTime.parse(date);
+    String formattedDate = "${DateFormat.MMMd().format(dateTime)}, ${DateFormat.y().format(dateTime)} - ${DateFormat.jm().format(dateTime)}";
+
+    return formattedDate;
   }
 
 }
